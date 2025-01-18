@@ -1,3 +1,5 @@
+import { WithEditor } from '../editor';
+
 export const Board = () => {
   return (
     <div className='flex flex-col flex-grow overflow-hidden'>
@@ -7,8 +9,7 @@ export const Board = () => {
         </div>
         <div className='flex-grow overflow-auto no-scrollbar'>
           <div className='overflow-x-auto border border-gray-200 rounded-lg shadow-lg bg-gray-100 p-4 no-scrollbar '>
-            {/* <WithEditor className={`bg-white h-a4 w-a4`} /> */}
-            <div className='h-[3000px] w-[2000px] bg-red-500'></div>
+            <WithEditor className={`bg-white h-a4 w-a4`} />
           </div>
         </div>
       </main>

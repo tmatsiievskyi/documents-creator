@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { inter, geistMono, geistSans } from '@/ui/fonts';
+import { fonts } from '@/ui';
 import '../ui/globals.css';
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${inter.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${fonts.inter.variable} ${fonts.geistSans.variable} ${fonts.geistMono.variable} antialiased`}
       >
         {children}
       </body>
