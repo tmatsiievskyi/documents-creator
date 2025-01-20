@@ -1,9 +1,19 @@
 import { Editor } from './editor.container';
 
 export type TEditorProps = {
-  className?: string;
+  classNameEditorWrapper?: string;
+  hideToolbar?: boolean;
+  toolbarDisabled?: boolean;
 };
 
-export const WithEditor = ({ className }: TEditorProps) => (
-  <Editor className={className} />
+export const WithEditor = ({
+  classNameEditorWrapper,
+  hideToolbar,
+  toolbarDisabled,
+}: TEditorProps) => (
+  <Editor
+    classNameEditorWrapper={classNameEditorWrapper}
+    hideToolbar={hideToolbar}
+    toolbarDisabled={toolbarDisabled}
+  />
 );

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Editor } from '@tiptap/react';
 import type { ItalicOptions } from '@tiptap/extension-italic';
 import TiptapItalic from '@tiptap/extension-italic';
@@ -9,10 +10,11 @@ export const ItalicExtension = TiptapItalic.extend<TItalicOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      group: 'paragraph',
       button: ({
         editor,
-        t,
-      }: {
+      }: // t, //TODO: localization
+      {
         editor: Editor;
         t: (...args: any[]) => string;
       }) => {
