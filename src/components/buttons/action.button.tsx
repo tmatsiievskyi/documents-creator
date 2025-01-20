@@ -39,6 +39,7 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
       children,
       tooltip,
       tooltipOptions,
+      isActive,
       ...restProps
     } = props;
 
@@ -53,6 +54,7 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
             size='sm'
             className={cn('w-[32px] h-[32px]', customClass)}
             onClick={action}
+            data-state={isActive?.() ? 'on' : 'off'}
             {...restProps}
           >
             {Icon && <Icon className='w-4 h-4' />}

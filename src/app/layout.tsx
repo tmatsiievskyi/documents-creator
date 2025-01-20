@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { fonts } from '@/ui';
+import { fonts, TooltipProvider } from '@/ui';
 import '../ui/globals.css';
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
       <body
         className={`${fonts.inter.variable} ${fonts.geistSans.variable} ${fonts.geistMono.variable} antialiased`}
       >
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   );
