@@ -1,4 +1,12 @@
-import { Italic, Bold, Underline, Strikethrough } from 'lucide-react';
+import {
+  Italic,
+  Bold,
+  Underline,
+  Strikethrough,
+  ChevronDown,
+  Minus,
+  Plus,
+} from 'lucide-react';
 
 export type TIconKeys = keyof typeof icons;
 
@@ -7,4 +15,7 @@ export const icons = {
   Bold,
   Underline,
   Strikethrough,
+  ChevronDown,
+  Minus,
+  Plus,
 };

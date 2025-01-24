@@ -3,11 +3,15 @@ import { ItalicExtension } from './italic.extension';
 import { BoldExtension } from './bold.extension';
 import { UnderlineExtension } from './underline.extension';
 import { StrikeExtension } from './strike.extension';
+import { FontSizeExtension } from './fontSize.extension';
+import { BaseKitExtension } from './base.extension';
 
 export const EditorExtension = [
   StarterKit.configure({}),
+  BaseKitExtension.configure({}),
   BoldExtension,
   ItalicExtension,
   UnderlineExtension,
   StrikeExtension,
+  FontSizeExtension,
 ];
