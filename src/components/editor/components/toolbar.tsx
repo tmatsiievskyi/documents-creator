@@ -53,30 +53,35 @@ export const EditorToolbar = ({ editor, disabled }: TProps) => {
     [editor]
   );
 
-  console.log(Object.entries(generatedToolbarItems));
-
   const domSections = Object.entries(generatedToolbarItems).map(
-    ([section, buttons]) => {
+    ([section, buttons], index) => {
       return (
-        <div key={section}>
-          <p>{section}</p>
+        <div key={section} className='flex'>
+          {/* <p className='text-sm text-center'>{section}</p> */}
           {buttons.map((button, key) => {
             const ButtonComp = button.component;
             return (
               <ButtonComp
-                key={button.componentProps.tooltip + key}
+                key={
+                  (button.component?.displayName || button.component?.name) +
+                  key
+                }
                 {...button.componentProps}
                 disabled={disabled || button.componentProps?.disabled}
               />
             );
           })}
+
+          {Object.keys(generatedToolbarItems).length > index + 1 && (
+            <div className='h-full min-h-[1em] w-px mx-1 self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400'></div>
+          )}
         </div>
       );
     }
   );
 
   const domContainer = (innerContent: ReactNode) => {
-    return <div>{innerContent}</div>;
+    return <div className='flex'>{innerContent}</div>;
   };
 
   return domContainer(domSections);
