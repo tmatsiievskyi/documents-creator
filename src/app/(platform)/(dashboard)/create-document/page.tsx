@@ -1,7 +1,11 @@
 import { WithBoard } from '@/components/board';
 
 const Page = () => {
-  return <WithBoard />;
+  return (
+    <>
+      <WithBoard />
+    </>
+  );
 };
 
 export default Page;

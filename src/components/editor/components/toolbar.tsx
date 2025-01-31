@@ -53,8 +53,6 @@ export const EditorToolbar = ({ editor, disabled }: TProps) => {
     [editor]
   );
 
-  console.log(Object.entries(generatedToolbarItems));
-
   const domSections = Object.entries(generatedToolbarItems).map(
     ([section, buttons]) => {
       return (

@@ -1,3 +1,5 @@
+'use client';
+
 import { WithHeader } from '@/components/header';
 import { WithSidebar } from '@/components/sidebar';
 import { ReactNode } from 'react';

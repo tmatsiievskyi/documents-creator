@@ -6,6 +6,7 @@ import { EditorExtension } from './extensions';
 import { LocalEditorProps } from './utils';
 import { cn } from '@/lib/utils';
 import { EditorToolbar } from './components';
+import { WithRuler } from '../ruler';
 
 export const Editor = ({
   classNameEditorWrapper,
@@ -20,28 +21,38 @@ export const Editor = ({
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
       const html = editor.getHTML();
-
-      console.log(json, html);
     },
   });
+
+  const editorSize = {
+    //TODO: move to redux and create select
+    height: '297mm',
+    width: '210mm',
+  };
 
   if (!editor) return null;
 
   return (
-    <div
-      // onClick={() => editor?.chain().focus().run()}
-      className='flex-grow flex flex-col overflow-auto'
-    >
+    <div className='flex-grow flex flex-col overflow-auto'>
       {!hideToolbar && (
         <div className='flex-shrink-0 bg-white p-2 rounded-md shadow-md shadow-gray-200/40 relative z-10'>
           <EditorToolbar editor={editor} disabled={toolbarDisabled} />
         </div>
       )}
 
-      <div className='flex-grow overflow-auto no-scrollbar mt-2'>
+      <div
+        className={`relative flex-shrink-0 w-[${editorSize.width}] ml-auto mr-auto`}
+      >
+        <WithRuler width={editorSize.width} />
+      </div>
+
+      <div className='flex-grow overflow-auto no-scrollbar mt-[2px]'>
         <div className='overflow-x-auto no-scrollbar pb-4'>
           <div
-            className={cn(' shadow-lg ml-auto mr-auto', classNameEditorWrapper)}
+            className={cn(
+              ' shadow-md ml-auto mr-auto border',
+              classNameEditorWrapper
+            )}
           >
             <EditorContent editor={editor} />
           </div>
