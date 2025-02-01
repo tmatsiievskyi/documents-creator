@@ -40,9 +40,7 @@ export const Editor = ({
         </div>
       )}
 
-      <div
-        className={`relative flex-shrink-0 w-[${editorSize.width}] ml-auto mr-auto`}
-      >
+      <div className={`relative flex-shrink-0 w-a4 ml-auto mr-auto`}>
         <WithRuler width={editorSize.width} />
       </div>
 

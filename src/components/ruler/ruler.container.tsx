@@ -3,6 +3,7 @@
 import { CSSProperties, useMemo, useState } from 'react';
 import {
   DndContext,
+  Modifier,
   Modifiers,
   MouseSensor,
   PointerActivationConstraint,
@@ -16,6 +17,7 @@ import {
   createSnapModifier,
   restrictToHorizontalAxis,
   restrictToParentElement,
+  restric,
 } from '@dnd-kit/modifiers';
 import { Draggable } from '@/ui/dnd';
 import { RulerSurface } from './surface.ruler';
@@ -28,11 +30,17 @@ const defaultCoordinates = {
   y: 0,
 };
 
+const defaultCoordinatesXRight = {
+  x: 210,
+  y: 0,
+};
+
 const RULER_SPACES = 0.25;
 const CURSOR_WIDTH = 12;
 
 export const Ruler = ({ width }: Pick<TProps, 'width'>) => {
   const [{ x, y }, setCoordinates] = useState<Coordinates>(defaultCoordinates);
+  const [{ xRight, yRight }] = useState<Coordinates>(defaultCoordinatesXRight);
 
   const rulerSpacesInPx = useMemo(
     () =>
@@ -44,6 +52,38 @@ export const Ruler = ({ width }: Pick<TProps, 'width'>) => {
     []
   );
 
+  const createRestrictionToXAxis =
+    (minX: number, maxX: number): Modifier =>
+    ({ draggingNodeRect, containerNodeRect, transform }) => {
+      // console.log(draggingNodeRect, containerNodeRect);
+      // rect - draggingNodeRect
+      // boundingRect  - containerNodeRect
+
+      const value = {
+        ...transform,
+      };
+
+      if (!draggingNodeRect || !containerNodeRect) {
+        return value;
+      }
+
+      if (draggingNodeRect?.left + transform.x <= containerNodeRect?.left) {
+        console.log('left');
+        value.x = containerNodeRect.left - draggingNodeRect.left;
+      } else if (
+        draggingNodeRect.right + transform.x >=
+        containerNodeRect.left + containerNodeRect.width / 2
+      ) {
+        console.log('right');
+        value.x =
+          containerNodeRect.left +
+          containerNodeRect.width / 2 -
+          draggingNodeRect.right;
+      }
+
+      return value;
+    };
+
   const snapToGridAndRestrictToParent = (args: any) => {
     const { transform, draggingNodeRect, containerNodeRect } = args;
 
@@ -51,10 +91,8 @@ export const Ruler = ({ width }: Pick<TProps, 'width'>) => {
       return transform;
     }
 
-    // Apply restrictToParentElement
     const restricted = restrictToParentElement(args);
 
-    // Snap to grid
     const snappedX =
       Math.round(restricted.x / rulerSpacesInPx) * rulerSpacesInPx;
 
@@ -87,26 +125,28 @@ export const Ruler = ({ width }: Pick<TProps, 'width'>) => {
   );
 
   const modifiers = [
-    restrictToParentElement,
+    // restrictToParentElement,
     restrictToHorizontalAxis,
-    snapToGridAndRestrictToParent,
+    // snapToGridAndRestrictToParent,
+    createRestrictionToXAxis(0, 100),
   ];
 
   return (
     <DndContext
       modifiers={modifiers}
       // sensors={sensors}
-      onDragEnd={({ delta }) => {
+      onDragEnd={(event) => {
+        // console.log(event);
         setCoordinates(({ x, y }) => {
           return {
-            x: x + delta.x,
-            y: y + delta.y,
+            x: x + event.delta.x,
+            y: y + event.delta.y,
           };
         });
       }}
     >
-      <div className='relative w-full mt-8'>
-        <RulerSurface gridItems={gridItems}>
+      <div className='relative w-full mt-2 flex'>
+        <RulerSurface gridItems={gridItems} customClassName='w-1/2'>
           <RulerCursor
             // modifiers={[
             //   restrictToParentElement,
@@ -122,6 +162,22 @@ export const Ruler = ({ width }: Pick<TProps, 'width'>) => {
             rulerId='ruler-horizontal-left'
           />
         </RulerSurface>
+        {/* <RulerSurface gridItems={gridItems} customClassName='w-1/2'>
+          <RulerCursor
+            // modifiers={[
+            //   restrictToParentElement,
+            //   snapToGrid,
+            //   restrictToHorizontalAxis,
+            // ]}
+            // style={style}
+            // key={gridSize}
+            // defaultCoordinates={defaultCoordinates}
+            x={xRight}
+            y={yRight}
+            cursorWidth={CURSOR_WIDTH}
+            rulerId='ruler-horizontal-left'
+          />
+        </RulerSurface> */}
       </div>
     </DndContext>
   );

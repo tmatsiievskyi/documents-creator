@@ -1,15 +1,21 @@
+import { cn } from '@/lib/utils';
 import { useDroppable } from '@dnd-kit/core';
 import React, { ReactNode, useCallback, useMemo } from 'react';
 
 type TProps = {
   gridItems: number[];
   children?: ReactNode;
+  customClassName?: string;
 };
 
-export const RulerSurface = ({ gridItems, children }: TProps) => {
-  const { setNodeRef } = useDroppable({
-    id: 'unique-id',
-  });
+export const RulerSurface = ({
+  gridItems,
+  children,
+  customClassName,
+}: TProps) => {
+  // const { setNodeRef } = useDroppable({
+  //   id: 'unique-id', //TODO: should be unique
+  // });
   const getItemStyle = useCallback((value: number) => {
     switch (true) {
       case value % 1 === 0:
@@ -74,22 +80,24 @@ export const RulerSurface = ({ gridItems, children }: TProps) => {
   }, []);
 
   return (
-    <div className=' absolute bottom-0 left-0 w-full h-6 ' ref={setNodeRef}>
-      <div className='relative w-full h-full'>
-        {children}
+    // <div className='absolute bottom-0 left-0 w-full h-6 '>
+    // <div className={cn('relative')}>
+    <>
+      {children}
 
-        {gridItems.map((item) => {
-          return (
-            <span
-              key={item}
-              className={`text-[10px] absolute bottom-0`}
-              style={{ left: `${item}cm` }}
-            >
-              {getItemStyle(item)}
-            </span>
-          );
-        })}
-      </div>
-    </div>
+      {gridItems.map((item) => {
+        return (
+          <span
+            key={item}
+            className={`text-[10px] absolute bottom-0`}
+            style={{ left: `${item}cm` }}
+          >
+            {getItemStyle(item)}
+          </span>
+        );
+      })}
+    </>
+    // </div>
+    // </div>
   );
 };
