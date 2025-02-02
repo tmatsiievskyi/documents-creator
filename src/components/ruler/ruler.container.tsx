@@ -68,20 +68,20 @@ export const Ruler = ({ width }: Pick<TProps, 'width'>) => {
       }
 
       if (draggingNodeRect?.left + transform.x <= containerNodeRect?.left) {
-        console.log('left');
         value.x = containerNodeRect.left - draggingNodeRect.left;
       } else if (
         draggingNodeRect.right + transform.x >=
         containerNodeRect.left + containerNodeRect.width / 2
       ) {
-        console.log('right');
         value.x =
           containerNodeRect.left +
           containerNodeRect.width / 2 -
           draggingNodeRect.right;
       }
 
-      return value;
+      const snappedX = Math.round(value.x / rulerSpacesInPx) * rulerSpacesInPx;
+
+      return { ...value, x: snappedX };
     };
 
   const snapToGridAndRestrictToParent = (args: any) => {
@@ -160,6 +160,7 @@ export const Ruler = ({ width }: Pick<TProps, 'width'>) => {
             y={y}
             cursorWidth={CURSOR_WIDTH}
             rulerId='ruler-horizontal-left'
+            rulerSpacesInPx={rulerSpacesInPx}
           />
         </RulerSurface>
         {/* <RulerSurface gridItems={gridItems} customClassName='w-1/2'>

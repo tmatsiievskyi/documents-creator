@@ -7,6 +7,7 @@ import { LocalEditorProps } from './utils';
 import { cn } from '@/lib/utils';
 import { EditorToolbar } from './components';
 import { WithRuler } from '../ruler';
+import { WithRuler as WithRuler2 } from '../ruler2';
 
 export const Editor = ({
   classNameEditorWrapper,
@@ -29,6 +30,7 @@ export const Editor = ({
     height: '297mm',
     width: '210mm',
   };
+  const rulerSpaces = 9.4488188976; // TODO: remove and store in store
 
   if (!editor) return null;
 
@@ -42,6 +44,21 @@ export const Editor = ({
 
       <div className={`relative flex-shrink-0 w-a4 ml-auto mr-auto`}>
         <WithRuler width={editorSize.width} />
+        <WithRuler2
+          cursors={[
+            {
+              type: 'cursorXLeft',
+              initialCoordinates: { x: 0, y: 0 },
+              spaces: rulerSpaces,
+            },
+            {
+              type: 'cursorXRight',
+              initialCoordinates: { x: 793.007874, y: 0 },
+              spaces: rulerSpaces,
+            },
+          ]}
+          spaces={rulerSpaces}
+        />
       </div>
 
       <div className='flex-grow overflow-auto no-scrollbar mt-[2px]'>
