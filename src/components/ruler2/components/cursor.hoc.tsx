@@ -34,7 +34,7 @@ export const WithCursor = ({
         });
       }}
     >
-      <Cursor x={x} y={y} />
+      <Cursor x={x} y={y} cursorType={type} />
     </DndContext>
   );
 };

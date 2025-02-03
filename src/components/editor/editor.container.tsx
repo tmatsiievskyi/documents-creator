@@ -25,12 +25,14 @@ export const Editor = ({
     },
   });
 
+  // width: 793.707874,
+
   const editorSize = {
     //TODO: move to redux and create select
     height: '297mm',
-    width: '210mm',
+    width: 794,
   };
-  const rulerSpaces = 9.4488188976; // TODO: remove and store in store
+  const rulerSpaces = 9.45; // TODO: remove and store in store
 
   if (!editor) return null;
 
@@ -43,25 +45,27 @@ export const Editor = ({
       )}
 
       <div className={`relative flex-shrink-0 w-a4 ml-auto mr-auto`}>
-        <WithRuler width={editorSize.width} />
         <WithRuler2
           cursors={[
             {
               type: 'cursorXLeft',
-              initialCoordinates: { x: 0, y: 0 },
+              initialCoordinates: { x: 0, y: 8 },
               spaces: rulerSpaces,
             },
             {
               type: 'cursorXRight',
-              initialCoordinates: { x: 793.007874, y: 0 },
+              initialCoordinates: { x: editorSize.width, y: 8 },
               spaces: rulerSpaces,
             },
           ]}
           spaces={rulerSpaces}
+          width={editorSize.width}
+          wrapperClassName='mt-6 w-full'
         />
       </div>
 
       <div className='flex-grow overflow-auto no-scrollbar mt-[2px]'>
+        {/* <div>Ruler vertical</div> */}
         <div className='overflow-x-auto no-scrollbar pb-4'>
           <div
             className={cn(

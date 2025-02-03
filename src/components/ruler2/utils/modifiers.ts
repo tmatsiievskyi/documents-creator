@@ -17,14 +17,19 @@ const cursors = {
           }
 
           if (draggingNodeRect?.left + transform.x <= containerNodeRect?.left) {
+            //half left
             value.x = containerNodeRect.left - draggingNodeRect.left;
           } else if (
             draggingNodeRect.right + transform.x >=
-            containerNodeRect.left + containerNodeRect.width / 2
+            containerNodeRect.left +
+              containerNodeRect.width / 2 -
+              spacesInPx * 2
           ) {
+            //half right
             value.x =
               containerNodeRect.left +
               containerNodeRect.width / 2 -
+              spacesInPx * 2 -
               draggingNodeRect.right;
           }
 
@@ -49,8 +54,17 @@ const cursors = {
             return value;
           }
 
-          if (draggingNodeRect?.left + transform.x <= containerNodeRect?.left) {
-            value.x = containerNodeRect.left - draggingNodeRect.left;
+          if (
+            draggingNodeRect.left + transform.x <=
+            containerNodeRect.left +
+              containerNodeRect.width / 2 +
+              spacesInPx * 2
+          ) {
+            value.x =
+              containerNodeRect.left +
+              containerNodeRect.width / 2 +
+              spacesInPx * 2 -
+              draggingNodeRect.left;
           } else if (
             draggingNodeRect.right + transform.x >=
             containerNodeRect.left + containerNodeRect.width

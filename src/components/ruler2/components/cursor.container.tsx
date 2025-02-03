@@ -3,13 +3,17 @@ import React from 'react';
 import { useDraggable, useDroppable } from '@dnd-kit/core';
 import { Draggable } from '@/ui/dnd';
 import { icons } from '@/ui';
+import { TCursor } from '../utils';
 
 type TProps = {
   x: number;
   y: number;
+  cursorType: TCursor;
 };
 
-export const Cursor = ({ x, y }: TProps) => {
+const CURSOR_WIDTH = 12;
+
+export const Cursor = ({ x, y, cursorType }: TProps) => {
   const {
     attributes,
     listeners,
@@ -17,25 +21,30 @@ export const Cursor = ({ x, y }: TProps) => {
     transform,
     isDragging,
   } = useDraggable({
-    id: 'unique-id',
+    id: `${cursorType}-drag`,
   });
   const { setNodeRef: wrapperRef } = useDroppable({
-    id: 'unique-id',
+    id: `${cursorType}-drop`,
   });
   const Icon = icons['Play'];
 
   return (
-    <div ref={wrapperRef}>
+    <div ref={wrapperRef} className='relative z-30'>
       <Draggable
         style={{ top: y, left: x }}
-        customButtonClassName='z-10'
+        customButtonClassName='z-20 w-[20px]'
         attributes={attributes}
         isDragging={isDragging}
         listeners={listeners}
         setNodeRef={draggableRef}
         transform={transform}
       >
-        <Icon className='rotate-90 absolute bottom-0 left-[0.5px] translate-x-[-50%]' />
+        <Icon
+          className='rotate-90 absolute bottom-0'
+          size={CURSOR_WIDTH}
+          strokeWidth={1}
+          fill={'black'} // TODO: update style
+        />
         <div //TODO: get height from redux store. Change color
           className={`z-50 w-[1px] bg-red-200 h-a4 absolute bottom-0 left-[0.5px] translate-x-[-50%] translate-y-[100%] transition-all duration-300 ease-in-out ${
             isDragging

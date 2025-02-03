@@ -15,7 +15,7 @@ export class DataUtil {
     fromUnit: EDimmesionUnits,
     toUnit: EDimmesionUnits
   ) => {
-    if (!value || !(typeof value === 'number')) {
+    if (!(typeof value === 'number')) {
       throw new Error('Wrong value');
     }
 
