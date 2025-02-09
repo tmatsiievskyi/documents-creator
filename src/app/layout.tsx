@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   description: 'Documents Creator',
 };
 
+import { Inter } from 'next/font/google';
+
+export const inter = Inter({ subsets: ['latin'] });
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -14,9 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body
-        className={`${fonts.inter.variable} ${fonts.geistSans.variable} ${fonts.geistMono.variable} antialiased`}
-      >
+      <body className={`${fonts.inter.className} antialiased`}>
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
