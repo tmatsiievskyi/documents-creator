@@ -1,5 +1,5 @@
-import { DraggableAttributes, useDraggable } from '@dnd-kit/core';
-import { forwardRef, ReactNode, CSSProperties } from 'react';
+import { DraggableAttributes } from '@dnd-kit/core';
+import { ReactNode, CSSProperties } from 'react';
 
 import styles from './draggable.module.css';
 import { cn } from '@/lib/utils';
@@ -66,6 +66,5 @@ export const Draggable = ({
     >
       {children}
     </button>
-    // </div>
   );
 };

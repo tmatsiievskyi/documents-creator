@@ -58,10 +58,10 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       width: {
-        a4: '210mm',
+        a4: '794px',
       },
       height: {
-        a4: '297mm',
+        a4: '1116.2px',
       },
     },
   },

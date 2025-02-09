@@ -5,7 +5,9 @@ export type TRulerProps = {
   cursors: TCursorProps[];
   spaces: number;
   wrapperClassName?: string;
-  width: number;
+  wrapperRulerClassName?: string;
+  size: number;
+  orientation: 'landscape' | 'portrait';
 };
 
 export const WithRuler = (props: TRulerProps) => <Ruler {...props} />;

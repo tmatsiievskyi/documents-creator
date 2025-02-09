@@ -6,20 +6,19 @@ export const Ruler = ({
   cursors,
   spaces,
   wrapperClassName,
-  width,
+  size,
+  orientation,
+  wrapperRulerClassName,
 }: TRulerProps) => {
   return (
     <div className={cn(wrapperClassName)}>
-      {cursors.length &&
-        cursors.map(({ type, initialCoordinates }) => (
-          <WithCursor
-            key={type}
-            initialCoordinates={initialCoordinates}
-            type={type}
-            spaces={spaces}
-          />
-        ))}
-      <WIthRulerGrid spaces={spaces} width={width} />
+      <WithCursor spaces={spaces} cursors={cursors} orientation={orientation} />
+      <WIthRulerGrid
+        spaces={spaces}
+        size={size}
+        orientation={orientation}
+        wrapperRulerClassName={wrapperRulerClassName}
+      />
     </div>
   );
 };
