@@ -5,6 +5,7 @@ import { UnderlineExtension } from './underline.extension';
 import { StrikeExtension } from './strike.extension';
 import { FontSizeExtension } from './fontSize.extension';
 import { BaseKitExtension } from './base.extension';
+import { TextAlignExtension } from './textAlign.extension';
 
 export const EditorExtension = [
   StarterKit.configure({}),
@@ -14,4 +15,5 @@ export const EditorExtension = [
   UnderlineExtension,
   StrikeExtension,
   FontSizeExtension,
+  TextAlignExtension,
 ];

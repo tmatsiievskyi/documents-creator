@@ -18,7 +18,7 @@ export const Editor = ({
   const editor = useEditor({
     extensions: EditorExtension,
     editorProps: LocalEditorProps,
-    content: '',
+    content: '', //TODO: remove text
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();
