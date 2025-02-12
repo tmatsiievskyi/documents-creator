@@ -11,6 +11,8 @@ import {
   AlignLeft,
   AlignRight,
   AlignCenter,
+  IndentIncrease,
+  IndentDecrease,
 } from 'lucide-react';
 
 export type TIconKeys = keyof typeof icons;
@@ -28,4 +30,6 @@ export const icons = {
   AlignLeft,
   AlignRight,
   AlignCenter,
+  IndentIncrease,
+  IndentDecrease,
 };
