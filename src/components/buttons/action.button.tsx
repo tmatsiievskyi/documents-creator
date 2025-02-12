@@ -19,6 +19,7 @@ type TButtonProps = {
   tooltip: string;
   tooltipOptions: TooltipContentProps;
   disabled: boolean;
+  shortcutKeys?: string[];
   customClass: string;
   loading: boolean;
   color: string;
@@ -40,6 +41,7 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
       tooltip,
       tooltipOptions,
       isActive,
+      shortcutKeys,
       ...restProps
     } = props;
 
@@ -63,8 +65,11 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
         </TooltipTrigger>
         {tooltip && (
           <TooltipContent {...tooltipOptions}>
-            <div className='flex flex-col, items-center, text-center, max-w-24'>
+            <div className='flex flex-col justify-center items-center text-center max-w-12'>
               <span>{tooltip}</span>
+              {!!shortcutKeys?.length && (
+                <span>[{shortcutKeys.join('+')}]</span>
+              )}
             </div>
           </TooltipContent>
         )}

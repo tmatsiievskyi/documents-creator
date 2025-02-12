@@ -37,9 +37,9 @@ const generateToolbarItems = (editor: TProps['editor']) => {
 
     if (Array.isArray(buttonSpec)) {
       acc[group].push([...buttonSpec] as unknown as TToolbarButton);
+    } else {
+      acc[group].push(buttonSpec);
     }
-
-    acc[group].push(buttonSpec);
 
     return acc;
   }, {} as TGeneratedToolbarItems);
@@ -47,37 +47,61 @@ const generateToolbarItems = (editor: TProps['editor']) => {
   return items;
 };
 
+//TODO: keep focus after button click
+
 export const EditorToolbar = ({ editor, disabled }: TProps) => {
   const generatedToolbarItems = useMemo(
     () => generateToolbarItems(editor),
     [editor]
   );
 
-  const domSections = Object.entries(generatedToolbarItems).map(
-    ([section, buttons], index) => {
-      return (
-        <div key={section} className='flex'>
-          {/* <p className='text-sm text-center'>{section}</p> */}
-          {buttons.map((button, key) => {
-            const ButtonComp = button.component;
-            return (
-              <ButtonComp
-                key={
-                  (button.component?.displayName || button.component?.name) +
-                  key
+  const domSections = useMemo(
+    () =>
+      Object.entries(generatedToolbarItems).map(([section, buttons], index) => {
+        return (
+          <div key={section} className='flex'>
+            {buttons.map((buttonComp, key) => {
+              if (Array.isArray(buttonComp)) {
+                {
+                  return buttonComp.map((buttonFromArr) => {
+                    // console.log(buttonFromArr);
+                    const ButtonComp = buttonFromArr.component;
+                    return (
+                      <ButtonComp
+                        key={
+                          (buttonFromArr.component?.displayName ||
+                            buttonFromArr.component?.name) + key
+                        }
+                        {...buttonFromArr.componentProps}
+                        disabled={
+                          disabled || buttonFromArr.componentProps?.disabled
+                        }
+                      />
+                    );
+                  });
                 }
-                {...button.componentProps}
-                disabled={disabled || button.componentProps?.disabled}
-              />
-            );
-          })}
+              } else {
+                const ButtonComp = buttonComp.component;
+                return (
+                  <ButtonComp
+                    key={
+                      (buttonComp.component?.displayName ||
+                        buttonComp.component?.name) + key
+                    }
+                    {...buttonComp.componentProps}
+                    disabled={disabled || buttonComp.componentProps?.disabled}
+                  />
+                );
+              }
+            })}
 
-          {Object.keys(generatedToolbarItems).length > index + 1 && (
-            <div className='h-full min-h-[1em] w-px mx-1 self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400'></div>
-          )}
-        </div>
-      );
-    }
+            {Object.keys(generatedToolbarItems).length > index + 1 && (
+              <div className='h-full min-h-[1em] w-px mx-1 self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400'></div>
+            )}
+          </div>
+        );
+      }),
+    [disabled, generatedToolbarItems]
   );
 
   const domContainer = (innerContent: ReactNode) => {
