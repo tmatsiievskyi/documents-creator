@@ -38,7 +38,6 @@ export const Cursor = ({ x, y, cursorType }: TProps) => {
   return (
     <Draggable
       style={{ ...draggableStyle, position: 'absolute' }}
-      customButtonClassName='z-40 w-[20px]'
       attributes={attributes}
       isDragging={isDragging}
       listeners={listeners}

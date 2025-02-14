@@ -63,14 +63,14 @@ export const EditorToolbar = ({ editor, disabled }: TProps) => {
             {buttons.map((buttonComp, key) => {
               if (Array.isArray(buttonComp)) {
                 {
-                  return buttonComp.map((buttonFromArr) => {
+                  return buttonComp.map((buttonFromArr, i) => {
                     // console.log(buttonFromArr);
                     const ButtonComp = buttonFromArr.component;
                     return (
                       <ButtonComp
                         key={
                           (buttonFromArr.component?.displayName ||
-                            buttonFromArr.component?.name) + key
+                            buttonFromArr.component?.name) + i
                         }
                         {...buttonFromArr.componentProps}
                         disabled={
