@@ -1,128 +1,23 @@
-import { Editor, Extension, Range } from '@tiptap/core';
+import { Editor, Extension } from '@tiptap/core';
 import { ReactRenderer } from '@tiptap/react';
 import Suggestion from '@tiptap/suggestion';
-import { SuggestionList } from '../components';
 import tippy from 'tippy.js';
+import { SuggestionList } from '../components';
 
-export type TSuggestionItem = {
+interface SuggestionItem {
   suggestion: string;
   values: string[];
-  description: string;
+  icon?: string;
+  description?: string;
+}
+
+type SuggestionState = {
+  type: 'key' | 'value';
+  currentKey?: string;
+  items: any[];
 };
 
-type TCommandProps = {
-  editor: Editor;
-  range: Range;
-  props: {
-    item: TSuggestionItem;
-    type: 'key' | 'value';
-    currentKey: string;
-  };
-};
-
-export const CommandForSuggestion = Extension.create({
-  name: 'suggestion',
-  addOptions() {
-    return {
-      suggestion: {
-        char: '++',
-        command: ({ editor, range, props }: TCommandProps) => {
-          console.log(this);
-
-          const { type, item, currentKey } = props;
-
-          //deletes char: "++"
-          editor.chain().focus().deleteRange(range).run();
-
-          console.log(type);
-
-          // if (type === 'key') { //TODO: add this check
-          editor.chain().insertContent(`@${item.suggestion}: `).run();
-          // }
-
-          // this.options.suggestion.updateState?.({
-          //   type: 'value',
-          //   currentKey: item.suggestion,
-          //   items:
-          //     this.options.suggestion
-          //       .items()
-          //       .find((i) => i.suggestion === item.suggestion)?.values || [],
-          // });
-        },
-      },
-    };
-  },
-  addProseMirrorPlugins() {
-    return [
-      Suggestion({
-        editor: this.editor,
-        ...this.options.suggestion,
-      }),
-    ];
-  },
-});
-
-const renderItems = () => {
-  let component: ReactRenderer | null = null;
-  let popup: any | null = null;
-
-  return {
-    onStart: (props: {
-      editor: Editor;
-      clientRect: DOMRect;
-      items: TSuggestionItem[];
-    }) => {
-      component = new ReactRenderer(SuggestionList, {
-        props,
-        editor: props.editor,
-      });
-
-      console.log('start');
-
-      // @ts-expect-error desc
-      popup = tippy('body', {
-        getReferenceClientRect: props.clientRect,
-        appendTo: () => document.body,
-        content: component.element,
-        showOnCreate: true,
-        interactive: true,
-        trigger: 'manual',
-        placement: 'bottom-start',
-      });
-    },
-    onUpdate: (props: { editor: Editor; clientRect: DOMRect }) => {
-      component?.updateProps(props);
-
-      console.log('update');
-
-      return (
-        popup &&
-        popup[0].setProps({
-          getReferenceClientRect: props.clientRect,
-        })
-      );
-    },
-
-    onKeyDown: (props: { event: KeyboardEvent }) => {
-      if (props.event.key === 'Escape') {
-        popup?.[0].hide();
-
-        return true;
-      }
-
-      console.log('key down');
-
-      // @ts-expect-error desc
-      return component?.ref?.onKeyDown(props);
-    },
-    onExit: () => {
-      popup?.[0].destroy();
-      component?.destroy();
-    },
-  };
-};
-
-export const getSuggestionItems = () => {
+export const getSuggestionItems = (): SuggestionItem[] => {
   return [
     {
       suggestion: 'language',
@@ -139,9 +34,163 @@ export const getSuggestionItems = () => {
   ];
 };
 
-export const SuggestionCommand = CommandForSuggestion.configure({
-  suggestion: {
-    items: getSuggestionItems,
-    render: renderItems,
+export const CommandForSuggestion = Extension.create({
+  name: 'suggestion',
+
+  addOptions() {
+    return {
+      char: '++',
+      startOfLine: false,
+    };
+  },
+
+  addProseMirrorPlugins() {
+    const state: SuggestionState = {
+      type: 'key',
+      currentKey: undefined,
+      items: getSuggestionItems().map((item) => ({
+        title: item.suggestion,
+        icon: item.icon,
+        description: item.description,
+      })),
+    };
+
+    return [
+      Suggestion({
+        editor: this.editor,
+        char: this.options.char,
+        startOfLine: this.options.startOfLine,
+
+        items: ({ query }) => {
+          if (state.type === 'key') {
+            return state.items.filter((item) =>
+              item.title.toLowerCase().includes(query.toLowerCase())
+            );
+          }
+
+          if (state.currentKey) {
+            const parentItem = getSuggestionItems().find(
+              (item) => item.suggestion === state.currentKey
+            );
+            return (
+              parentItem?.values.map((value) => ({
+                title: value,
+                icon: parentItem.icon,
+              })) || []
+            );
+          }
+
+          return [];
+        },
+
+        command: ({ editor, range, props }) => {
+          console.log('Command executing with:', { props, state });
+
+          if (state.type === 'key') {
+            const selectedKey = props.item.title;
+            editor
+              .chain()
+              .focus()
+              .deleteRange(range)
+              .insertContent(`${selectedKey}: `)
+              .run();
+
+            const parentItem = getSuggestionItems().find(
+              (item) => item.suggestion === selectedKey
+            );
+
+            console.log('Parent Item:', parentItem);
+
+            if (parentItem) {
+              state.type = 'value';
+              state.currentKey = selectedKey;
+              state.items = parentItem.values.map((value) => ({
+                title: value,
+                icon: parentItem.icon,
+              }));
+            }
+          } else {
+            const selectedValue = props.item.title;
+            editor
+              .chain()
+              .focus()
+              .deleteRange(range)
+              .insertContent(selectedValue)
+              .run();
+
+            state.type = 'key';
+            state.currentKey = undefined;
+            state.items = getSuggestionItems().map((item) => ({
+              title: item.suggestion,
+              icon: item.icon,
+              description: item.description,
+            }));
+          }
+        },
+
+        render: () => {
+          let component: ReactRenderer | null = null;
+          let popup: any | null = null;
+
+          return {
+            onStart: (props) => {
+              component = new ReactRenderer(SuggestionList, {
+                props: {
+                  ...props,
+                  suggestionState: state,
+                },
+                editor: props.editor,
+              });
+
+              console.log('onStart');
+
+              popup = tippy('body', {
+                getReferenceClientRect: props.clientRect,
+                appendTo: () => document.body,
+                content: component.element,
+                showOnCreate: true,
+                interactive: true,
+                trigger: 'manual',
+                placement: 'bottom-start',
+              });
+            },
+
+            onUpdate: (props) => {
+              component?.updateProps({
+                ...props,
+                suggestionState: state,
+              });
+              console.log('onUpdate');
+
+              popup?.[0].setProps({
+                getReferenceClientRect: props.clientRect,
+              });
+            },
+
+            onKeyDown: (props) => {
+              if (props.event.key === 'Escape') {
+                popup?.[0].hide();
+                return true;
+              }
+
+              console.log('onKeyDown');
+
+              return component?.ref?.onKeyDown(props);
+            },
+
+            onBeforeUpdate: () => {
+              console.log('onBeforeUpdate');
+            },
+
+            onExit: () => {
+              popup?.[0].destroy();
+              component?.destroy();
+            },
+          };
+        },
+      }),
+    ];
   },
 });
+
+export const SuggestionCommand = CommandForSuggestion;
