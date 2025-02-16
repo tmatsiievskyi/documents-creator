@@ -20,7 +20,6 @@ type TProps = {
   children?: ReactNode;
   style?: CSSProperties;
   customClassName?: string;
-  customButtonClassName?: string;
   attributes: DraggableAttributes;
   isDragging?: boolean;
   listeners?: SyntheticListenerMap;
