@@ -26,7 +26,6 @@ export const WithCursor = ({
     <DndContext
       modifiers={modifiers}
       onDragEnd={(event) => {
-        console.log(event);
         setItems((prevItems) =>
           prevItems.map((item) => {
             if (item.cursorType === event.active.id) {

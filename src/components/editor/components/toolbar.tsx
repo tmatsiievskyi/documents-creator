@@ -64,7 +64,6 @@ export const EditorToolbar = ({ editor, disabled }: TProps) => {
               if (Array.isArray(buttonComp)) {
                 {
                   return buttonComp.map((buttonFromArr, i) => {
-                    // console.log(buttonFromArr);
                     const ButtonComp = buttonFromArr.component;
                     return (
                       <ButtonComp
