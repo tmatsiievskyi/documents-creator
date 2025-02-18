@@ -33,6 +33,7 @@ export const IndentExtension = Extension.create<TIndentOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      editorGroup: 'ui',
       group: 'format',
       button({ editor }: { editor: Editor }) {
         return [

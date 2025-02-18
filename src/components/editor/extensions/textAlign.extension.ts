@@ -13,6 +13,7 @@ export const TextAlignExtension = TiptapTextAlign.extend<TTextAlignOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      editorGroup: 'ui',
       group: 'format',
       types: ['heading', 'paragraph', 'list_item', 'title'],
       button({ editor, extension }: { editor: Editor; extension: Extension }) {

@@ -1,18 +1,18 @@
 'use client';
 
-import { WithHeader } from '@/components/header';
 import { WithSidebar } from '@/components/sidebar';
 import { ReactNode } from 'react';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <section className='flex flex-col md:flex-row h-[100svh] px-2 py-2 overflow-hidden'>
-      <WithSidebar />
-      <div className='flex flex-col flex-grow overflow-hidden'>
-        <WithHeader />
-        {children}
-      </div>
-    </section>
+    <main className=' bg-primary/15 w-full h-[100svh] p-2 md:p-3'>
+      <section className='flex flex-col md:flex-row h-full  overflow-hidden rounded-2xl'>
+        <WithSidebar />
+        <div className='flex flex-col flex-grow overflow-hidden md:ml-2'>
+          {children}
+        </div>
+      </section>
+    </main>
   );
 };
 

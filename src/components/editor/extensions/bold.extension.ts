@@ -10,6 +10,7 @@ export const BoldExtension = TiptapBold.extend<TBoldOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      editorGroup: 'ui',
       group: 'paragraph',
       button: ({
         editor,

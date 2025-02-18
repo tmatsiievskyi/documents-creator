@@ -10,6 +10,7 @@ export const ItalicExtension = TiptapItalic.extend<TItalicOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      editorGroup: 'ui',
       group: 'paragraph',
       button: ({
         editor,

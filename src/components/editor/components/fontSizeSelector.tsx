@@ -54,9 +54,9 @@ export const FontSizeSelector = ({
           <ActionButton
             tooltip={tooltip}
             disabled={disabled}
-            customClass='mx-1'
+            customClass='mx-1 my-0'
           >
-            <span className='min-w-[36px] border  rounded-md px-2 leading-4 text-base py-2 text-center'>
+            <span className='min-w-[36px] border  rounded-md px-1 py-2 leading-[16px] text-base text-center'>
               {selectedFontSize.title}
             </span>
           </ActionButton>
