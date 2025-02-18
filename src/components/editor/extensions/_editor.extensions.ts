@@ -9,6 +9,13 @@ import { TextAlignExtension } from './textAlign.extension';
 import { IndentExtension } from './indent.extension';
 import { SuggestionKey } from './suggestions/suggestionKey.extension';
 import { suggestionValue } from './suggestions';
+import { ExportPdfExtension } from './exportPdf';
+import { ExportEmailExtension } from './exportEmail.extension';
+import { ExportMessengersExtension } from './exportMessengers.extension';
+import { HistoryExtension } from './history.extension';
+import { SaveExtension } from './save.extension';
+import { DeleteExtension } from './delete.extension';
+import { FullScreenExtension } from './fullScreen.extension';
 
 export const EditorExtension = [
   StarterKit.configure({}),
@@ -22,4 +29,11 @@ export const EditorExtension = [
   IndentExtension,
   SuggestionKey,
   suggestionValue,
+  HistoryExtension,
+  FullScreenExtension,
+  SaveExtension,
+  DeleteExtension,
+  ExportPdfExtension,
+  ExportEmailExtension,
+  ExportMessengersExtension,
 ];

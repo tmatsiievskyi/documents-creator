@@ -10,6 +10,7 @@ export const UnderlineExtension = TiptapUnderline.extend<TUnderlineOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      editorGroup: 'ui',
       group: 'paragraph',
       button: ({
         editor,

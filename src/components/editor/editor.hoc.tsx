@@ -2,18 +2,24 @@ import { Editor } from './editor.container';
 
 export type TEditorProps = {
   classNameEditorWrapper?: string;
-  hideToolbar?: boolean;
-  toolbarDisabled?: boolean;
+  hideTopToolbar?: boolean;
+  hideSideToolbar?: boolean;
+  toolbarTopDisabled?: boolean;
+  toolbarSideDisabled?: boolean;
 };
 
 export const WithEditor = ({
   classNameEditorWrapper,
-  hideToolbar,
-  toolbarDisabled,
+  hideTopToolbar,
+  toolbarTopDisabled,
+  hideSideToolbar,
+  toolbarSideDisabled,
 }: TEditorProps) => (
   <Editor
     classNameEditorWrapper={classNameEditorWrapper}
-    hideToolbar={hideToolbar}
-    toolbarDisabled={toolbarDisabled}
+    hideTopToolbar={hideTopToolbar}
+    toolbarTopDisabled={toolbarTopDisabled}
+    hideSideToolbar={hideSideToolbar}
+    toolbarSideDisabled={toolbarSideDisabled}
   />
 );

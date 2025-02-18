@@ -54,12 +54,12 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
           <Comp
             ref={ref}
             size='sm'
-            className={cn('w-[32px] h-[32px]', customClass)}
+            className={cn('w-[32px] h-[32px] [&_svg]:size-5', customClass)}
             onClick={action}
             data-state={isActive?.() ? 'on' : 'off'}
             {...restProps}
           >
-            {Icon && <Icon className='w-4 h-4' />}
+            {Icon && <Icon strokeWidth='1.2px' />}
             {children}
           </Comp>
         </TooltipTrigger>

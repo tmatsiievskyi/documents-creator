@@ -15,7 +15,6 @@ export const SuggestionKey = Extension.create({
       suggestion: {
         char: '++', //TODO: remove to const
         newLine: false,
-
         command: ({ editor, range, props }: TCommandProps) => {
           const selectedKey = props.item.title;
 

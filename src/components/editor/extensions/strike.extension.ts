@@ -10,6 +10,7 @@ export const StrikeExtension = TiptapStrike.extend<TStrikeOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      editorGroup: 'ui',
       group: 'paragraph',
       button: ({
         editor,

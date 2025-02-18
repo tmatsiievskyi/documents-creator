@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { cn } from '@/lib/utils';
 import { isFunction } from '@/utils';
 import type { AnyExtension, Editor } from '@tiptap/core';
 import { ReactNode, useMemo, ComponentType } from 'react';
@@ -6,6 +7,10 @@ import { ReactNode, useMemo, ComponentType } from 'react';
 type TProps = {
   editor: Editor;
   disabled?: boolean;
+  toolbarType: 'ui' | 'manage';
+  wrapperClassName?: string;
+  sectionClassName?: string;
+  itemWrapperClassName?: string;
 };
 
 type TToolbarButton = {
@@ -18,13 +23,17 @@ type TGeneratedToolbarItems = Record<
   { component: ComponentType<any>; componentProps: Record<string, any> }[]
 >;
 
-const generateToolbarItems = (editor: TProps['editor']) => {
+const generateToolbarItems = (
+  editor: TProps['editor'],
+  toolbarType: 'ui' | 'manage'
+) => {
   const extensions: AnyExtension[] = [...editor.extensionManager.extensions];
 
   const items = extensions.reduce((acc, extension) => {
-    const { button, group } = extension.options;
+    const { button, group, editorGroup } = extension.options;
 
-    if (!button || !isFunction(button)) return acc;
+    if (!button || !isFunction(button) || editorGroup !== toolbarType)
+      return acc;
 
     const buttonSpec: TToolbarButton = button({
       editor,
@@ -49,17 +58,34 @@ const generateToolbarItems = (editor: TProps['editor']) => {
 
 //TODO: keep focus after button click
 
-export const EditorToolbar = ({ editor, disabled }: TProps) => {
+export const EditorToolbar = ({
+  editor,
+  disabled,
+  toolbarType,
+  wrapperClassName,
+  sectionClassName,
+  itemWrapperClassName,
+}: TProps) => {
   const generatedToolbarItems = useMemo(
-    () => generateToolbarItems(editor),
-    [editor]
+    () => generateToolbarItems(editor, toolbarType),
+    [editor, toolbarType]
+  );
+  const buttonStyle = useMemo(
+    () => ({
+      manage: 'my-1 [&_svg]:size-5',
+      ui: 'mx-0 [&_svg]:size-5',
+    }),
+    []
   );
 
   const domSections = useMemo(
     () =>
       Object.entries(generatedToolbarItems).map(([section, buttons], index) => {
         return (
-          <div key={section} className='flex'>
+          <div
+            key={section}
+            className={cn('flex items-center', sectionClassName)}
+          >
             {buttons.map((buttonComp, key) => {
               if (Array.isArray(buttonComp)) {
                 {
@@ -75,6 +101,7 @@ export const EditorToolbar = ({ editor, disabled }: TProps) => {
                         disabled={
                           disabled || buttonFromArr.componentProps?.disabled
                         }
+                        className={cn(buttonStyle[toolbarType])}
                       />
                     );
                   });
@@ -89,22 +116,43 @@ export const EditorToolbar = ({ editor, disabled }: TProps) => {
                     }
                     {...buttonComp.componentProps}
                     disabled={disabled || buttonComp.componentProps?.disabled}
+                    className={cn(buttonStyle[toolbarType])}
                   />
                 );
               }
             })}
 
             {Object.keys(generatedToolbarItems).length > index + 1 && (
-              <div className='h-full min-h-[1em] w-px mx-1 self-stretch bg-gradient-to-tr from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400'></div>
+              <div
+                className={cn(
+                  {
+                    'min-w-5 h-px bg-gray-200': toolbarType === 'manage',
+                    'min-h-5 w-px mx-1  bg-gray-200 ': toolbarType === 'ui',
+                  },
+
+                  itemWrapperClassName
+                )}
+              ></div>
             )}
           </div>
         );
       }),
-    [disabled, generatedToolbarItems]
+    [
+      disabled,
+      generatedToolbarItems,
+      itemWrapperClassName,
+      sectionClassName,
+      buttonStyle,
+      toolbarType,
+    ]
   );
 
   const domContainer = (innerContent: ReactNode) => {
-    return <div className='flex'>{innerContent}</div>;
+    return (
+      <div className={cn('flex items-center', wrapperClassName)}>
+        {innerContent}
+      </div>
+    );
   };
 
   return domContainer(domSections);

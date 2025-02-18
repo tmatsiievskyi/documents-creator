@@ -33,6 +33,7 @@ export const FontSizeExtension = Extension.create<TFontSizeOptions>({
   addOptions() {
     return {
       ...this.parent?.(),
+      editorGroup: 'ui',
       group: 'fontSize',
       types: ['textStyle'],
       fontSizes: [...DEFAULT_FONT_SIZES_LIST.map((item) => item + 'px')],
