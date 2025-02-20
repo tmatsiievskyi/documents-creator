@@ -13,6 +13,7 @@ export default {
       colors: {
         rootBG: 'hsl(var(--rootBG))',
         primary: 'hsl(var(--primary))',
+        'primary-frg': 'hsl(var(--primary-frg))',
         secondary: 'hsl(var(--secondary))',
         dark: 'hsl(var(--dark))',
         destructive: 'hsl(var(--destructive))',

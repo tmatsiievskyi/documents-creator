@@ -7,9 +7,6 @@ import { usePathname } from 'next/navigation';
 
 export const NavLinks = () => {
   const pathname = usePathname();
-
-  // flex h-[48px] margin-y-2 grow items-center justify-center gap-2 bg-bkg p-3 text-sm font-medium hover:bg-bkg/70 hover:text-accent md:flex-none md:justify-start md:p-2 md:px-3
-
   return (
     <>
       {navLinks.map((link, index) => {
@@ -20,36 +17,41 @@ export const NavLinks = () => {
               <LinkLocal
                 href={link.href}
                 className={cn(
-                  `block py-3  group`,
-
-                  {
-                    ' border-b-[1px] border-secondary/60':
-                      index < navLinks.length - 1,
-                  }
+                  `flex flex-col self-center justify-start items-center min-w-[75px] px-2 md:px-0 md:py-3  group relative`
                 )}
               >
+                <span
+                  className={cn('hidden', {
+                    ' md:inline absolute bottom-0 right-0 h-px w-[30px] bg-secondary/80 translate-x-[-22px]':
+                      index < navLinks.length - 1,
+                  })}
+                ></span>
                 <div
                   className={cn(
-                    'cursor-pointer border border-secondary/100 transition ease-in-out delay-100 duration-300 hover:bg-secondary p-2 rounded-lg group-hover:bg-primary/20 group-hover:text-white',
+                    'cursor-pointer text-center  max-w-12 max-h-12 transition ease-in-out delay-100 duration-300 hover:bg-secondary p-2 rounded-lg group-hover:bg-primary/20 group-hover:text-white',
                     {
                       'bg-primary/40 text-white group-hover:bg-primary/40':
                         pathname === link.href,
+                    },
+                    {
+                      'rounded-full': link.name === 'Create Document',
                     }
                   )}
                 >
-                  <LinkIcon className='w-7 h-7' strokeWidth='1px' />
+                  <LinkIcon
+                    className='w-6 h-6 md:w-7 md:h-7'
+                    strokeWidth='1px'
+                  />
                 </div>
 
-                {/* <span>{link.label}</span> */}
+                <span className='text-xs inline md:hidden max-w-20 text-center mt-1'>
+                  {link.label}
+                </span>
               </LinkLocal>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent side='right'>
               <div className='flex flex-col justify-center items-center text-center max-w-12'>
-                {/* <span>{tooltip}</span>
-              {!!shortcutKeys?.length && (
-                <span>[{shortcutKeys.join('+')}]</span>
-              )} */}
-                <p>add</p>
+                <p>{link.label}</p>
               </div>
             </TooltipContent>
           </Tooltip>

@@ -10,6 +10,7 @@ body {
   :root {
     --rootBG: 105 55% 96%;
     --primary: 203 39% 44%;
+    --primary-frg: 0 0% 100%;
     --secondary: 182 43% 76%;
     --dark: 215 50% 23%;
     --destructive: 355 78% 56%;

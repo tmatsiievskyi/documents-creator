@@ -102,6 +102,7 @@ export const EditorToolbar = ({
                           disabled || buttonFromArr.componentProps?.disabled
                         }
                         className={cn(buttonStyle[toolbarType])}
+                        tooltipSide={toolbarType === 'ui' ? 'bottom' : 'left'}
                       />
                     );
                   });
@@ -117,6 +118,7 @@ export const EditorToolbar = ({
                     {...buttonComp.componentProps}
                     disabled={disabled || buttonComp.componentProps?.disabled}
                     className={cn(buttonStyle[toolbarType])}
+                    tooltipSide={toolbarType === 'ui' ? 'bottom' : 'left'}
                   />
                 );
               }

@@ -28,6 +28,7 @@ type TButtonProps = {
   children: ReactNode;
   asChild: boolean;
   upload: boolean;
+  tooltipSide: 'right' | 'left' | 'top' | 'bottom';
 };
 
 const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
@@ -42,6 +43,7 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
       tooltipOptions,
       isActive,
       shortcutKeys,
+      tooltipSide = 'top',
       ...restProps
     } = props;
 
@@ -64,7 +66,7 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>(
           </Comp>
         </TooltipTrigger>
         {tooltip && (
-          <TooltipContent {...tooltipOptions}>
+          <TooltipContent {...tooltipOptions} side={tooltipSide}>
             <div className='flex flex-col justify-center items-center text-center max-w-12'>
               <span>{tooltip}</span>
               {!!shortcutKeys?.length && (

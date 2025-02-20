@@ -4,32 +4,32 @@ import { icons } from '@/ui/icons';
 export const navLinks: TNavItem[] = [
   {
     name: 'Create Document',
-    label: 'Створити документ',
+    label: 'Створити',
     href: '/create-document',
-    icon: icons['FilePlus2Icon'],
+    icon: icons['Plus'],
   },
   {
     name: 'Documents',
     label: 'Документи',
-    href: '/dashboard/documents',
+    href: '/documents',
     icon: icons['FolderOpen'],
   },
   {
     name: 'Templates',
     label: 'Темплейти',
-    href: '/dashboard/templates',
+    href: '/templates',
     icon: icons['FileSearch'],
   },
   {
     name: 'Elements',
     label: 'Елементи',
-    href: '/dashboard/elements',
+    href: '/elements',
     icon: icons['Layers'],
   },
   {
     name: 'Variables',
     label: 'Змінні',
-    href: '/dashboard/variables',
+    href: '/variables',
     icon: icons['Paperclip'],
   },
 ];
