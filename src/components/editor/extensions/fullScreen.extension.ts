@@ -8,7 +8,7 @@ export const FullScreenExtension = Extension.create({
       ...this.parent?.(),
       editorGroup: 'manage',
       group: 'crud',
-      button: ({ editor }: { editor: Editor }) => {
+      button: ({ editor: _editor }: { editor: Editor }) => {
         return {
           component: ActionButton,
           componentProps: {

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Editor } from '@tiptap/react';
-import type { ItalicOptions } from '@tiptap/extension-italic';
-import TiptapItalic from '@tiptap/extension-italic';
+import TiptapItalic, { ItalicOptions } from '@tiptap/extension-italic';
 import { ActionButton } from '@/components/buttons';
 
 export type TItalicOptions = {} & ItalicOptions;

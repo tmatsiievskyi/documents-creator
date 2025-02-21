@@ -5,11 +5,8 @@ export const UserPlusSettings = () => {
   const SettingsIcon = icons['Settings'];
   return (
     <>
-      <SettingsIcon
-        className='w-7 h-7 md:w-8 md:h-8 mr-2 md:mr-0 md:mb-2'
-        strokeWidth='0.5px'
-      />
-      <UserIcon className='w-11 h-11 md:w-12 md:h-12' strokeWidth='0.3px' />
+      <SettingsIcon className="mr-2 size-7 md:mb-2 md:mr-0 md:size-8" strokeWidth="0.5px" />
+      <UserIcon className="size-11 md:size-12" strokeWidth="0.3px" />
     </>
   );
 };

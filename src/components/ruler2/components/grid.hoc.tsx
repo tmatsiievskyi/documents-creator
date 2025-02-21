@@ -5,6 +5,4 @@ export type TRulerGridProps = {
   wrapperRulerClassName?: string;
 } & Pick<TRulerProps, 'size' | 'spaces' | 'orientation'>;
 
-export const WIthRulerGrid = (props: TRulerGridProps) => (
-  <RulerGrid {...props} />
-);
+export const WIthRulerGrid = (props: TRulerGridProps) => <RulerGrid {...props} />;

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { fonts, TooltipProvider } from '@/ui';
 import '../ui/globals.css';
@@ -14,10 +15,10 @@ export const inter = Inter({ subsets: ['latin'] });
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body className={`${fonts.inter.className} antialiased`}>
         <TooltipProvider>{children}</TooltipProvider>
       </body>

@@ -7,12 +7,7 @@ export type TLinkProps = {
   to?: string;
 } & LinkProps;
 
-export const LinkLocal = ({
-  className,
-  href,
-  children,
-  ...props
-}: TLinkProps) => {
+export const LinkLocal = ({ className, href, children, ...props }: TLinkProps) => {
   return (
     <Link href={href} className={className} {...props}>
       {children}

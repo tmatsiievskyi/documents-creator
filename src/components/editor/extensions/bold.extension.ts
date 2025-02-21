@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Editor } from '@tiptap/react';
-import type { BoldOptions } from '@tiptap/extension-bold';
-import TiptapBold from '@tiptap/extension-bold';
+import TiptapBold, { BoldOptions } from '@tiptap/extension-bold';
 import { ActionButton } from '@/components/buttons';
 
 export type TBoldOptions = {} & BoldOptions;

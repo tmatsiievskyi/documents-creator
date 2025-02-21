@@ -11,8 +11,7 @@
   flex-direction: column;
   justify-content: center;
   transition: transform 250ms ease;
-  transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
-    scale(var(--scale, 1));
+  transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(var(--scale, 1));
   transition: box-shadow 300ms ease;
   /* > button {
     /* display: flex;
@@ -103,8 +102,7 @@
 
     > button {
       --scale: 1.06;
-      --box-shadow: -1px 0 15px 0 rgba(34, 33, 81, 0.01),
-        0px 15px 15px 0 rgba(34, 33, 81, 0.25);
+      --box-shadow: -1px 0 15px 0 rgba(34, 33, 81, 0.01), 0px 15px 15px 0 rgba(34, 33, 81, 0.25);
 
       &:focus-visible {
         --box-shadow: 0 0px 10px 2px #4c9ffe;
@@ -136,12 +134,10 @@
 
 @keyframes pop {
   0% {
-    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
-      scale(1);
+    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(1);
   }
   100% {
-    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0)
-      scale(var(--scale));
+    transform: translate3d(var(--translate-x, 0), var(--translate-y, 0), 0) scale(var(--scale));
     box-shadow: var(--box-shadow);
   }
 }

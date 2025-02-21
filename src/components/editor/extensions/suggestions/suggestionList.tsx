@@ -1,10 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { TSuggestionItemProps, TSuggestionListProps } from './_types';
 
-export const SuggestionList: React.FC<TSuggestionListProps> = ({
-  items,
-  command,
-}) => {
+export const SuggestionList: React.FC<TSuggestionListProps> = ({ items, command }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selectItem = useCallback(
@@ -21,13 +18,13 @@ export const SuggestionList: React.FC<TSuggestionListProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        setSelectedIndex((index) => Math.max(0, index - 1));
+        setSelectedIndex(index => Math.max(0, index - 1));
         return true;
       }
 
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        setSelectedIndex((index) => Math.min(items.length - 1, index + 1));
+        setSelectedIndex(index => Math.min(items.length - 1, index + 1));
         return true;
       }
 
@@ -54,14 +51,14 @@ export const SuggestionList: React.FC<TSuggestionListProps> = ({
 
   if (items.length === 0) {
     return (
-      <div className='suggestion-list empty'>
-        <div className='suggestion-item'>No suggestions available</div>
+      <div>
+        <div>No suggestions available</div>
       </div>
     );
   }
 
   return (
-    <div className='z-50 h-auto max-h-[330px] overflow-y-auto scroll-smooth rounded-md border border-gray-200 px-1 py-2 shadow-md transition-all'>
+    <div className="z-50 h-auto max-h-[330px] overflow-y-auto scroll-smooth rounded-md border border-gray-200 px-1 py-2 shadow-md transition-all">
       {items.map((item, index) => {
         const selected = selectedIndex === index;
         return (
@@ -72,9 +69,9 @@ export const SuggestionList: React.FC<TSuggestionListProps> = ({
             `}
             onClick={() => handleItemClick(item)}
             onMouseEnter={() => setSelectedIndex(index)}
-            type='button'
+            type="button"
           >
-            <span className='suggestion-title pl-2'>{item.title}</span>
+            <span className="suggestion-title pl-2">{item.title}</span>
           </button>
         );
       })}

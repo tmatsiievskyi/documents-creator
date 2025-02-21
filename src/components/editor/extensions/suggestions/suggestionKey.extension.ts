@@ -13,17 +13,12 @@ export const SuggestionKey = Extension.create({
   addOptions() {
     return {
       suggestion: {
-        char: '++', //TODO: remove to const
+        char: '++', // TODO: remove to const
         newLine: false,
         command: ({ editor, range, props }: TCommandProps) => {
           const selectedKey = props.item.title;
 
-          editor
-            .chain()
-            .focus()
-            .deleteRange(range)
-            .insertContent(`{{${selectedKey}`)
-            .run();
+          editor.chain().focus().deleteRange(range).insertContent(`{{${selectedKey}`).run();
 
           const newPos = range.from + selectedKey.length + 2;
 
@@ -40,10 +35,8 @@ export const SuggestionKey = Extension.create({
 
         items: ({ query }: { query: string }) => {
           return getSuggestionItems()
-            .filter((item) =>
-              item.suggestion.toLowerCase().includes(query.toLowerCase())
-            )
-            .map((item) => ({
+            .filter(item => item.suggestion.toLowerCase().includes(query.toLowerCase()))
+            .map(item => ({
               title: item.suggestion,
               description: item.description,
             }));
@@ -85,7 +78,6 @@ export const SuggestionKey = Extension.create({
             },
 
             onKeyDown: (props: { event: KeyboardEvent }) => {
-              console.log(component);
               if (props.event.key === 'Escape') {
                 popup?.[0].hide();
                 return true;
@@ -119,10 +111,7 @@ export const SuggestionKey = Extension.create({
             const { $head } = view.state.selection;
             const pos = $head.pos;
 
-            const textBefore = view.state.doc.textBetween(
-              Math.max(0, pos - 500),
-              pos
-            );
+            const textBefore = view.state.doc.textBetween(Math.max(0, pos - 500), pos);
 
             const textAfter = view.state.doc.textBetween(
               pos,
@@ -143,9 +132,7 @@ export const SuggestionKey = Extension.create({
                     ? pos - completeMatch[0].length
                     : pos - (beforeMatch?.[0].length ?? 0);
 
-                  const endPos = completeMatch
-                    ? pos
-                    : pos + (afterMatch?.[0].length ?? 0);
+                  const endPos = completeMatch ? pos : pos + (afterMatch?.[0].length ?? 0);
 
                   // Delete the entire {{key: value}}
                   view.dispatch(view.state.tr.delete(startPos, endPos));

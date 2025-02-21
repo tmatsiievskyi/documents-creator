@@ -1,6 +1,5 @@
 import { AnyExtension, Extension } from '@tiptap/core';
-import type { TextStyleOptions } from '@tiptap/extension-text-style';
-import { TextStyle } from '@tiptap/extension-text-style';
+import TextStyle, { TextStyleOptions } from '@tiptap/extension-text-style';
 
 type TBaseKitExtensionOptions = {
   /**

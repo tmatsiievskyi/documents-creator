@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Editor } from '@tiptap/react';
-import type { UnderlineOptions } from '@tiptap/extension-underline';
-import TiptapUnderline from '@tiptap/extension-underline';
+import TiptapUnderline, { UnderlineOptions } from '@tiptap/extension-underline';
 import { ActionButton } from '@/components/buttons';
 
 export type TUnderlineOptions = {} & UnderlineOptions;
