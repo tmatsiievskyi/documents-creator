@@ -17,7 +17,7 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  console.log(2);
+  console.log(3);
   return (
     <html lang="en">
       <body className={`${fonts.inter.className} antialiased`}>
