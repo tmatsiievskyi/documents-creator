@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm pnpm run format
-pnpm run lint
+npx --no -- commitlint --edit ${1}
