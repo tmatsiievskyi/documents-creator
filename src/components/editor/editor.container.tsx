@@ -12,7 +12,7 @@ import { useRef } from 'react';
 export const Editor = ({
   classNameEditorWrapper,
   hideTopToolbar,
-  hideSideToolbar,
+  // hideSideToolbar,
   toolbarTopDisabled,
   toolbarSideDisabled,
 }: TEditorProps) => {
@@ -20,16 +20,16 @@ export const Editor = ({
   const editor = useEditor({
     extensions: EditorExtension,
     editorProps: LocalEditorProps,
-    content: '', //TODO: remove text
+    content: '', // TODO: remove text
     immediatelyRender: false,
-    onUpdate: ({ editor }) => {
-      const json = editor.getJSON();
-      const html = editor.getHTML();
+    onUpdate: ({ editor: _editor }) => {
+      // const _json = editor.getJSON();
+      // const _html = editor.getHTML();
     },
   });
 
   const editorSize = {
-    //TODO: move to redux and create select
+    // TODO: move to redux and create select
     height: 1115.2,
     width: 794,
   };
@@ -38,29 +38,25 @@ export const Editor = ({
   if (!editor) return null;
 
   return (
-    <div className='flex flex-col mt-1 md:mt-0 w-full h-full '>
-      <div className=' flex-shrink-0 overflow-x-scroll'>
+    <div className="mt-1 flex size-full flex-col md:mt-0 ">
+      <div className=" shrink-0 overflow-x-scroll">
         {!hideTopToolbar && (
-          <div className='flex-shrink-0 bg-white p-2 relative z-10 mb-1 md:mb-2 min-h-[48px]'>
-            <EditorToolbar
-              editor={editor}
-              disabled={toolbarTopDisabled}
-              toolbarType='ui'
-            />
+          <div className="relative z-10 mb-1 min-h-[48px] shrink-0 bg-white p-2 md:mb-2">
+            <EditorToolbar editor={editor} disabled={toolbarTopDisabled} toolbarType="ui" />
           </div>
         )}
       </div>
-      <div className='flex flex-grow flex-row-reverse h-[calc(100%-80px)]'>
-        <div className='ml-1 md:ml-2 min-w-[48px] bg-white p-2 overflow-y-auto'>
+      <div className="flex h-[calc(100%-80px)] grow flex-row-reverse">
+        <div className="ml-1 min-w-[48px] overflow-y-auto bg-white p-2 md:ml-2">
           <EditorToolbar
             editor={editor}
             disabled={toolbarSideDisabled}
-            toolbarType='manage'
-            wrapperClassName='flex flex-col'
-            sectionClassName='flex flex-col'
+            toolbarType="manage"
+            wrapperClassName="flex flex-col"
+            sectionClassName="flex flex-col"
           />
         </div>
-        <div className='overflow-scroll w-full bg-white p-2 relative pl-8'>
+        <div className="relative w-full overflow-scroll bg-white p-2 pl-8">
           <div
             ref={editorWrapperRef}
             className={cn(
@@ -68,7 +64,7 @@ export const Editor = ({
               classNameEditorWrapper
             )}
           >
-            <div className='w-a4 ml-auto mr-auto h-6 mb-[3px] absolute top-[-5px] left-0 translate-y-[-100%]'>
+            <div className="absolute left-0 top-[-5px] mx-auto mb-[3px] h-6 w-a4 -translate-y-full">
               <WithRuler
                 cursors={[
                   {
@@ -84,12 +80,12 @@ export const Editor = ({
                 ]}
                 spaces={rulerSpaces}
                 size={editorSize.width}
-                orientation='landscape'
-                wrapperClassName='w-full h-full relative'
-                wrapperRulerClassName='absolute bottom-0 left-0'
+                orientation="landscape"
+                wrapperClassName="w-full h-full relative"
+                wrapperRulerClassName="absolute bottom-0 left-0"
               />
             </div>
-            <div className='absolute top-0 left-[-5px] h-full w-6 translate-x-[-100%]'>
+            <div className="absolute left-[-5px] top-0 h-full w-6 -translate-x-full">
               <WithRuler
                 cursors={[
                   {
@@ -103,10 +99,10 @@ export const Editor = ({
                     spaces: rulerSpaces,
                   },
                 ]}
-                orientation='portrait'
+                orientation="portrait"
                 spaces={rulerSpaces}
                 size={editorSize.height}
-                wrapperClassName='w-full h-full relative'
+                wrapperClassName="w-full h-full relative"
               />
             </div>
             <EditorContent editor={editor} />

@@ -10,7 +10,7 @@ type TProps = {
 };
 
 export const Droppable = ({ id, children, customClassName }: TProps) => {
-  const { isOver, setNodeRef } = useDroppable({ id });
+  const { setNodeRef } = useDroppable({ id });
 
   return (
     <div ref={setNodeRef} className={cn('', customClassName)}>

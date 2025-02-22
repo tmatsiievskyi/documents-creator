@@ -17,17 +17,14 @@ export const WithCursor = ({
 }: Pick<TRulerProps, 'cursors' | 'spaces' | 'orientation'>) => {
   const [items, setItems] = useState<TCursorProps[]>(cursors);
 
-  const modifiers = useMemo(
-    () => getModifiers({ orientation, spaces }),
-    [orientation, spaces]
-  );
+  const modifiers = useMemo(() => getModifiers({ orientation, spaces }), [orientation, spaces]);
 
   return (
     <DndContext
       modifiers={modifiers}
-      onDragEnd={(event) => {
-        setItems((prevItems) =>
-          prevItems.map((item) => {
+      onDragEnd={event => {
+        setItems(prevItems =>
+          prevItems.map(item => {
             if (item.cursorType === event.active.id) {
               return {
                 ...item,
@@ -42,10 +39,8 @@ export const WithCursor = ({
         );
       }}
     >
-      {cursors.map((cursor) => {
-        const curFromItem = items.find(
-          (item) => item.cursorType === cursor.cursorType
-        );
+      {cursors.map(cursor => {
+        const curFromItem = items.find(item => item.cursorType === cursor.cursorType);
         return (
           <Cursor
             key={cursor.cursorType}

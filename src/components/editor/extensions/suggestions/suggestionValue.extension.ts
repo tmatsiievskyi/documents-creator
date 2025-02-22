@@ -1,9 +1,5 @@
 import { Extension } from '@tiptap/core';
-import {
-  TSuggestionItemProps,
-  TSuggestionKeyEvent,
-  TSuggestionValueOptions,
-} from './_types';
+import { TSuggestionItemProps, TSuggestionKeyEvent, TSuggestionValueOptions } from './_types';
 import { getSuggestionItems } from './suggestion.data';
 import { ReactRenderer } from '@tiptap/react';
 import { SuggestionList } from './suggestionList';
@@ -16,11 +12,9 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
   addOptions() {
     return {
       getItems: (key: string) => {
-        const suggestionItem = getSuggestionItems().find(
-          (item) => item.suggestion === key
-        );
+        const suggestionItem = getSuggestionItems().find(item => item.suggestion === key);
 
-        return suggestionItem?.values.map((value) => ({
+        return suggestionItem?.values.map(value => ({
           title: value,
           icon: suggestionItem.icon,
         }));
@@ -41,7 +35,7 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
             this.editor
               .chain()
               .focus()
-              .insertContentAt(event.range.to, `: ${item.title}}}`) //TODO: event.range
+              .insertContentAt(event.range.to, `: ${item.title}}}`) // TODO: event.range
               .run();
 
             popup?.destroy();
@@ -73,7 +67,7 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
       });
 
       this.editor.on('destroy', () => {
-        popup?.[0].destroy();
+        popup?.destroy();
         component.destroy();
       });
     });
@@ -90,13 +84,10 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
       new Plugin({
         key: pluginKey,
         props: {
-          handleClick: (view, pos, event) => {
-            //get text arround click
-            const $pos = view.state.doc.resolve(pos);
-            const textBefore = view.state.doc.textBetween(
-              Math.max(0, pos - 500),
-              pos
-            );
+          handleClick: (view, pos, _event) => {
+            // get text arround click
+            // const $pos = view.state.doc.resolve(pos);
+            const textBefore = view.state.doc.textBetween(Math.max(0, pos - 500), pos);
             const textAfter = view.state.doc.textBetween(
               pos,
               Math.min(view.state.doc.content.size, pos + 500)
@@ -110,11 +101,10 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
             const [fullMatch, key, currentValue] = matchBefore;
             const startPos = pos - fullMatch.length;
 
-            const [fullMatchAfter, keyAfter] = matchAfter;
+            // eslint-disable-next-line no-unused-vars
+            const [_, keyAfter] = matchAfter;
 
-            const suggestionOption = getSuggestionItems().find(
-              (item) => item.suggestion === key
-            );
+            const suggestionOption = getSuggestionItems().find(item => item.suggestion === key);
 
             if (!suggestionOption) return false;
 
@@ -127,15 +117,14 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
             component = new ReactRenderer(SuggestionList, {
               editor: this.editor,
               props: {
-                items: suggestionOption.values.map((val) => ({
+                items: suggestionOption.values.map(val => ({
                   title: val,
                   // icon: suggestionOption.icon,
                 })),
                 command: ({ item }: { item: TSuggestionItemProps }) => {
-                  //calc position
+                  // calc position
                   const valueStartPos = startPos + key.length + 4; // +4 for ': ' and '{{'
-                  const valueEndPos =
-                    valueStartPos + currentValue.length + keyAfter.length;
+                  const valueEndPos = valueStartPos + currentValue.length + keyAfter.length;
 
                   view.dispatch(
                     view.state.tr.replaceWith(
@@ -180,10 +169,7 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
             const { $head } = view.state.selection;
             const pos = $head.pos;
 
-            const textBefore = view.state.doc.textBetween(
-              Math.max(0, pos - 500),
-              pos
-            );
+            const textBefore = view.state.doc.textBetween(Math.max(0, pos - 500), pos);
 
             const textAfter = view.state.doc.textBetween(
               pos,
@@ -205,9 +191,7 @@ export const suggestionValue = Extension.create<TSuggestionValueOptions>({
                     ? pos - completeMatch[0].length
                     : pos - (beforeMatch?.[0].length ?? 0);
 
-                  const endPos = completeMatch
-                    ? pos
-                    : pos + (afterMatch?.[0].length ?? 0);
+                  const endPos = completeMatch ? pos : pos + (afterMatch?.[0].length ?? 0);
 
                   // Delete the entire {{key: value}}
                   view.dispatch(view.state.tr.delete(startPos, endPos));

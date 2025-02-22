@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 
 import { useDraggable } from '@dnd-kit/core';
 import { Draggable } from '@/ui/dnd';
@@ -43,7 +43,7 @@ export const Cursor = ({ x, y, cursorType }: TProps) => {
       listeners={listeners}
       setNodeRef={draggableRef}
       transform={transform}
-      customClassName='text-primary' // TODO: update to accent color
+      customClassName="text-primary" // TODO: update to accent color
     >
       {/* <span className='text-primary'> */}
       <Icon
@@ -54,13 +54,9 @@ export const Cursor = ({ x, y, cursorType }: TProps) => {
       />
       {/* </span> */}
 
-      <div //TODO: get height from redux store. Change color
-        className={`z-50 absolute bottom-0 ${paddingLineStyle} transition-all duration-300 ease-in-out
-            ${
-              isDragging
-                ? 'opacity-100 scale-100'
-                : 'opacity-0 scale-95 pointer-events-none'
-            }`}
+      <div // TODO: get height from redux store. Change color
+        className={`absolute bottom-0 z-50 ${paddingLineStyle} transition-all duration-300 ease-in-out
+            ${isDragging ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'}`}
       />
     </Draggable>
   );

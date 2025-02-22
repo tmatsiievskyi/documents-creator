@@ -36,9 +36,9 @@ export const FontSizeExtension = Extension.create<TFontSizeOptions>({
       editorGroup: 'ui',
       group: 'fontSize',
       types: ['textStyle'],
-      fontSizes: [...DEFAULT_FONT_SIZES_LIST.map((item) => item + 'px')],
+      fontSizes: [...DEFAULT_FONT_SIZES_LIST.map(item => item + 'px')],
       button({ editor }: { editor: Editor }) {
-        const items = DEFAULT_FONT_SIZES_LIST.map((item) => {
+        const items = DEFAULT_FONT_SIZES_LIST.map(item => {
           const itemWithPx = item + 'px';
           return {
             title: item,
@@ -57,8 +57,7 @@ export const FontSizeExtension = Extension.create<TFontSizeOptions>({
             disabled: false,
             items,
             defaultFontSize: DEFAULT_FONT_SIZE,
-            actionPlus: (fontSize: string) =>
-              editor.commands.increaseFontSize(fontSize),
+            actionPlus: (fontSize: string) => editor.commands.increaseFontSize(fontSize),
           },
         };
       },
@@ -71,9 +70,8 @@ export const FontSizeExtension = Extension.create<TFontSizeOptions>({
         attributes: {
           fontSize: {
             default: null,
-            parseHTML: (element) =>
-              element.style.fontSize.replaceAll(/["']+/g, ''),
-            renderHTML: (attributes) => {
+            parseHTML: element => element.style.fontSize.replaceAll(/["']+/g, ''),
+            renderHTML: attributes => {
               if (!attributes.fontSize) {
                 return {};
               }
@@ -89,17 +87,14 @@ export const FontSizeExtension = Extension.create<TFontSizeOptions>({
   addCommands() {
     return {
       setFontSize:
-        (fontSize) =>
+        fontSize =>
         ({ chain }) => {
           return chain().setMark('textStyle', { fontSize }).run();
         },
       unsetFontSize:
         () =>
         ({ chain }) => {
-          return chain()
-            .setMark('textStyle', { fontSize: null })
-            .removeEmptyTextStyle()
-            .run();
+          return chain().setMark('textStyle', { fontSize: null }).removeEmptyTextStyle().run();
         },
     };
   },

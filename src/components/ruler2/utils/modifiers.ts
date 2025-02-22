@@ -1,16 +1,12 @@
 import { Modifier } from '@dnd-kit/core';
-import {
-  restrictToHorizontalAxis,
-  restrictToVerticalAxis,
-} from '@dnd-kit/modifiers';
+import { restrictToHorizontalAxis, restrictToVerticalAxis } from '@dnd-kit/modifiers';
 
 const modifiers = {
   landscape: (spacesInPx: number) => {
     return [
       restrictToHorizontalAxis,
-      ((): Modifier => (props) => {
-        const { transform, active, draggingNodeRect, containerNodeRect } =
-          props;
+      ((): Modifier => props => {
+        const { transform, active, draggingNodeRect, containerNodeRect } = props;
         const { id } = active || {};
         if (id === 'cursorXLeft') {
           const value = {
@@ -22,15 +18,13 @@ const modifiers = {
           }
 
           if (draggingNodeRect?.left + transform.x <= containerNodeRect?.left) {
-            //half left
+            // half left
             value.x = containerNodeRect.left - draggingNodeRect.left;
           } else if (
             draggingNodeRect.right + transform.x >=
-            containerNodeRect.left +
-              containerNodeRect.width / 2 -
-              spacesInPx * 2
+            containerNodeRect.left + containerNodeRect.width / 2 - spacesInPx * 2
           ) {
-            //half right
+            // half right
             value.x =
               containerNodeRect.left +
               containerNodeRect.width / 2 -
@@ -53,9 +47,7 @@ const modifiers = {
 
           if (
             draggingNodeRect.left + transform.x <=
-            containerNodeRect.left +
-              containerNodeRect.width / 2 +
-              spacesInPx * 2
+            containerNodeRect.left + containerNodeRect.width / 2 + spacesInPx * 2
           ) {
             value.x =
               containerNodeRect.left +
@@ -66,10 +58,7 @@ const modifiers = {
             draggingNodeRect.right + transform.x >=
             containerNodeRect.left + containerNodeRect.width
           ) {
-            value.x =
-              containerNodeRect.left +
-              containerNodeRect.width -
-              draggingNodeRect.right;
+            value.x = containerNodeRect.left + containerNodeRect.width - draggingNodeRect.right;
           }
 
           const snappedX = Math.round(value.x / spacesInPx) * spacesInPx;
@@ -83,9 +72,8 @@ const modifiers = {
   portrait: (spacesInPx: number) => {
     return [
       restrictToVerticalAxis,
-      ((): Modifier => (props) => {
-        const { transform, active, draggingNodeRect, containerNodeRect } =
-          props;
+      ((): Modifier => props => {
+        const { transform, active, draggingNodeRect, containerNodeRect } = props;
         const { id } = active || {};
         if (id === 'cursorYTop') {
           const value = {
@@ -97,15 +85,13 @@ const modifiers = {
           }
 
           if (draggingNodeRect.top + transform.y <= containerNodeRect.top) {
-            //half top
+            // half top
             value.y = containerNodeRect.top - draggingNodeRect.top;
           } else if (
             draggingNodeRect.bottom + transform.y >=
-            containerNodeRect.top +
-              containerNodeRect.height / 2 -
-              spacesInPx * 2
+            containerNodeRect.top + containerNodeRect.height / 2 - spacesInPx * 2
           ) {
-            //half bottom
+            // half bottom
             value.y =
               containerNodeRect.top +
               containerNodeRect.height / 2 -
@@ -130,18 +116,13 @@ const modifiers = {
             draggingNodeRect.bottom + transform.y >=
             containerNodeRect.top + containerNodeRect.height
           ) {
-            //half bottom
-            value.y =
-              containerNodeRect.top +
-              containerNodeRect.height -
-              draggingNodeRect.bottom;
+            // half bottom
+            value.y = containerNodeRect.top + containerNodeRect.height - draggingNodeRect.bottom;
           } else if (
             draggingNodeRect.top + transform.y <=
-            containerNodeRect.top +
-              containerNodeRect.height / 2 +
-              spacesInPx * 2
+            containerNodeRect.top + containerNodeRect.height / 2 + spacesInPx * 2
           ) {
-            //half top
+            // half top
             console.log('top');
             value.y =
               containerNodeRect.top +

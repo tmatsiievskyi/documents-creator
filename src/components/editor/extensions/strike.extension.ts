@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type Editor } from '@tiptap/react';
-import type { StrikeOptions } from '@tiptap/extension-strike';
-import TiptapStrike from '@tiptap/extension-strike';
+import TiptapStrike, { StrikeOptions } from '@tiptap/extension-strike';
 import { ActionButton } from '@/components/buttons';
 
 export type TStrikeOptions = {} & StrikeOptions;

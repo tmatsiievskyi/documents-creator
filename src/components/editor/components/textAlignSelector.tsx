@@ -33,13 +33,7 @@ type TProps = {
   customClassName?: string;
 };
 
-export const TextAlignSelector = ({
-  disabled,
-  customClassName,
-  icon,
-  tooltip,
-  items,
-}: TProps) => {
+export const TextAlignSelector = ({ disabled, customClassName, icon, tooltip, items }: TProps) => {
   const active = items?.find((item: TItem) => item.isActive() === true);
 
   return (
@@ -54,18 +48,18 @@ export const TextAlignSelector = ({
       </PopoverTrigger>
 
       <PopoverContent
-        className=' min-w-4 w-full p-1 flex flex-row gap-1'
-        align='start'
-        side='bottom'
+        className=" flex w-full min-w-4 flex-row gap-1 p-1"
+        align="start"
+        side="bottom"
       >
-        {items.map((item) => {
+        {items.map(item => {
           const { title, action, customClassName, icon } = item;
           const IconComp = icon ? icons[icon] : null;
           return (
             <Tooltip key={title}>
               <TooltipTrigger asChild>
                 <Toggle
-                  size='sm'
+                  size="sm"
                   onClick={action}
                   className={cn('p-1 w-7 h-7', customClassName)}
                   pressed={active?.title === item.title}
@@ -74,7 +68,7 @@ export const TextAlignSelector = ({
                   {IconComp && <IconComp />}
                 </Toggle>
               </TooltipTrigger>
-              <TooltipContent className='flex flex-col items-center'>
+              <TooltipContent className="flex flex-col items-center">
                 <span>{title}</span>
               </TooltipContent>
             </Tooltip>

@@ -1,6 +1,7 @@
 import { Editor, Extension } from '@tiptap/core';
-import type { TextAlignOptions as TBaseTextAlignOptions } from '@tiptap/extension-text-align';
-import TiptapTextAlign from '@tiptap/extension-text-align';
+import TiptapTextAlign, {
+  TextAlignOptions as TBaseTextAlignOptions,
+} from '@tiptap/extension-text-align';
 import { TextAlignSelector } from '../components';
 
 type TAlignments = 'left' | 'center' | 'right' | 'justify';
@@ -17,8 +18,7 @@ export const TextAlignExtension = TiptapTextAlign.extend<TTextAlignOptions>({
       group: 'format',
       types: ['heading', 'paragraph', 'list_item', 'title'],
       button({ editor, extension }: { editor: Editor; extension: Extension }) {
-        const aligments =
-          (extension.options?.alignments as TAlignments[]) || [];
+        const aligments = (extension.options?.alignments as TAlignments[]) || [];
 
         const iconMap = {
           left: 'AlignLeft',
@@ -27,7 +27,7 @@ export const TextAlignExtension = TiptapTextAlign.extend<TTextAlignOptions>({
           justify: 'AlignJustify',
         };
 
-        const items = aligments.map((alignment) => {
+        const items = aligments.map(alignment => {
           return {
             title: alignment,
             icon: iconMap[alignment],

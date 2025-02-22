@@ -26,7 +26,7 @@ declare module '@tiptap/core' {
 const TAB_CHAR = '\u00A0\u00A0\u00A0\u00A0';
 const TAB_LENGTH = TAB_CHAR.length;
 
-//TODO: check with list
+// TODO: check with list
 
 export const IndentExtension = Extension.create<TIndentOptions>({
   name: 'indent',

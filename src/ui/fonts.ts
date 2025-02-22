@@ -1,11 +1,11 @@
-import { Inter, Geist, Geist_Mono } from 'next/font/google';
+import { Inter, Geist, Geist_Mono as GeistMono } from 'next/font/google';
 
 const inter = Inter({ subsets: ['cyrillic'], variable: '--font-inter' });
 const geistSans = Geist({
   subsets: ['latin'],
   variable: '--font-geist-sans',
 });
-const geistMono = Geist_Mono({
+const geistMono = GeistMono({
   subsets: ['latin'],
   variable: '--font-geist-mono',
 });

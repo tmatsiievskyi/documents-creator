@@ -23,17 +23,13 @@ type TGeneratedToolbarItems = Record<
   { component: ComponentType<any>; componentProps: Record<string, any> }[]
 >;
 
-const generateToolbarItems = (
-  editor: TProps['editor'],
-  toolbarType: 'ui' | 'manage'
-) => {
+const generateToolbarItems = (editor: TProps['editor'], toolbarType: 'ui' | 'manage') => {
   const extensions: AnyExtension[] = [...editor.extensionManager.extensions];
 
   const items = extensions.reduce((acc, extension) => {
     const { button, group, editorGroup } = extension.options;
 
-    if (!button || !isFunction(button) || editorGroup !== toolbarType)
-      return acc;
+    if (!button || !isFunction(button) || editorGroup !== toolbarType) return acc;
 
     const buttonSpec: TToolbarButton = button({
       editor,
@@ -56,7 +52,7 @@ const generateToolbarItems = (
   return items;
 };
 
-//TODO: keep focus after button click
+// TODO: keep focus after button click
 
 export const EditorToolbar = ({
   editor,
@@ -82,39 +78,28 @@ export const EditorToolbar = ({
     () =>
       Object.entries(generatedToolbarItems).map(([section, buttons], index) => {
         return (
-          <div
-            key={section}
-            className={cn('flex items-center', sectionClassName)}
-          >
+          <div key={section} className={cn('flex items-center', sectionClassName)}>
             {buttons.map((buttonComp, key) => {
               if (Array.isArray(buttonComp)) {
-                {
-                  return buttonComp.map((buttonFromArr, i) => {
-                    const ButtonComp = buttonFromArr.component;
-                    return (
-                      <ButtonComp
-                        key={
-                          (buttonFromArr.component?.displayName ||
-                            buttonFromArr.component?.name) + i
-                        }
-                        {...buttonFromArr.componentProps}
-                        disabled={
-                          disabled || buttonFromArr.componentProps?.disabled
-                        }
-                        className={cn(buttonStyle[toolbarType])}
-                        tooltipSide={toolbarType === 'ui' ? 'bottom' : 'left'}
-                      />
-                    );
-                  });
-                }
+                return buttonComp.map((buttonFromArr, i) => {
+                  const ButtonComp = buttonFromArr.component;
+                  return (
+                    <ButtonComp
+                      key={
+                        (buttonFromArr.component?.displayName || buttonFromArr.component?.name) + i
+                      }
+                      {...buttonFromArr.componentProps}
+                      disabled={disabled || buttonFromArr.componentProps?.disabled}
+                      className={cn(buttonStyle[toolbarType])}
+                      tooltipSide={toolbarType === 'ui' ? 'bottom' : 'left'}
+                    />
+                  );
+                });
               } else {
                 const ButtonComp = buttonComp.component;
                 return (
                   <ButtonComp
-                    key={
-                      (buttonComp.component?.displayName ||
-                        buttonComp.component?.name) + key
-                    }
+                    key={(buttonComp.component?.displayName || buttonComp.component?.name) + key}
                     {...buttonComp.componentProps}
                     disabled={disabled || buttonComp.componentProps?.disabled}
                     className={cn(buttonStyle[toolbarType])}
@@ -150,11 +135,7 @@ export const EditorToolbar = ({
   );
 
   const domContainer = (innerContent: ReactNode) => {
-    return (
-      <div className={cn('flex items-center', wrapperClassName)}>
-        {innerContent}
-      </div>
-    );
+    return <div className={cn('flex items-center', wrapperClassName)}>{innerContent}</div>;
   };
 
   return domContainer(domSections);
