@@ -64,7 +64,7 @@ export const Editor = ({
               classNameEditorWrapper
             )}
           >
-            <div className="w-a4 absolute left-0 top-[-5px] mx-auto mb-[3px] h-6 -translate-y-full">
+            <div className="absolute left-0 top-[-5px] mx-auto mb-[3px] h-6 w-a4 -translate-y-full">
               <WithRuler
                 cursors={[
                   {
