@@ -30,6 +30,9 @@ import {
   Fullscreen,
   Save,
   Trash2,
+  ZoomIn,
+  ZoomOut,
+  RefreshCcw,
 } from 'lucide-react';
 import { ExportPdf } from './icons-componets';
 
@@ -68,4 +71,7 @@ export const icons = {
   Fullscreen,
   Save,
   Trash2,
+  ZoomIn,
+  ZoomOut,
+  RefreshCcw,
 };

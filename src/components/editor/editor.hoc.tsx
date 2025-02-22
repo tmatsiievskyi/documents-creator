@@ -1,3 +1,4 @@
+import { ZoomProvider } from '@/shared/context';
 import { Editor } from './editor.container';
 
 export type TEditorProps = {
@@ -15,11 +16,13 @@ export const WithEditor = ({
   hideSideToolbar,
   toolbarSideDisabled,
 }: TEditorProps) => (
-  <Editor
-    classNameEditorWrapper={classNameEditorWrapper}
-    hideTopToolbar={hideTopToolbar}
-    toolbarTopDisabled={toolbarTopDisabled}
-    hideSideToolbar={hideSideToolbar}
-    toolbarSideDisabled={toolbarSideDisabled}
-  />
+  <ZoomProvider>
+    <Editor
+      classNameEditorWrapper={classNameEditorWrapper}
+      hideTopToolbar={hideTopToolbar}
+      toolbarTopDisabled={toolbarTopDisabled}
+      hideSideToolbar={hideSideToolbar}
+      toolbarSideDisabled={toolbarSideDisabled}
+    />
+  </ZoomProvider>
 );

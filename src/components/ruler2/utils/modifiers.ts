@@ -123,7 +123,6 @@ const modifiers = {
             containerNodeRect.top + containerNodeRect.height / 2 + spacesInPx * 2
           ) {
             // half top
-            console.log('top');
             value.y =
               containerNodeRect.top +
               containerNodeRect.height / 2 +
