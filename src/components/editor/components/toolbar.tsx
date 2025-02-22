@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { isFunction } from '@/utils';
 import type { AnyExtension, Editor } from '@tiptap/core';
 import { ReactNode, useMemo, ComponentType } from 'react';
+import { ZoomControls } from './zoom-controls';
 
 type TProps = {
   editor: Editor;
@@ -135,7 +136,16 @@ export const EditorToolbar = ({
   );
 
   const domContainer = (innerContent: ReactNode) => {
-    return <div className={cn('flex items-center', wrapperClassName)}>{innerContent}</div>;
+    return (
+      <div className={cn('flex items-center', wrapperClassName)}>
+        {innerContent}
+        {toolbarType === 'manage' && (
+          <div className="mt-auto">
+            <ZoomControls />
+          </div>
+        )}
+      </div>
+    );
   };
 
   return domContainer(domSections);
