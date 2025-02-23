@@ -16,7 +16,7 @@ export const WithEditor = ({
   hideSideToolbar,
   toolbarSideDisabled,
 }: TEditorProps) => (
-  <ZoomProvider>
+  <ZoomProvider isShortcutsEnabledByDefault={true}>
     <Editor
       classNameEditorWrapper={classNameEditorWrapper}
       hideTopToolbar={hideTopToolbar}
