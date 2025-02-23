@@ -1,5 +1,6 @@
 import { Editor, Extension } from '@tiptap/core';
 import { ActionButton } from '@/components/buttons';
+import { SHORTCUT_KEYS } from '@/shared/constants';
 
 type TIndentOptions = {
   types: string[];
@@ -43,7 +44,7 @@ export const IndentExtension = Extension.create<TIndentOptions>({
               action: () => {
                 editor.commands.indent();
               },
-              shortcutKeys: ['Tab'],
+              shortcutKeys: SHORTCUT_KEYS['inDent'],
               icon: 'IndentIncrease',
               tooltip: `Indent`,
             },
@@ -54,7 +55,7 @@ export const IndentExtension = Extension.create<TIndentOptions>({
               action: () => {
                 editor.commands.outdent();
               },
-              shortcutKeys: ['Shift', 'Tab'],
+              shortcutKeys: SHORTCUT_KEYS['outDent'],
               icon: 'IndentDecrease',
               tooltip: `Outdent`,
             },

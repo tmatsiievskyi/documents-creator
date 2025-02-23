@@ -5,6 +5,8 @@ import { TIconKeys, Toggle, Tooltip, TooltipContent, TooltipTrigger, icons } fro
 import { cn } from '@/lib/utils';
 import { TooltipContentProps } from '@radix-ui/react-tooltip';
 import { TButtonCommonProps } from '@/shared/types';
+import { getShortcutDisplayValue } from '@/utils';
+import { SHORTCUR_DIVIDER, SHORTCUT_KEYS_MAP, TShortcutValue } from '@/shared/constants';
 
 type TButtonProps = {
   icon: TIconKeys;
@@ -12,7 +14,7 @@ type TButtonProps = {
   tooltip: string;
   tooltipOptions: TooltipContentProps;
   disabled: boolean;
-  shortcutKeys?: string[];
+  shortcutKeys?: TShortcutValue;
   customClass: string;
   loading: boolean;
   color: string;
@@ -59,9 +61,21 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>((props
       </TooltipTrigger>
       {tooltip && (
         <TooltipContent {...tooltipOptions} side={tooltipSide}>
-          <div className="flex max-w-12 flex-col items-center justify-center text-center">
+          <div className="flex max-w-20 flex-col items-center justify-center px-1 text-center">
             <span>{tooltip}</span>
-            {!!shortcutKeys?.length && <span>[{shortcutKeys.join('+')}]</span>}
+            {!!shortcutKeys?.length && (
+              <span>
+                {shortcutKeys.map(item => {
+                  return (
+                    <p key={item}>
+                      [{getShortcutDisplayValue(item, SHORTCUR_DIVIDER, SHORTCUT_KEYS_MAP)}]
+                    </p>
+                  );
+                })}
+
+                {/* [{ getShortcutDisplayValue(shortcutKeys[0], SHORTCUR_DIVIDER, SHORTCUT_KEYS_MAP)}] */}
+              </span>
+            )}
           </div>
         </TooltipContent>
       )}

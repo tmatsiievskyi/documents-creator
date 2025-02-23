@@ -7,6 +7,13 @@ type TZoomProps = {
   initialZoom?: number;
 };
 
+/**
+ * Handling Zoom for Editor
+ * @param minZoom - Min Zoom value
+ * @param maxZoom - Max Zoom Value
+ * @param step - Zoom step. [0.1, 0.2...]
+ * @param initialZoom - Initial value
+ */
 export const useZoom = ({
   minZoom = 0.5,
   maxZoom = 2,
