@@ -21,3 +21,18 @@ export function cached(fn: Function): Function {
     return hit || (cache[str] = fn(str));
   };
 }
+
+export const getShortcutDisplayValue = (
+  value: string,
+  divider: string,
+  mapToChange: Record<string, string>
+) => {
+  const valArr = value.split(divider);
+  valArr.forEach((item, index) => {
+    if (item in mapToChange) {
+      valArr[index] = mapToChange[item];
+    }
+  });
+
+  return valArr.join(` ${divider} `);
+};
