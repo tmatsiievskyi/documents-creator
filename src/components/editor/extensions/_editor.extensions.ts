@@ -16,8 +16,9 @@ import { HistoryExtension } from './history.extension';
 import { SaveExtension } from './save.extension';
 import { DeleteExtension } from './delete.extension';
 import { FullScreenExtension } from './fullScreen.extension';
+import { PaddingsWrapperExtension, TWrapperPaddingsOptions } from './paddings-wrapper.extension';
 
-export const EditorExtension = [
+export const EditorExtension = (props: Partial<TWrapperPaddingsOptions>) => [
   StarterKit.configure({}),
   BaseKitExtension.configure({}),
   BoldExtension,
@@ -36,4 +37,5 @@ export const EditorExtension = [
   ExportPdfExtension,
   ExportEmailExtension,
   ExportMessengersExtension,
+  PaddingsWrapperExtension.configure(props),
 ];

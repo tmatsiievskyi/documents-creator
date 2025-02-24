@@ -12,7 +12,7 @@ export const Ruler = ({
 }: TRulerProps) => {
   return (
     <div className={cn(wrapperClassName)}>
-      <WithCursor spaces={spaces} cursors={cursors} orientation={orientation} />
+      <WithCursor spaces={spaces} cursors={cursors} orientation={orientation} size={size} />
       <WIthRulerGrid
         spaces={spaces}
         size={size}
