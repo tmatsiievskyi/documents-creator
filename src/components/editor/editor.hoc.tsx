@@ -1,5 +1,5 @@
-import { ZoomProvider } from '@/shared/context';
-import { Editor } from './editor.container';
+import { AppEditorProvider, TEditorStateContext, ZoomProvider } from '@/shared/context';
+import { AppEditor } from './editor.container';
 
 export type TEditorProps = {
   classNameEditorWrapper?: string;
@@ -9,6 +9,13 @@ export type TEditorProps = {
   toolbarSideDisabled?: boolean;
 };
 
+const initialEditorState: TEditorStateContext = {
+  paddingLeft: 0,
+  paddingTop: 0,
+  paddingRight: 0,
+  paddingBottom: 0,
+}; // TODO: get from request or props
+
 export const WithEditor = ({
   classNameEditorWrapper,
   hideTopToolbar,
@@ -16,13 +23,16 @@ export const WithEditor = ({
   hideSideToolbar,
   toolbarSideDisabled,
 }: TEditorProps) => (
-  <ZoomProvider isShortcutsEnabledByDefault={true}>
-    <Editor
-      classNameEditorWrapper={classNameEditorWrapper}
-      hideTopToolbar={hideTopToolbar}
-      toolbarTopDisabled={toolbarTopDisabled}
-      hideSideToolbar={hideSideToolbar}
-      toolbarSideDisabled={toolbarSideDisabled}
-    />
-  </ZoomProvider>
+  // TODO: move properties from ZoomProvider to AppEditorProvider
+  <AppEditorProvider initialEditorState={initialEditorState}>
+    <ZoomProvider isShortcutsEnabledByDefault={true}>
+      <AppEditor
+        classNameEditorWrapper={classNameEditorWrapper}
+        hideTopToolbar={hideTopToolbar}
+        toolbarTopDisabled={toolbarTopDisabled}
+        hideSideToolbar={hideSideToolbar}
+        toolbarSideDisabled={toolbarSideDisabled}
+      />
+    </ZoomProvider>
+  </AppEditorProvider>
 );

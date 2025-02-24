@@ -45,16 +45,14 @@ export const Cursor = ({ x, y, cursorType }: TProps) => {
       transform={transform}
       customClassName="text-primary" // TODO: update to accent color
     >
-      {/* <span className='text-primary'> */}
       <Icon
         className={`${cursorPosition} absolute bottom-0`}
         size={CURSOR_WIDTH}
         strokeWidth={1}
         fill={'currentColor'} // TODO: update style
       />
-      {/* </span> */}
 
-      <div // TODO: get height from redux store. Change color
+      <div // TODO: get height from props. Change color
         className={`absolute bottom-0 z-50 ${paddingLineStyle} transition-all duration-300 ease-in-out
             ${isDragging ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0'}`}
       />
