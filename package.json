@@ -6,6 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "docker:dev:up": "docker compose -f docker/compose.dev.yaml up -d --build",
+    "docker:dev:down": "docker compose -f docker/compose.dev.yaml down",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
