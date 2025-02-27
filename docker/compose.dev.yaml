@@ -1,0 +1,21 @@
+services:
+  next-app:
+    container_name: docs-app
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+
+    env_file:
+      - ../.env
+    volumes:
+      - ../src:/app/src
+      - ../public:/app/public
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - docs_network
+
+networks:
+  docs_network:
+    driver: bridge
