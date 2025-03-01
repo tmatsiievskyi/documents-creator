@@ -1,0 +1,24 @@
+enum ECollaboratorRole {
+    OWNER
+    VIEWER
+    EDITOR
+}
+
+model CollaboratorAccess {
+    id String @id @default(uuid())
+
+    documentId String   @map("document_id")
+    document   Document @relation(fields: [documentId], references: [id])
+
+    userId Int
+    user   User @relation(fields: [userId], references: [id])
+
+    role ECollaboratorRole @default(VIEWER)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@unique([documentId, userId])
+    @@index([userId])
+    @@map("collaborator_access")
+}

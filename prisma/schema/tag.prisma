@@ -1,0 +1,17 @@
+model Tag {
+    id    Int     @id @default(autoincrement())
+    name  String  @unique
+    color String?
+
+    documents   Document[]
+    createdById Int
+    createdBy   User       @relation(fields: [createdById], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@index([name])
+    @@index([createdAt])
+    @@index([createdById])
+    @@map("tags")
+}

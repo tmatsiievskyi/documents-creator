@@ -1,0 +1,43 @@
+enum EDocumentStatus {
+    DRAFT
+    PUBLISHED
+    ARCHIVED
+    TRASH
+}
+
+enum EDocumentVisibilit {
+    PRIVATE
+    TEAM
+    GROUP
+}
+
+model Document {
+    id          String  @id @default(uuid())
+    title       String
+    slug        String  @unique
+    description String?
+    coverImage  String? @map("cover_image_url")
+
+    content   Json    @db.JsonB
+    plainText String? @map("plain_text") @db.Text
+
+    status     EDocumentStatus    @default(DRAFT)
+    visibility EDocumentVisibilit @default(PRIVATE)
+
+    tags Tag[]
+
+    authorId Int  @map("author_id")
+    author   User @relation(fields: [authorId], references: [id])
+
+    collaborators CollaboratorAccess[]
+    accessLogs    DocumentAccessLog[]
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @default(now()) @map("updated_at")
+
+    @@index([authorId])
+    @@index([createdAt])
+    @@index([updatedAt])
+    @@index([status])
+    @@map("documents")
+}

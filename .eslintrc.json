@@ -50,6 +50,7 @@
         "ignoreRestSiblings": true
       }
     ],
+    "no-useless-constructor": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "prettier/prettier": [
       "warn",

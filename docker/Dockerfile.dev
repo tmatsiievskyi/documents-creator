@@ -20,4 +20,6 @@ COPY components.json .
 COPY jest.config.mjs .
 COPY commitlint.config.js .
 
+RUN pnpm exec prisma generate
+
 CMD sh -c "if [ -f pnpm-lock.yaml ]; then pnpm dev; else npm run dev; fi"
