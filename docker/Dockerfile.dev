@@ -9,7 +9,7 @@ RUN corepack enable pnpm && pnpm i
 
 COPY src ./src
 COPY public ./public
-COPY prisma ./prisma
+COPY drizzle ./drizzle
 COPY next.config.ts .
 COPY tsconfig.json .
 COPY tailwind.config.ts .
@@ -19,7 +19,8 @@ COPY .eslintrc.json .
 COPY components.json .
 COPY jest.config.mjs .
 COPY commitlint.config.js .
+COPY drizzle.config.ts .
 
-RUN pnpm exec prisma generate
+# RUN pnpm exec prisma generate
 
 CMD sh -c "if [ -f pnpm-lock.yaml ]; then pnpm dev; else npm run dev; fi"
