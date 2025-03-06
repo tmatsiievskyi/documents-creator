@@ -1,7 +1,7 @@
-const Page = () => {
+const Page = async () => {
   return (
     <div>
-      <p>Documnents</p>
+      <p>Documents</p>
     </div>
   );
 };
