@@ -3,9 +3,9 @@
 import { env } from '@/lib/env';
 import { Pool, PoolConfig } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
-// import { schema } from './sch';
+import * as schema from './export-schema';
 
-let database: ReturnType<typeof drizzle<any>>;
+let database: ReturnType<typeof drizzle<typeof schema>>;
 let pool: Pool;
 
 const poolConfig: PoolConfig = {
@@ -16,11 +16,11 @@ const poolConfig: PoolConfig = {
 
 if (env.NODE_ENV === 'production') {
   pool = new Pool(poolConfig);
-  database = drizzle({ client: pool });
+  database = drizzle({ client: pool, schema });
 } else {
   if (!(global as any).database!) {
     (global as any).pool = new Pool(poolConfig);
-    (global as any).database = drizzle({ client: (global as any).pool });
+    (global as any).database = drizzle({ client: (global as any).pool, schema });
   }
   pool = (global as any).pool;
   database = (global as any).database;

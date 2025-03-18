@@ -36,3 +36,9 @@ export const getShortcutDisplayValue = (
 
   return valArr.join(` ${divider} `);
 };
+
+export const componentEnv = (componentName?: string) => {
+  const isClient = typeof window !== 'undefined';
+
+  console.log({ name: componentName, env: isClient ? 'client' : 'server' });
+};

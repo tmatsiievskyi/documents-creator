@@ -65,7 +65,6 @@ export const WithCursor = memo(
 
     const handleDragEnd = useCallback(
       (event: DragEndEvent) => {
-        console.log(event);
         updateItemCoordinates(event);
         updatePadding(event.active.id.toString(), event.delta.x, event.delta.y);
       },

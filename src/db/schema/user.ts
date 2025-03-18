@@ -1,16 +1,19 @@
 import { pgTable, timestamp, uuid, varchar, index } from 'drizzle-orm/pg-core';
 import { timestamps } from '../helpers';
-import { companies } from './companies';
+import { companiesTable } from './companies';
 import { relations } from 'drizzle-orm';
-import { documents } from './documents';
+import { documentsTable } from './documents';
+import { accountsTable } from './account';
+import { profilesTable } from './profile';
+import { sessionsTable } from './session';
 
-export const users = pgTable(
-  'users',
+export const usersTable = pgTable(
+  'doc_users',
   {
     id: uuid('id').primaryKey().defaultRandom(),
     email: varchar('email', { length: 256 }).unique(),
     emailVerified: timestamp('email_verified', { mode: 'date' }),
-    companyId: uuid('company_id').references(() => companies.id, {
+    companyId: uuid('company_id').references(() => companiesTable.id, {
       onDelete: 'set null',
     }),
     ...timestamps,
@@ -23,19 +26,32 @@ export const users = pgTable(
 
 // --- relations ---
 
-export const usersRelations = relations(users, ({ one, many }) => ({
-  company: one(companies, {
-    fields: [users.companyId],
-    references: [companies.id],
+export const usersRelations = relations(usersTable, ({ one, many }) => ({
+  company: one(companiesTable, {
+    fields: [usersTable.companyId],
+    references: [companiesTable.id],
     relationName: 'CompanyEmployees',
   }),
-  authoredDocuments: many(documents, {
+  authoredDocuments: many(documentsTable, {
     relationName: 'AuthoredUserDocuments',
   }),
-  ownedDocuments: many(documents, {
+  ownedDocuments: many(documentsTable, {
     relationName: 'UserOwnedDocuments',
+  }),
+  userAccounts: many(accountsTable, {
+    relationName: 'UserAccounts',
+  }),
+  userProfile: one(profilesTable, {
+    fields: [usersTable.id],
+    references: [profilesTable.userId],
+    relationName: 'UserProfile',
+  }),
+  userSession: one(sessionsTable, {
+    fields: [usersTable.id],
+    references: [sessionsTable.id],
+    relationName: 'UserSession',
   }),
 }));
 
-export type TUser = typeof users.$inferSelect;
-export type TUSerInsert = typeof users.$inferInsert;
+export type TUser = typeof usersTable.$inferSelect;
+export type TUserInsert = typeof usersTable.$inferInsert;

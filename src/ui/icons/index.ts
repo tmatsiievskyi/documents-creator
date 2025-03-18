@@ -33,8 +33,11 @@ import {
   ZoomIn,
   ZoomOut,
   RefreshCcw,
+  Loader2,
+  LogOut,
+  LogIn,
 } from 'lucide-react';
-import { ExportPdf } from './icons-componets';
+import { ExportPdf, GoogleIcon, FBIcon, AppLogoWhite } from './icons-componets';
 
 export type TIconKeys = keyof typeof icons;
 
@@ -74,4 +77,10 @@ export const icons = {
   ZoomIn,
   ZoomOut,
   RefreshCcw,
+  GoogleIcon,
+  FBIcon,
+  Loader2,
+  AppLogoWhite,
+  LogOut,
+  LogIn,
 };

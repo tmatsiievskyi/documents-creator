@@ -1,11 +1,11 @@
 import { index, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 import { timestamps } from '../helpers';
 import { relations } from 'drizzle-orm';
-import { documents } from './documents';
-import { users } from './user';
+import { documentsTable } from './documents';
+import { usersTable } from './user';
 
-export const companies = pgTable(
-  'companies',
+export const companiesTable = pgTable(
+  'doc_companies',
   {
     id: uuid('id').primaryKey().defaultRandom(),
     name: text('name').notNull().unique(),
@@ -16,14 +16,14 @@ export const companies = pgTable(
   table => [index('companies_name_idx').on(table.name)]
 );
 
-export const companiesRelations = relations(companies, ({ many }) => ({
-  employees: many(users, {
+export const companiesRelations = relations(companiesTable, ({ many }) => ({
+  employees: many(usersTable, {
     relationName: 'CompanyUsers',
   }),
-  ownedDocuments: many(documents, {
+  ownedDocuments: many(documentsTable, {
     relationName: 'CompanyOwnedDocuments',
   }),
 }));
 
-export type TCompanies = typeof companies.$inferSelect;
-export type TCompaniesInsert = typeof companies.$inferInsert;
+export type TCompanies = typeof companiesTable.$inferSelect;
+export type TCompaniesInsert = typeof companiesTable.$inferInsert;

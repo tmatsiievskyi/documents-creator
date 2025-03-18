@@ -1,8 +1,8 @@
 import { eq } from 'drizzle-orm';
 import { database } from './index';
-import { companies, TCompaniesInsert } from './schema/companies';
-import { documents, TDocumentInsert } from './schema/documents';
-import { TUser, TUSerInsert, users } from './schema/user';
+import { companiesTable, TCompaniesInsert } from './schema/companies';
+import { documentsTable, TDocumentInsert } from './schema/documents';
+import { TUser, TUserInsert, usersTable } from './schema/user';
 
 const companiesToCreate: TCompaniesInsert[] = [
   {
@@ -17,9 +17,9 @@ const seed = async () => {
   console.log('Seeding data...');
 
   try {
-    await database.delete(documents);
-    await database.delete(users);
-    await database.delete(companies);
+    await database.delete(documentsTable);
+    await database.delete(usersTable);
+    await database.delete(companiesTable);
 
     console.log('Seeding companies');
     const companyIds = await seedCompanies(companiesToCreate);
@@ -39,9 +39,9 @@ const seed = async () => {
 
 const seedCompanies = async (newCompanies: TCompaniesInsert[]) => {
   const insertedCompanies = await database
-    .insert(companies)
+    .insert(companiesTable)
     .values(newCompanies)
-    .returning({ id: companies.id });
+    .returning({ id: companiesTable.id });
 
   console.log(`Inserted companies: ${insertedCompanies}`);
 
@@ -49,9 +49,9 @@ const seedCompanies = async (newCompanies: TCompaniesInsert[]) => {
 };
 
 const seedUsers = async (companyIds: string[]) => {
-  const baseUser: TUSerInsert[] = [{ email: 'base_user@gmail.com' }];
+  const baseUser: TUserInsert[] = [{ email: 'base_user@gmail.com' }];
 
-  const usersForCompanies: TUSerInsert[] = companyIds.flatMap((id, index) => {
+  const usersForCompanies: TUserInsert[] = companyIds.flatMap((id, index) => {
     return [
       {
         email: `user1_${index}@${id}.com`,
@@ -67,7 +67,7 @@ const seedUsers = async (companyIds: string[]) => {
   });
 
   const insertedUsers = await database
-    .insert(users)
+    .insert(usersTable)
     .values([...baseUser, ...usersForCompanies])
     .returning();
 
@@ -102,9 +102,9 @@ const seedDocuments = async (inputUsers: TUser[], companyIds: string[]) => {
   for (const companyId of companyIds) {
     console.log(companyId);
     const companyUsersIds = await database
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.companyId, companyId));
+      .select({ id: usersTable.id })
+      .from(usersTable)
+      .where(eq(usersTable.companyId, companyId));
 
     console.log(companyUsersIds);
 
@@ -131,7 +131,7 @@ const seedDocuments = async (inputUsers: TUser[], companyIds: string[]) => {
     }
   }
 
-  const insertedDocuments = await database.insert(documents).values(documentsArr).returning();
+  const insertedDocuments = await database.insert(documentsTable).values(documentsArr).returning();
   console.log(`Inserted documents: ${insertedDocuments}`);
 };
 

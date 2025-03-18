@@ -1,4 +1,4 @@
-import { Inter, Geist, Geist_Mono as GeistMono } from 'next/font/google';
+import { Inter, Geist, Geist_Mono as GeistMono, Birthstone } from 'next/font/google';
 
 const inter = Inter({ subsets: ['cyrillic'], variable: '--font-inter' });
 const geistSans = Geist({
@@ -10,8 +10,15 @@ const geistMono = GeistMono({
   variable: '--font-geist-mono',
 });
 
+const birthstone = Birthstone({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-birthstone',
+});
+
 export const fonts = {
   inter,
   geistMono,
   geistSans,
+  birthstone,
 };
