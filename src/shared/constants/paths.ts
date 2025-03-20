@@ -4,6 +4,9 @@ export const URL_MAGIC_SIGN_IN = '/auth/sign-in/magic';
 export const URL_MAGIC_ERROR = '/auth/sign-in/magic/error';
 export const URL_SIGN_IN = '/auth/sign-in';
 export const URL_SIGN_OUT = '/auth/sign-out';
+export const URL_SIGN_IN_EMAIL = '/auth/sign-in/email';
+export const URL_SIGN_UP = '/auth/sign-up';
+export const URL_SIGN_UP_EMAIL = '/auth/sign-up/email';
 // ---###---
 
 // ---DASHBOARD---

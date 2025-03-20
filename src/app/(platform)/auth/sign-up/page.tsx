@@ -1,7 +1,12 @@
-import { WithSignUpForm } from '@/components/forms/auth';
+import { SignUpForm } from '@/components/forms/auth';
 
 const Page = () => {
-  return <WithSignUpForm />;
+  return (
+    <>
+      <h2 className="form-title mb-6">Sign up</h2>
+      <SignUpForm />
+    </>
+  );
 };
 
 export default Page;

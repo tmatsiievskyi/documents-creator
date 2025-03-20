@@ -1,5 +1,5 @@
 'use server';
-import { HASH_ENCODING, HASH_KEY_LENGTH, SALT_DEVIDER, SALT_LENGTH } from '@/shared/constants';
+import { HASH_ENCODING, HASH_KEY_LENGTH, SALT_DIVIDER, SALT_LENGTH } from '@/shared/constants';
 import { randomBytes, timingSafeEqual, scrypt, randomUUID } from 'node:crypto';
 
 export const hashString = async (data: string): Promise<string> => {
@@ -20,11 +20,11 @@ const serializeHash = (hash: Buffer, salt: Buffer) => {
   const saltString = salt.toString(HASH_ENCODING).split('=')[0];
   const hashString = hash.toString(HASH_ENCODING).split('=')[0];
 
-  return `${saltString}${SALT_DEVIDER}${hashString}`;
+  return `${saltString}${SALT_DIVIDER}${hashString}`;
 };
 
 const deserializeHash = (hashedString: string) => {
-  const [salt, hash] = hashedString.split(SALT_DEVIDER);
+  const [salt, hash] = hashedString.split(SALT_DIVIDER);
   if (!salt || !hash) {
     throw new Error(`String: \n ${hashedString} can not be deserialized`);
   }

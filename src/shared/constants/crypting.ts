@@ -1,7 +1,7 @@
 export const SALT_LENGTH = 32;
 export const HASH_KEY_LENGTH = 64;
-export const SALT_DEVIDER = '.';
-export const HASH_ENCODING = 'hex';
+export const SALT_DIVIDER = '.';
+export const HASH_ENCODING = 'base64';
 
 export const SESSION_RANDOM_LENGTH = 20;
 export const SESSION_DURATION = 1000 * 60 * 60 * 24 * 30;

@@ -38,8 +38,6 @@ export const signInWithMagicLinkService = async (token: string) => {
 
   const existingUser = await getUserByEmail(magicLinkInfo.email);
 
-  console.log(existingUser, 333);
-
   if (existingUser) {
     await setEmailVerified(existingUser.id);
     await deleteMagicLinkByToken(token);

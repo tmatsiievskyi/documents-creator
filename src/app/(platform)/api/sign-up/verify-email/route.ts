@@ -1,10 +1,12 @@
-import { setSession, signInWithMagicLinkService } from '@/services';
-import { URL_AFTER_LOGIN, URL_MAGIC_ERROR, URL_SIGN_IN } from '@/shared/constants';
+import { setSession } from '@/services';
+import { verifyEmailTokenService } from '@/services/user.service';
+import { URL_AFTER_LOGIN, URL_SIGN_UP } from '@/shared/constants';
 import { rateLimitByIp } from '@/utils/limiter.util';
 
 export const GET = async (req: Request) => {
   try {
-    await rateLimitByIp({ key: 'magic-link', limit: 10, window: 60000 });
+    await rateLimitByIp({ key: 'verify-email', limit: 10, window: 60000 });
+
     const url = new URL(req.url);
     const token = url.searchParams.get('token');
 
@@ -12,14 +14,14 @@ export const GET = async (req: Request) => {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: URL_SIGN_IN,
+          Location: URL_SIGN_UP,
         },
       });
     }
 
-    const user = await signInWithMagicLinkService(token);
+    const userId = await verifyEmailTokenService(token);
 
-    await setSession(user.id);
+    await setSession(userId);
 
     return new Response(null, {
       status: 302,
@@ -28,11 +30,11 @@ export const GET = async (req: Request) => {
       },
     });
   } catch (error) {
-    console.log(error); // Add logger
+    console.log(error);
     return new Response(null, {
       status: 302,
       headers: {
-        Location: URL_MAGIC_ERROR,
+        Location: URL_SIGN_UP,
       },
     });
   }

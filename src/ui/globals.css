@@ -51,7 +51,7 @@ body {
   .h3 {
     @apply text-[20px] leading-[28px] font-semibold;
   }
-  .body-1 {
+  .text-1 {
     @apply text-[16px] leading-[24px] font-normal;
   }
   .body-2 {
@@ -80,7 +80,7 @@ body {
   }
 
   .auth-form {
-    @apply flex max-h-[800px] w-full max-w-[580px] flex-col space-y-5 transition-all lg:h-full lg:space-y-6;
+    @apply flex text-left max-h-[800px] w-full max-w-[580px] flex-col space-y-5 transition-all lg:space-y-6;
   }
   /* ===== */
 

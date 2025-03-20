@@ -3,6 +3,7 @@ import { TSignInEmailSchema } from './_schemas';
 import { Button } from '@/ui/button';
 import { useFormContext } from 'react-hook-form';
 import Link from 'next/link';
+import { URL_SIGN_UP } from '@/shared/constants';
 
 export const SignInEmailForm = () => {
   const { handleSubmit } = useFormContext<TSignInEmailSchema>();
@@ -12,7 +13,7 @@ export const SignInEmailForm = () => {
   });
 
   return (
-    <form className="auth-form" onSubmit={onSubmit}>
+    <form className="auth-form text-left" onSubmit={onSubmit}>
       <RHFInput<TSignInEmailSchema> name="email" label="Email" placeholder="Enter your email" />
       <RHFInput<TSignInEmailSchema>
         name="password"
@@ -25,7 +26,7 @@ export const SignInEmailForm = () => {
       </Button>
       <div className=" body-2 flex-center">
         <p className="text-muted-200">{"Don't have an account?"}</p>{' '}
-        <Link className="ml-2 text-primary" href="/sign-up">
+        <Link className="text-primary ml-2" href={URL_SIGN_UP}>
           Sign Up
         </Link>
       </div>

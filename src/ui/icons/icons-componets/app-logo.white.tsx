@@ -3,7 +3,7 @@ export function AppLogoWhite({
   colorType,
 }: {
   customClassName?: string;
-  colorType: 'white' | 'primary';
+  colorType?: 'white' | 'primary';
 }) {
   const bgColor = colorType === 'white' ? '#fff' : '#447a9c';
   const itemColor = colorType === 'white' ? '#447a9c' : '#fff';

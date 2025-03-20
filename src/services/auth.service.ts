@@ -83,8 +83,6 @@ export const deleteUserSession = async (userId: string) => {
 export const validateRequest = async () => {
   const sessionToken = await getSessionToken();
 
-  console.log(sessionToken, 4);
-
   if (!sessionToken) {
     return { user: null, session: null };
   }

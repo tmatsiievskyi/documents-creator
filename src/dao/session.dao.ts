@@ -2,15 +2,16 @@ import { database } from '@/db';
 import { sessionsTable, TSessionInsert, usersTable } from '@/db/export-schema';
 import { eq } from 'drizzle-orm';
 
-export const createSessionDao = async (session: TSessionInsert) =>
+export const createSessionDao = async (session: TSessionInsert) => {
   await database.insert(sessionsTable).values(session);
+};
 
 export const getSessionWithUserById = async (sessionId: string) => {
   const result = await database
     .select({ user: usersTable, session: sessionsTable })
     .from(sessionsTable)
     .innerJoin(usersTable, eq(sessionsTable.userId, usersTable.id))
-    .where(eq(sessionsTable.userId, usersTable.id));
+    .where(eq(sessionsTable.id, sessionId));
 
   return result;
 };

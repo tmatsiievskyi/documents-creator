@@ -6,6 +6,7 @@ import { documentsTable } from './documents';
 import { accountsTable } from './account';
 import { profilesTable } from './profile';
 import { sessionsTable } from './session';
+import { verifyEmailTable } from './verify-email';
 
 export const usersTable = pgTable(
   'doc_users',
@@ -50,6 +51,11 @@ export const usersRelations = relations(usersTable, ({ one, many }) => ({
     fields: [usersTable.id],
     references: [sessionsTable.id],
     relationName: 'UserSession',
+  }),
+  userVerifyEmail: one(verifyEmailTable, {
+    fields: [usersTable.id],
+    references: [verifyEmailTable.userId],
+    relationName: 'UserVerifyEmail',
   }),
 }));
 

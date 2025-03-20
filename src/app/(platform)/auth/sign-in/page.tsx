@@ -3,12 +3,13 @@ import { Divider, icons } from '@/ui';
 import { Button } from '@/ui/button';
 import Link from 'next/link';
 import { SignInMagicForm } from './sign-in_magic.form';
+import { URL_SIGN_IN_EMAIL } from '@/shared/constants';
 
 const SignIn = () => {
   const EmailIcon = icons['Mail'];
   return (
     <>
-      <h2 className="form-title mb-2">Sign in</h2>
+      <h2 className="form-title mb-6">Sign in</h2>
       <p className="body-2 mb-4 text-gray-500">
         Sign in to your account using one of the options below.
       </p>
@@ -19,7 +20,7 @@ const SignIn = () => {
       <div>
         <Button variant="ghost">
           <EmailIcon />
-          <Link href="/sign-in/email">Sign in with Email and Password</Link>
+          <Link href={URL_SIGN_IN_EMAIL}>Sign in with Email and Password</Link>
         </Button>
       </div>
     </>

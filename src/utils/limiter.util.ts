@@ -14,8 +14,6 @@ const trackers: Record<string, { count: number; expiresAt: number }> = {};
 const pruneTrackers = () => {
   const now = Date.now();
 
-  console.log('prune tracker', now);
-
   for (const key in trackers) {
     if (trackers[key].expiresAt < now) {
       delete trackers[key];

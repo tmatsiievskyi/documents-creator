@@ -26,6 +26,7 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_MAGIC_LINK_EXPIRES: z.string().min(1),
+    NEXT_PUBLIC_VERIFY_EMAIL_TOKEN: z.string().min(1),
     NEXT_PUBLIC_NODE_ENV: z.string().min(1),
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
   },
@@ -54,6 +55,7 @@ export const env = createEnv({
     EMAIL_SERVER_PASSWORD: process.env.EMAIL_SERVER_PASSWORD,
     // --- client
     NEXT_PUBLIC_MAGIC_LINK_EXPIRES: process.env.NEXT_PUBLIC_MAGIC_LINK_EXPIRES,
+    NEXT_PUBLIC_VERIFY_EMAIL_TOKEN: process.env.NEXT_PUBLIC_VERIFY_EMAIL_TOKEN,
     NEXT_PUBLIC_NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
   },
