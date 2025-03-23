@@ -1,6 +1,6 @@
 import { SignUpForm } from '@/components/forms/auth';
 
-const Page = () => {
+const SignUpPage = () => {
   return (
     <>
       <h2 className="form-title mb-6">Sign up</h2>
@@ -9,4 +9,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default SignUpPage;

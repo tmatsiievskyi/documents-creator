@@ -1,4 +1,4 @@
-import { RateLimitError } from '@/lib/app-errors';
+import { RateLimitError } from '@/shared/app-errors';
 import { getIp } from './ip.util';
 
 type TLimiterProps = {

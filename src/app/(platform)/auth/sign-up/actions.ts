@@ -2,7 +2,7 @@
 
 import { signUpSchema } from '@/components/forms/auth/_schemas';
 import { unathenticatedAction } from '@/lib/safe-action';
-import { registerUserService } from '@/services/user.service';
+import { registerUserService } from '@/services';
 import { URL_SIGN_UP_EMAIL } from '@/shared/constants';
 import { rateLimitByIp } from '@/utils/limiter.util';
 import { redirect } from 'next/navigation';

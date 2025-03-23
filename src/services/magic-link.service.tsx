@@ -1,14 +1,13 @@
 import {
-  createUserByMagicLink,
+  createUserDao,
   deleteMagicLinkByToken,
   getMagicLinkByToken,
-  getUserByEmail,
-  setEmailVerified,
+  getUserByEmailDao,
+  updateUserByIdDao,
   upsertMagicLink,
 } from '@/dao';
-import { createProfileByUserId } from '@/dao/profile.dao';
 import { MagicLinkEmail } from '@/emails';
-import { PublicError } from '@/lib/app-errors';
+import { PublicError } from '@/shared/app-errors';
 import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/resend';
 
@@ -36,15 +35,18 @@ export const signInWithMagicLinkService = async (token: string) => {
     throw new PublicError('Your magic link have expired');
   }
 
-  const existingUser = await getUserByEmail(magicLinkInfo.email);
+  const existingUser = await getUserByEmailDao(magicLinkInfo.email);
 
   if (existingUser) {
-    await setEmailVerified(existingUser.id);
+    await updateUserByIdDao(existingUser.id, { userData: { emailVerified: new Date() } });
     await deleteMagicLinkByToken(token);
     return existingUser;
   } else {
-    const newUser = await createUserByMagicLink(magicLinkInfo.email);
-    await createProfileByUserId(newUser.id);
+    const newUser = await createUserDao({
+      userData: { email: magicLinkInfo.email },
+      accountData: { accountType: 'email' },
+    });
+    // await createProfileByUserId(newUser.id);
     await deleteMagicLinkByToken(token);
 
     return newUser;

@@ -1,0 +1,1 @@
+ALTER TABLE "doc_accounts" DROP COLUMN "salt";

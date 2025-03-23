@@ -1,28 +1,24 @@
 import { TSignUpSchema } from '@/components/forms/auth/_schemas';
-import {
-  createAccountDao,
-  createProfileByUserId,
-  createUserDao,
-  getUserByEmail,
-  updateUserByIdDao,
-} from '@/dao';
+import { createUserDao, getUserByEmailDao, updateUserByIdDao } from '@/dao';
 import { getVerifyEmailTokenDao, upsertVerifyEmailToken } from '@/dao/verify-email.dao';
 import { VerifyEmail } from '@/emails';
-import { PublicError } from '@/lib/app-errors';
+import { PublicError } from '@/shared/app-errors';
 import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/resend';
 import { APP_UI_NAME } from '@/shared/constants';
 
 export const registerUserService = async (data: TSignUpSchema) => {
-  const userExists = await getUserByEmail(data.email);
+  const userExists = await getUserByEmailDao(data.email);
 
   if (userExists) {
     throw new PublicError('User with this email already exists');
   }
 
-  const user = await createUserDao(data.email);
-  await createAccountDao(user.id, data.password);
-  await createProfileByUserId(user.id, data.fullName);
+  const user = await createUserDao({
+    userData: { email: data.email },
+    accountData: { password: data.password, accountType: 'email' },
+    profileData: { fullName: data.fullName },
+  });
   const token = await upsertVerifyEmailToken(user.id);
 
   await sendEmail(
@@ -42,7 +38,7 @@ export const verifyEmailTokenService = async (token: string) => {
   }
 
   const userId = tokenExists.userId;
-  await updateUserByIdDao(userId, { emailVerified: new Date() });
+  await updateUserByIdDao(userId, { userData: { emailVerified: new Date() } });
 
   return userId;
 };

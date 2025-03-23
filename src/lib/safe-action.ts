@@ -1,5 +1,5 @@
 import { rateLimitByKey } from '@/utils/limiter.util';
-import { PublicError } from './app-errors';
+import { PublicError } from '../shared/app-errors';
 import { env } from './env';
 import { createServerActionProcedure } from 'zsa';
 import { checkIfAuthenticated } from '@/services';

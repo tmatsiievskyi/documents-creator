@@ -57,7 +57,7 @@ export const SignUpForm = () => {
         </LoadingButton>
         <div className=" body-2 flex-center">
           <p className="text-muted-200">Already have an account?</p>{' '}
-          <Link className="text-primary ml-2" href={URL_SIGN_IN}>
+          <Link className="ml-2 text-primary" href={URL_SIGN_IN}>
             Sign In
           </Link>
         </div>

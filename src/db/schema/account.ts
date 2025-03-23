@@ -16,7 +16,6 @@ export const accountsTable = pgTable(
     facebookId: text('facebook_id').unique(),
     googleId: text('google_id').unique(),
     password: text('password'),
-    salt: text('salt'),
 
     ...timestamps,
   },

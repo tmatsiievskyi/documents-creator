@@ -35,8 +35,7 @@ const deserializeHash = (hashedString: string) => {
   return { salt, hash, saltBuf, hashBuf };
 };
 
-// eslint-disable-next-line no-unused-vars
-const compareStrings = async (
+export const compareStrings = async (
   hashedString?: string | null,
   normalString?: string
 ): Promise<boolean> => {

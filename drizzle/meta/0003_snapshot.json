@@ -1,6 +1,6 @@
 {
-  "id": "4bcfe765-4ef5-4cf8-ab50-757ca99cb460",
-  "prevId": "1c1c71e3-6efa-47e1-8ae4-e28f48044c18",
+  "id": "2b2d07b9-ec28-41f9-a254-5fb0203e9282",
+  "prevId": "4bcfe765-4ef5-4cf8-ab50-757ca99cb460",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -42,12 +42,6 @@
         },
         "password": {
           "name": "password",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "salt": {
-          "name": "salt",
           "type": "text",
           "primaryKey": false,
           "notNull": false

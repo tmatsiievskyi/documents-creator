@@ -23,3 +23,6 @@ export const profilesRelations = relations(profilesTable, ({ one }) => ({
     relationName: 'UserProfile',
   }),
 }));
+
+export type TProfile = typeof profilesTable.$inferSelect;
+export type TProfileInsert = typeof profilesTable.$inferInsert;
