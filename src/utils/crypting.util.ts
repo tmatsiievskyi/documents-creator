@@ -1,62 +1,61 @@
-import { HASH_ENCODING, HASH_KEY_LENGTH, SALT_DEVIDER, SALT_LENGTH } from '@/shared/constants';
+'use server';
+import { HASH_ENCODING, HASH_KEY_LENGTH, SALT_DIVIDER, SALT_LENGTH } from '@/shared/constants';
 import { randomBytes, timingSafeEqual, scrypt, randomUUID } from 'node:crypto';
 
-export class Crypting {
-  static hashString(data: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (!data) reject(null);
+export const hashString = async (data: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    if (!data) reject(null);
 
-      const salt = randomBytes(SALT_LENGTH);
+    const salt = randomBytes(SALT_LENGTH);
 
-      scrypt(data, salt, HASH_KEY_LENGTH, (err, derivedKey) => {
-        if (err) reject(err);
+    scrypt(data, salt, HASH_KEY_LENGTH, (err, derivedKey) => {
+      if (err) reject(err);
 
-        resolve(this.serializeHash(derivedKey, salt));
-      });
+      resolve(serializeHash(derivedKey, salt));
     });
+  });
+};
+
+const serializeHash = (hash: Buffer, salt: Buffer) => {
+  const saltString = salt.toString(HASH_ENCODING).split('=')[0];
+  const hashString = hash.toString(HASH_ENCODING).split('=')[0];
+
+  return `${saltString}${SALT_DIVIDER}${hashString}`;
+};
+
+const deserializeHash = (hashedString: string) => {
+  const [salt, hash] = hashedString.split(SALT_DIVIDER);
+  if (!salt || !hash) {
+    throw new Error(`String: \n ${hashedString} can not be deserialized`);
   }
 
-  static serializeHash(hash: Buffer, salt: Buffer) {
-    const saltString = salt.toString(HASH_ENCODING).split('=')[0];
-    const hashString = hash.toString(HASH_ENCODING).split('=')[0];
+  const saltBuf = Buffer.from(salt, HASH_ENCODING);
+  const hashBuf = Buffer.from(hash, HASH_ENCODING);
 
-    return `${saltString}${SALT_DEVIDER}${hashString}`;
-  }
+  return { salt, hash, saltBuf, hashBuf };
+};
 
-  static deserializeHash(hashedString: string) {
-    const [salt, hash] = hashedString.split(SALT_DEVIDER);
-    if (!salt || !hash) {
-      throw new Error(`String: \n ${hashedString} can not be deserialized`);
+export const compareStrings = async (
+  hashedString?: string | null,
+  normalString?: string
+): Promise<boolean> => {
+  return new Promise(resolve => {
+    if (!hashedString || !normalString) {
+      return resolve(false);
     }
 
-    const saltBuf = Buffer.from(salt, HASH_ENCODING);
-    const hashBuf = Buffer.from(hash, HASH_ENCODING);
+    const { saltBuf, hashBuf } = deserializeHash(hashedString);
 
-    return { salt, hash, saltBuf, hashBuf };
-  }
-
-  static async compareStrings(
-    hashedString?: string | null,
-    normalString?: string
-  ): Promise<boolean> {
-    return new Promise(resolve => {
-      if (!hashedString || !normalString) {
+    scrypt(normalString, saltBuf, HASH_KEY_LENGTH, (err, derivedKey) => {
+      if (err || hashBuf.length !== derivedKey.length) {
         return resolve(false);
       }
 
-      const { saltBuf, hashBuf } = this.deserializeHash(hashedString);
-
-      scrypt(normalString, saltBuf, HASH_KEY_LENGTH, (err, derivedKey) => {
-        if (err || hashBuf.length !== derivedKey.length) {
-          return resolve(false);
-        }
-
-        return resolve(timingSafeEqual(hashBuf, derivedKey));
-      });
+      return resolve(timingSafeEqual(hashBuf, derivedKey));
     });
-  }
+  });
+};
 
-  static generateUUID() {
-    return randomUUID();
-  }
-}
+export const generateUUID = async () => {
+  return randomUUID();
+};

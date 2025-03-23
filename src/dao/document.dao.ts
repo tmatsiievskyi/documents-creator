@@ -1,7 +1,10 @@
 import { database } from '@/db';
-import { documents } from '@/db/schema/documents';
+import { documentsTable } from '@/db/export-schema';
 import { eq } from 'drizzle-orm';
 
 export const getDocumentsBy = async (companyId: string) => {
-  return await database.select().from(documents).where(eq(documents.ownerCompanyId, companyId));
+  return await database
+    .select()
+    .from(documentsTable)
+    .where(eq(documentsTable.ownerCompanyId, companyId));
 };

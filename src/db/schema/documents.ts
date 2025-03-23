@@ -1,7 +1,7 @@
 import { check, index, jsonb, pgEnum, pgTable, text, uuid } from 'drizzle-orm/pg-core';
 import { timestamps } from '../helpers';
-import { users } from './user';
-import { companies } from './companies';
+import { usersTable } from './user';
+import { companiesTable } from './companies';
 import { relations, sql } from 'drizzle-orm';
 
 // Document entity
@@ -16,8 +16,8 @@ export const documentOwnerTypeEnum = pgEnum('document_owner_type', ['USER', 'COM
 
 export const documentVisibility = pgEnum('document_visibility', ['PRIVATE', 'TEAM', 'GROUP']);
 
-export const documents = pgTable(
-  'documents',
+export const documentsTable = pgTable(
+  'doc_documents',
   {
     id: uuid('id').primaryKey().defaultRandom(),
     coverImage: text('cover_image'),
@@ -27,14 +27,14 @@ export const documents = pgTable(
     plainText: text('plain_text'),
 
     ownerType: documentOwnerTypeEnum('owner_type').notNull(),
-    ownerCompanyId: uuid('owner_company_id').references(() => companies.id, {
+    ownerCompanyId: uuid('owner_company_id').references(() => companiesTable.id, {
       onDelete: 'cascade',
     }),
-    ownerUserId: uuid('owner_user_id').references(() => users.id, { onDelete: 'set null' }),
+    ownerUserId: uuid('owner_user_id').references(() => usersTable.id, { onDelete: 'set null' }),
 
     authorId: uuid('author_id')
       .notNull()
-      .references(() => users.id, { onDelete: 'set null' }),
+      .references(() => usersTable.id, { onDelete: 'set null' }),
 
     ...timestamps,
   },
@@ -53,23 +53,23 @@ export const documents = pgTable(
   ]
 );
 
-export const documentsRelations = relations(documents, ({ one }) => ({
-  ownerUser: one(users, {
-    fields: [documents.ownerUserId],
-    references: [users.id],
+export const documentsRelations = relations(documentsTable, ({ one }) => ({
+  ownerUser: one(usersTable, {
+    fields: [documentsTable.ownerUserId],
+    references: [usersTable.id],
     relationName: 'UserOwnedDocuments',
   }),
-  ownerCompany: one(companies, {
-    fields: [documents.ownerCompanyId],
-    references: [companies.id],
+  ownerCompany: one(companiesTable, {
+    fields: [documentsTable.ownerCompanyId],
+    references: [companiesTable.id],
     relationName: 'CompanyOwnedDocuments',
   }),
-  author: one(users, {
-    fields: [documents.authorId],
-    references: [users.id],
+  author: one(usersTable, {
+    fields: [documentsTable.authorId],
+    references: [usersTable.id],
     relationName: 'AuthoredUserDocuments',
   }),
 }));
 
-export type TDocument = typeof documents.$inferSelect;
-export type TDocumentInsert = typeof documents.$inferInsert;
+export type TDocument = typeof documentsTable.$inferSelect;
+export type TDocumentInsert = typeof documentsTable.$inferInsert;

@@ -12,14 +12,16 @@ body {
     --primary: 203 39% 44%;
     --primary-frg: 0 0% 100%;
     --secondary: 182 43% 76%;
+    --muted-100: 215 24.32% 70.98%;
+    --muted-200: 220 8.94 46.08;
     --dark: 215 50% 23%;
+    --light-100: 220 30% 96.08%;
+    --light-200: 214.29 36.84% 96.27%;
+    --light-300: 215 24.32% 70.98%;
+    --light-400: 213.33 20.93% 25.29%;
     --destructive: 355 78% 56%;
+    --radius: 0.5rem;
   }
-  .dark {
-  }
-}
-
-@layer base {
   body {
     @apply bg-white text-primary;
   }
@@ -37,5 +39,112 @@ body {
       -ms-overflow-style: none; /* IE and Edge */
       scrollbar-width: none; /* Firefox */
     }
+  }
+
+  /* =====  TEXT */
+  .h1 {
+    @apply text-[34px] leading-[42px] font-bold;
+  }
+  .h2 {
+    @apply text-[24px] leading-[36px] font-bold;
+  }
+  .h3 {
+    @apply text-[20px] leading-[28px] font-semibold;
+  }
+  .text-1 {
+    @apply text-[16px] leading-[24px] font-normal;
+  }
+  .body-2 {
+    @apply text-[14px] leading-[20px] font-normal;
+  }
+  /* ===== */
+
+  /* =====  FORM */
+  .form-title {
+    @apply h1 text-center;
+  }
+  .form-item {
+    @apply relative flex py-3 flex-col justify-center rounded-xl border-light-100 px-4 shadow-inputShadow;
+  }
+  .form-item-error {
+    @apply border border-destructive;
+  }
+  .form-input {
+    @apply border-none shadow-none shad-no-focus placeholder:text-muted-100 body-2;
+  }
+  .form-label {
+    @apply text-muted-200 mb-1 body-2 w-full;
+  }
+  .form-input-error {
+    @apply text-xs text-left text-destructive block absolute bottom-0 translate-y-full;
+  }
+
+  .auth-form {
+    @apply flex text-left max-h-[800px] w-full max-w-[580px] flex-col space-y-5 transition-all lg:space-y-6;
+  }
+  /* ===== */
+
+  /* =====  BUTTON */
+  .button {
+    @apply text-[14px] leading-[20px] py-6 font-medium;
+  }
+  .primary-btn {
+    @apply bg-primary text-light-100 hover:bg-primary/90 transition-all rounded-full button;
+  }
+  .form-submit-button {
+    @apply primary-btn;
+  }
+  /* ===== */
+
+  /* =====  CONTAINERS */
+  .container {
+    @apply mx-auto max-w-7xl px-5;
+  }
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  /* ===== */
+
+  /* =====  SHADCN OVERRIDES */
+  .shad-no-focus {
+    @apply outline-none ring-offset-transparent focus:ring-transparent focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+  }
+  .shad-form-label {
+    @apply text-light-100 pt-2 body-2 w-full !important;
+  }
+  .shad-form-message {
+    @apply text-red body-2 ml-4 !important;
+  }
+  .shad-alert-dialog {
+    @apply space-y-4 max-w-[95%] sm:w-fit rounded-xl md:rounded-[30px] px-4 md:px-8 py-10 bg-white outline-none !important;
+  }
+  .shad-submit-btn {
+    @apply bg-brand button hover:bg-brand-100 transition-all rounded-full !important;
+  }
+  .shad-otp {
+    @apply w-full flex gap-1 sm:gap-2 justify-between !important;
+  }
+  .shad-otp-slot {
+    @apply text-[40px] font-medium rounded-xl ring-brand shadow-drop-1 text-primary justify-center flex border-2 border-muted-100 size-12 md:size-16 gap-5 !important;
+  }
+
+  .shad-sheet {
+    @apply pt-0 !important;
+  }
+  .shad-sheet button,
+  .shad-dialog button {
+    @apply focus:ring-0 focus:ring-offset-0 focus-visible:border-none outline-none focus-visible:outline-none focus-visible:ring-transparent focus-visible:ring-offset-0 !important;
+  }
+  .shad-dropdown-item {
+    @apply cursor-pointer !important;
+  }
+  .shad-dialog {
+    @apply rounded-[26px] w-[90%] max-w-[400px] px-6 py-8   !important;
+  }
+  .shad-chart-title {
+    @apply text-white !important;
+  }
+  .shad-select-item {
+    @apply cursor-pointer !important;
   }
 }
