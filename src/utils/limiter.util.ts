@@ -26,8 +26,6 @@ setInterval(pruneTrackers, PRUNE_INTERVAL);
 export const rateLimitByIp = async ({ key, limit, window }: TLimiterProps) => {
   const ip = getIp();
 
-  console.log(ip);
-
   if (!ip) {
     throw new RateLimitError();
   }
@@ -45,8 +43,6 @@ export const rateLimitByKey = async ({
   window = 10000,
 }: TLimiterProps) => {
   const tracker = trackers[key] || { count: 0, expiresAt: 0 };
-
-  console.log({ info: 'RATEBYKEY', trackers, tracker });
 
   if (!trackers[key]) {
     trackers[key] = tracker;

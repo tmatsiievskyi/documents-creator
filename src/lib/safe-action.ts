@@ -10,8 +10,6 @@ const shapeErrors = ({ err }: any) => {
 
   const isDev = env.NEXT_PUBLIC_NODE_ENV === 'development';
   if (isAllowedError || isDev) {
-    console.log(err);
-
     return {
       code: err.code ?? 'ERROR',
       message: `${!isAllowedError && isDev ? 'DEV ONLY ENABLED - ' : ''}${err.message}`,

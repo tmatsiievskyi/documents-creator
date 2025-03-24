@@ -7,6 +7,7 @@ import {
   TUserInsert,
   usersTable,
 } from '@/db/export-schema';
+import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
 import { eq } from 'drizzle-orm';
 
 type TGetUserOptions = {
@@ -14,72 +15,131 @@ type TGetUserOptions = {
   includeAccount?: boolean;
 };
 
+const logger = createDaoLogger('user.dao');
+
 export const getUserByIdDao = async (userId: string, options: TGetUserOptions = {}) => {
-  const { includeAccount = false, includeProfile = false } = options;
+  return await withPerfomanceLogger(
+    async () => {
+      logger.debug({ userId, options }, 'Getting user by id');
 
-  if (!includeAccount && !includeProfile) {
-    const user = await database.query.usersTable.findFirst({
-      where: eq(usersTable.id, userId),
-    });
+      try {
+        const { includeAccount = false, includeProfile = false } = options;
 
-    if (!user) {
-      return null;
-    }
+        if (!includeAccount && !includeProfile) {
+          const user = await database.query.usersTable.findFirst({
+            where: eq(usersTable.id, userId),
+          });
 
-    return { ...user, userProfile: null, userAccounts: null };
-  }
+          if (!user) {
+            logger.info({ userId }, 'User  by Id not found');
 
-  const user = await database.query.usersTable.findFirst({
-    where: eq(usersTable.id, userId),
-    with: {
-      ...(includeProfile ? { userProfile: true } : {}),
-      ...(includeAccount ? { userAccounts: true } : {}),
+            return null;
+          }
+
+          logger.debug({ userId }, 'Found user by Id without relations');
+          return { ...user, userProfile: null, userAccounts: null };
+        }
+
+        const user = await database.query.usersTable.findFirst({
+          where: eq(usersTable.id, userId),
+          with: {
+            ...(includeProfile ? { userProfile: true } : {}),
+            ...(includeAccount ? { userAccounts: true } : {}),
+          },
+        });
+
+        if (!user) {
+          logger.info({ userId }, 'User by Id not found');
+          return null;
+        }
+
+        logger.debug(
+          {
+            userId,
+            hasProfile: !!user.userProfile,
+            accountsCount: user.userAccounts?.length,
+          },
+          'Found user by ID with relations'
+        );
+
+        return {
+          ...user,
+          userProfile: user.userProfile || null,
+          userAccounts: user.userAccounts || null,
+        };
+      } catch (error) {
+        logger.error(
+          {
+            userId,
+            error: error instanceof Error ? error.message : String(error),
+          },
+          'Error getting user by ID'
+        );
+        throw error;
+      }
     },
-  });
-
-  if (!user) {
-    return null;
-  }
-
-  return {
-    ...user,
-    userProfile: user.userProfile || null,
-    userAccounts: user.userAccounts || null,
-  };
+    logger,
+    'doc_users-get-by-id'
+  );
 };
 
 export const getUserByEmailDao = async (email: string, options: TGetUserOptions = {}) => {
-  const { includeAccount = false, includeProfile = false } = options;
+  return await withPerfomanceLogger(
+    async () => {
+      logger.debug({ email, options }, 'Getting user by email');
 
-  if (!includeAccount && !includeProfile) {
-    const user = await database.query.usersTable.findFirst({
-      where: eq(usersTable.email, email),
-    });
+      try {
+        const { includeAccount = false, includeProfile = false } = options;
 
-    if (!user) {
-      return null;
-    }
+        if (!includeAccount && !includeProfile) {
+          const user = await database.query.usersTable.findFirst({
+            where: eq(usersTable.email, email),
+          });
 
-    return { ...user, userProfile: null, userAccounts: null };
-  }
+          if (!user) {
+            logger.info({ email }, 'User  by email not found');
 
-  const user = await database.query.usersTable.findFirst({
-    where: eq(usersTable.email, email),
-    with: {
-      ...(includeAccount ? { userAccounts: true } : {}),
-      ...(includeProfile ? { userProfile: true } : {}),
+            return null;
+          }
+
+          logger.debug({ email }, 'Found user by email without relations');
+          return { ...user, userProfile: null, userAccounts: null };
+        }
+
+        const user = await database.query.usersTable.findFirst({
+          where: eq(usersTable.email, email),
+          with: {
+            ...(includeAccount ? { userAccounts: true } : {}),
+            ...(includeProfile ? { userProfile: true } : {}),
+          },
+        });
+
+        if (!user) {
+          logger.debug({ email }, 'User by email not found');
+
+          return null;
+        }
+
+        return {
+          ...user,
+          userAccounts: user.userAccounts || null,
+          userProfile: user.userProfile || null,
+        };
+      } catch (error) {
+        logger.error(
+          {
+            email,
+            error: error instanceof Error ? error.message : String(error),
+          },
+          'Error getting user by Email'
+        );
+
+        throw error;
+      }
     },
-  });
-
-  if (!user) {
-    return null;
-  }
-
-  return {
-    ...user,
-    userAccounts: user.userAccounts || null,
-    userProfile: user.userProfile || null,
-  };
+    logger,
+    'doc_users-get-by-email'
+  );
 };
 
 export const createUserDao = async ({
@@ -91,42 +151,78 @@ export const createUserDao = async ({
   accountData?: Omit<TAccountInsert, 'userId'>;
   profileData?: Omit<TProfileInsert, 'userId'>;
 }) => {
-  const txResult = await database.transaction(async tx => {
-    const [user] = await tx.insert(usersTable).values(userData).returning();
+  return await withPerfomanceLogger(
+    async () => {
+      logger.debug({ email: userData.email }, 'Creating user');
+      try {
+        const txResult = await database.transaction(async tx => {
+          const [user] = await tx.insert(usersTable).values(userData).returning();
+          logger.info({ userId: user.id }, 'Created a user');
 
-    let userProfile = null;
-    if (profileData) {
-      const [newProfile] = await tx
-        .insert(profilesTable)
-        .values({ ...profileData, userId: user.id })
-        .returning();
-      userProfile = newProfile;
-    }
+          let userProfile = null;
+          if (profileData) {
+            const [newProfile] = await tx
+              .insert(profilesTable)
+              .values({ ...profileData, userId: user.id })
+              .returning();
+            userProfile = newProfile;
+            logger.info({ userId: user.id, profileId: newProfile.id }, 'Created a profile');
+          }
 
-    let userAccounts = null;
-    if (accountData) {
-      const [newAccount] = await tx
-        .insert(accountsTable)
-        .values({ ...accountData, userId: user.id })
-        .returning();
-      userAccounts = newAccount;
-    }
+          let userAccounts = null;
+          if (accountData) {
+            const [newAccount] = await tx
+              .insert(accountsTable)
+              .values({ ...accountData, userId: user.id })
+              .returning();
+            userAccounts = newAccount;
+            logger.info({ userId: user.id, accountId: newAccount.id }, 'Created a account');
+          }
 
-    return {
-      ...user,
-      userProfile,
-      userAccounts,
-    };
-  });
+          return {
+            ...user,
+            userProfile,
+            userAccounts,
+          };
+        });
 
-  return txResult;
+        return txResult;
+      } catch (error) {
+        logger.error(
+          {
+            email: userData.email,
+            error: error instanceof Error ? error.message : String(error),
+          },
+          'Error creating user'
+        );
+        throw error;
+      }
+    },
+    logger,
+    'doc_users-create'
+  );
 };
 
 export const setEmailVerified = async (userId: string) => {
-  await database
-    .update(usersTable)
-    .set({ emailVerified: new Date() })
-    .where(eq(usersTable.id, userId));
+  logger.debug({ userId }, 'Setting email verified for user by id');
+
+  try {
+    await database
+      .update(usersTable)
+      .set({ emailVerified: new Date() })
+      .where(eq(usersTable.id, userId));
+
+    logger.info({ userId }, 'Email marked as verified');
+  } catch (error) {
+    logger.error(
+      {
+        userId,
+        error: error instanceof Error ? error.message : String(error),
+      },
+      'Error setting email verified'
+    );
+    throw error;
+  }
 };
 
 export const updateUserByIdDao = async (
@@ -137,90 +233,121 @@ export const updateUserByIdDao = async (
     accountData?: Partial<TAccountInsert>;
   }
 ) => {
-  const txResult = await database.transaction(async tx => {
-    let user = null;
-    let account = null;
-    let profile = null;
+  logger.debug(
+    {
+      userId,
+      hasUserData: !!updData.userData,
+      hasProfileData: !!updData.profileData,
+      hasAccountData: !!updData.accountData,
+    },
+    'Updating user data'
+  );
 
-    const { userData, profileData, accountData } = updData;
+  return await withPerfomanceLogger(
+    async () => {
+      return await database.transaction(async tx => {
+        let user = null;
+        let account = null;
+        let profile = null;
 
-    if (userData && Object.keys(userData).length > 0) {
-      const [updatedUser] = await tx
-        .update(usersTable)
-        .set(userData)
-        .where(eq(usersTable.id, userId))
-        .returning();
+        const { userData, profileData, accountData } = updData;
 
-      user = updatedUser;
-    }
-
-    if (profileData && Object.keys(profileData).length > 0) {
-      const existingProfile = await tx
-        .select()
-        .from(profilesTable)
-        .where(eq(profilesTable.userId, userId))
-        .limit(1);
-
-      if (existingProfile.length > 0) {
-        const [updatedProfile] = await tx
-          .update(profilesTable)
-          .set(profileData)
-          .where(eq(profilesTable.userId, userId))
-          .returning();
-        profile = updatedProfile;
-      } else {
-        const [newProfile] = await tx
-          .insert(profilesTable)
-          .values({ ...profileData, userId })
-          .returning();
-
-        profile = newProfile;
-      }
-    }
-
-    if (accountData && Object.keys(accountData).length > 0) {
-      const { accountType, ...restAccountUpdateData } = accountData;
-
-      if (accountType) {
-        const existingAccount = await tx
-          .select()
-          .from(accountsTable)
-          .where(eq(accountsTable.userId, userId) && eq(accountsTable.accountType, accountType))
-          .limit(1);
-
-        if (existingAccount.length > 0) {
-          const [updatedAccount] = await tx
-            .update(accountsTable)
-            .set(restAccountUpdateData)
-            .where(eq(accountsTable.userId, userId) && eq(accountsTable.accountType, accountType))
+        if (userData && Object.keys(userData).length > 0) {
+          const [updatedUser] = await tx
+            .update(usersTable)
+            .set(userData)
+            .where(eq(usersTable.id, userId))
             .returning();
 
-          account = updatedAccount;
-        } else {
-          const [newAccount] = await tx
-            .insert(accountsTable)
-            .values({ ...restAccountUpdateData, accountType, userId })
-            .returning();
-
-          account = newAccount;
+          user = updatedUser;
+          logger.debug({ userId }, 'Updated user record');
         }
-      }
-    }
 
-    if (!user) {
-      const userFromDb = await tx.query.usersTable.findFirst({
-        where: eq(usersTable.id, userId),
+        if (profileData && Object.keys(profileData).length > 0) {
+          const existingProfile = await tx
+            .select()
+            .from(profilesTable)
+            .where(eq(profilesTable.userId, userId))
+            .limit(1);
+
+          if (existingProfile.length > 0) {
+            const [updatedProfile] = await tx
+              .update(profilesTable)
+              .set(profileData)
+              .where(eq(profilesTable.userId, userId))
+              .returning();
+            profile = updatedProfile;
+            logger.debug({ userId }, 'Updated existing profile');
+          } else {
+            const [newProfile] = await tx
+              .insert(profilesTable)
+              .values({ ...profileData, userId })
+              .returning();
+
+            profile = newProfile;
+            logger.debug({ userId }, 'Created new profile during update');
+          }
+        }
+
+        if (accountData && Object.keys(accountData).length > 0) {
+          const { accountType, ...restAccountUpdateData } = accountData;
+
+          if (accountType) {
+            const existingAccount = await tx
+              .select()
+              .from(accountsTable)
+              .where(eq(accountsTable.userId, userId) && eq(accountsTable.accountType, accountType))
+              .limit(1);
+
+            if (existingAccount.length > 0) {
+              const [updatedAccount] = await tx
+                .update(accountsTable)
+                .set(restAccountUpdateData)
+                .where(
+                  eq(accountsTable.userId, userId) && eq(accountsTable.accountType, accountType)
+                )
+                .returning();
+
+              account = updatedAccount;
+              logger.debug({ userId, accountType }, 'Updated existing account');
+            } else {
+              const [newAccount] = await tx
+                .insert(accountsTable)
+                .values({ ...restAccountUpdateData, accountType, userId })
+                .returning();
+
+              account = newAccount;
+              logger.debug({ userId, accountType }, 'Created new account during update');
+            }
+          }
+        }
+
+        if (!user) {
+          const userFromDb = await tx.query.usersTable.findFirst({
+            where: eq(usersTable.id, userId),
+          });
+
+          user = userFromDb;
+        }
+
+        logger.info(
+          {
+            userId,
+            hasUpdatedUser: !!user,
+            hasUpdatedProfile: !!profile,
+            hasUpdatedAccount: !!account,
+          },
+          'User updated successfully'
+        );
+
+        return {
+          user,
+          account,
+          profile,
+        };
       });
-
-      user = userFromDb;
-    }
-
-    return {
-      user,
-      account,
-      profile,
-    };
-  });
-
-  return txResult;
+    },
+    logger,
+    'update-user'
+  );
 };

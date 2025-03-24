@@ -1,14 +1,22 @@
+import { createRequestLogger } from '@/lib/logger/logger';
 import { setSession, signInWithMagicLinkService } from '@/services';
 import { URL_AFTER_LOGIN, URL_MAGIC_ERROR, URL_SIGN_IN } from '@/shared/constants';
 import { rateLimitByIp } from '@/utils/limiter.util';
 
+const logger = createRequestLogger();
+
 export const GET = async (req: Request) => {
+  logger.debug('GET. Magic link verififcation request');
+
   try {
     await rateLimitByIp({ key: 'magic-link', limit: 10, window: 60000 });
+    logger.debug('Rate limit check passed');
+
     const url = new URL(req.url);
     const token = url.searchParams.get('token');
 
     if (!token) {
+      logger.info('Missing token in magic link request, redirecting to sign in');
       return new Response(null, {
         status: 302,
         headers: {
@@ -17,10 +25,14 @@ export const GET = async (req: Request) => {
       });
     }
 
+    logger.debug('Verifying magic link token');
     const user = await signInWithMagicLinkService(token);
+    logger.info({ userId: user.id }, 'Magic link verified successfully');
 
+    logger.debug({ userId: user.id }, 'Setting user session');
     await setSession(user.id);
 
+    logger.info({ userId: user.id }, 'User authenticated via magic link, redirecting to dashboard');
     return new Response(null, {
       status: 302,
       headers: {
@@ -28,7 +40,14 @@ export const GET = async (req: Request) => {
       },
     });
   } catch (error) {
-    console.log(error); // Add logger
+    logger.error(
+      {
+        error: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+      },
+      'Magic link verification failed'
+    );
+
     return new Response(null, {
       status: 302,
       headers: {
