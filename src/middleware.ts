@@ -1,21 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { cookieMiddleware } from './middlewares';
+import { cookieMiddleware, reqMiddleware } from './middlewares';
 
 function middleware(req: NextRequest, res: NextResponse) {
-  const pathname = req.nextUrl.pathname;
+  const { pathname } = req.nextUrl;
+
+  // if (pathname.startsWith('/auth')) {
+  //   return cookieMiddleware(req);
+  // }
+
+  // const response = NextResponse.next();
+  // response.headers.set('x-pathname', pathname);
+
+  // return response;
 
   if (pathname.startsWith('/auth')) {
-    return cookieMiddleware(req);
+    return authRouteMiddleware(req);
   }
 
-  const response = NextResponse.next();
-  response.headers.set('x-pathname', pathname);
+  return defaultMiddleware(req);
+}
 
-  return response;
+function authRouteMiddleware(req: NextRequest) {
+  let res = NextResponse.next();
+
+  res = reqMiddleware(req, res);
+  res = cookieMiddleware(req, res);
+
+  return res;
+}
+
+function defaultMiddleware(req: NextRequest) {
+  let res = NextResponse.next();
+
+  res = reqMiddleware(req, res);
+
+  return res;
 }
 
 export default middleware;
 
 export const config = {
-  matcher: ['/auth/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)'],
 };

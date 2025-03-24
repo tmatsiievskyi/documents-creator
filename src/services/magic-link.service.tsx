@@ -10,28 +10,41 @@ import { MagicLinkEmail } from '@/emails';
 import { PublicError } from '@/shared/app-errors';
 import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/resend';
+import { createServiceLogger } from '@/lib/logger/logger';
+
+const logger = createServiceLogger('magic-link-service');
 
 export const sendMagicLinkService = async (email: string) => {
+  logger.debug({ email }, 'Attempting to send magic link email');
   const token = await upsertMagicLink(email);
 
-  await sendEmail(
-    email,
-    `Your login email for ${env.APP_NAME}`,
-    <MagicLinkEmail
-      link={`${env.HOST_NAME}/api/sign-in/magic?token=${token}`}
-      expiryMinutes={+env.MAGIC_LINK_EXPIRES / 60 / 1000}
-    />
-  );
+  try {
+    await sendEmail(
+      email,
+      `Your login email for ${env.APP_NAME}`,
+      <MagicLinkEmail
+        link={`${env.HOST_NAME}/api/sign-in/magic?token=${token}`}
+        expiryMinutes={+env.MAGIC_LINK_EXPIRES / 60 / 1000}
+      />
+    );
+    logger.info({ email }, 'Sent magic-link email successfully');
+  } catch (error) {
+    logger.error({ error }, 'Magic-link email was not send');
+    throw error;
+  }
 };
 
 export const signInWithMagicLinkService = async (token: string) => {
+  logger.debug('Attempting to login with magic link');
   const magicLinkInfo = await getMagicLinkByToken(token);
 
   if (!magicLinkInfo) {
+    logger.info('Magic Link not found');
     throw new PublicError('Invalid or expired magic link');
   }
 
   if (magicLinkInfo.tokenExpiresAt! < new Date()) {
+    logger.info({ email: magicLinkInfo.email }, 'Magic Link has expired');
     throw new PublicError('Your magic link have expired');
   }
 
@@ -40,15 +53,17 @@ export const signInWithMagicLinkService = async (token: string) => {
   if (existingUser) {
     await updateUserByIdDao(existingUser.id, { userData: { emailVerified: new Date() } });
     await deleteMagicLinkByToken(token);
+    logger.info({ email: existingUser.email }, 'Magic link. Used existing user');
     return existingUser;
   } else {
     const newUser = await createUserDao({
       userData: { email: magicLinkInfo.email },
       accountData: { accountType: 'email' },
     });
-    // await createProfileByUserId(newUser.id);
+    logger.info({ email: newUser.email }, 'Magic link. Created new user');
     await deleteMagicLinkByToken(token);
 
+    logger.info({ email: newUser.email }, 'Deleted magic link');
     return newUser;
   }
 };

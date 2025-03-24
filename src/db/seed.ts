@@ -14,25 +14,18 @@ const companiesToCreate: TCompaniesInsert[] = [
 ];
 
 const seed = async () => {
-  console.log('Seeding data...');
-
   try {
     await database.delete(documentsTable);
     await database.delete(usersTable);
     await database.delete(companiesTable);
 
-    console.log('Seeding companies');
     const companyIds = await seedCompanies(companiesToCreate);
 
-    console.log('Seeding users');
     const createdUsers = await seedUsers(companyIds);
 
-    console.log('Seeding documents');
     await seedDocuments(createdUsers, companyIds);
-
-    console.log('✅ Seeding completed successfully. ✅');
   } catch (error) {
-    console.error('❌ Seeding error:', error);
+    console.log(error);
     throw error;
   }
 };
@@ -42,8 +35,6 @@ const seedCompanies = async (newCompanies: TCompaniesInsert[]) => {
     .insert(companiesTable)
     .values(newCompanies)
     .returning({ id: companiesTable.id });
-
-  console.log(`Inserted companies: ${insertedCompanies}`);
 
   return insertedCompanies.map(item => item.id);
 };
@@ -70,8 +61,6 @@ const seedUsers = async (companyIds: string[]) => {
     .insert(usersTable)
     .values([...baseUser, ...usersForCompanies])
     .returning();
-
-  console.log(`Inserted users: ${insertedUsers}`);
 
   return insertedUsers;
 };
@@ -100,13 +89,10 @@ const seedDocuments = async (inputUsers: TUser[], companyIds: string[]) => {
   });
 
   for (const companyId of companyIds) {
-    console.log(companyId);
     const companyUsersIds = await database
       .select({ id: usersTable.id })
       .from(usersTable)
       .where(eq(usersTable.companyId, companyId));
-
-    console.log(companyUsersIds);
 
     for (let i = 0; i < 3; i++) {
       const authorId = companyUsersIds[Math.floor(Math.random() * companyUsersIds.length)].id;
@@ -132,7 +118,7 @@ const seedDocuments = async (inputUsers: TUser[], companyIds: string[]) => {
   }
 
   const insertedDocuments = await database.insert(documentsTable).values(documentsArr).returning();
-  console.log(`Inserted documents: ${insertedDocuments}`);
+  console.dir({ insertedDocuments }, { deepth: 3 });
 };
 
 seed()

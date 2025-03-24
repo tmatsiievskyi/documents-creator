@@ -40,5 +40,5 @@ export const getShortcutDisplayValue = (
 export const componentEnv = (componentName?: string) => {
   const isClient = typeof window !== 'undefined';
 
-  console.log({ name: componentName, env: isClient ? 'client' : 'server' });
+  console.log(isClient);
 };
