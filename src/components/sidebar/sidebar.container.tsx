@@ -17,7 +17,7 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      <div className="bg-primary/15 w-full">
+      <div className="w-full bg-primary/15">
         <div className="mt-1 flex w-full justify-evenly overflow-x-scroll bg-white py-2 md:mt-0 md:flex-col md:py-0">
           <WithNavLinks />
         </div>
