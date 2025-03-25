@@ -9,7 +9,7 @@ export const verifyEmailTable = pgTable('doc_verify_email', {
     .notNull()
     .references(() => usersTable.id, { onDelete: 'cascade' }),
   token: text('token').notNull().unique(),
-  tokenExpiresAt: timestamp('token_expires_at', { mode: 'date' }),
+  tokenExpiresAt: timestamp('token_expires_at', { withTimezone: true, mode: 'date' }),
 
   ...timestamps,
 });

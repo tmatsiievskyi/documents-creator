@@ -2,6 +2,7 @@ import pino from 'pino';
 import { env } from '../env';
 import { v4 as uuidv4 } from 'uuid';
 import { transport } from './transport';
+import { timeUTC } from '@/utils';
 
 // TODO: maybe add to client
 
@@ -24,7 +25,7 @@ export const logger = pino({
   ...config[(env.NODE_ENV || 'development') as keyof typeof config],
   mixin() {
     return {
-      timestamp: new Date().toISOString(),
+      timestamp: timeUTC(),
     };
   },
   formatters: {

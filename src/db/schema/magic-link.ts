@@ -6,7 +6,7 @@ export const magicLinksTable = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     email: text('email').notNull().unique(),
     token: text('token').notNull().unique(),
-    tokenExpiresAt: timestamp('token_expires_at', { mode: 'date' }),
+    tokenExpiresAt: timestamp('token_expires_at', { withTimezone: true, mode: 'date' }),
   },
   table => [index('magic_links_token_idx').on(table.token)]
 );

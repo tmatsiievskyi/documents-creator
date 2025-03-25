@@ -3,6 +3,7 @@ import { database } from './index';
 import { companiesTable, TCompaniesInsert } from './schema/companies';
 import { documentsTable, TDocumentInsert } from './schema/documents';
 import { TUser, TUserInsert, usersTable } from './schema/user';
+import { timeUTC } from '@/utils';
 
 const companiesToCreate: TCompaniesInsert[] = [
   {
@@ -47,12 +48,12 @@ const seedUsers = async (companyIds: string[]) => {
       {
         email: `user1_${index}@${id}.com`,
         companyId: id,
-        emailVerified: new Date(),
+        emailVerified: timeUTC(),
       },
       {
         email: `user2_${index}@${id}.com`,
         companyId: id,
-        emailVerified: new Date(),
+        emailVerified: timeUTC(),
       },
     ];
   });

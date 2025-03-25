@@ -11,6 +11,7 @@ import { PublicError } from '@/shared/app-errors';
 import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/resend';
 import { createServiceLogger } from '@/lib/logger/logger';
+import { timeUTC } from '@/utils';
 
 const logger = createServiceLogger('magic-link-service');
 
@@ -43,7 +44,7 @@ export const signInWithMagicLinkService = async (token: string) => {
     throw new PublicError('Invalid or expired magic link');
   }
 
-  if (magicLinkInfo.tokenExpiresAt! < new Date()) {
+  if (magicLinkInfo.tokenExpiresAt! < timeUTC()) {
     logger.info({ email: magicLinkInfo.email }, 'Magic Link has expired');
     throw new PublicError('Your magic link have expired');
   }
@@ -51,7 +52,7 @@ export const signInWithMagicLinkService = async (token: string) => {
   const existingUser = await getUserByEmailDao(magicLinkInfo.email);
 
   if (existingUser) {
-    await updateUserByIdDao(existingUser.id, { userData: { emailVerified: new Date() } });
+    await updateUserByIdDao(existingUser.id, { userData: { emailVerified: timeUTC() } });
     await deleteMagicLinkByToken(token);
     logger.info({ email: existingUser.email }, 'Magic link. Used existing user');
     return existingUser;

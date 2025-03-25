@@ -1,7 +1,7 @@
 import { database } from '@/db';
 import { accountsTable } from '@/db/export-schema';
 import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
-import { hashString } from '@/utils';
+import { hashString } from '@/utils/crypting.util';
 
 const logger = createDaoLogger('account.dao');
 

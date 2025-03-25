@@ -8,6 +8,7 @@ import {
   usersTable,
 } from '@/db/export-schema';
 import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
+import { timeUTC } from '@/utils';
 import { eq } from 'drizzle-orm';
 
 type TGetUserOptions = {
@@ -209,7 +210,7 @@ export const setEmailVerified = async (userId: string) => {
   try {
     await database
       .update(usersTable)
-      .set({ emailVerified: new Date() })
+      .set({ emailVerified: timeUTC() })
       .where(eq(usersTable.id, userId));
 
     logger.info({ userId }, 'Email marked as verified');
