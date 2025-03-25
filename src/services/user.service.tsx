@@ -6,6 +6,7 @@ import { PublicError } from '@/shared/app-errors';
 import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/resend';
 import { APP_UI_NAME } from '@/shared/constants';
+import { timeUTC } from '@/utils';
 
 export const registerUserService = async (data: TSignUpSchema) => {
   const userExists = await getUserByEmailDao(data.email);
@@ -38,7 +39,7 @@ export const verifyEmailTokenService = async (token: string) => {
   }
 
   const userId = tokenExists.userId;
-  await updateUserByIdDao(userId, { userData: { emailVerified: new Date() } });
+  await updateUserByIdDao(userId, { userData: { emailVerified: timeUTC() } });
 
   return userId;
 };

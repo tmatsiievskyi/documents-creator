@@ -25,8 +25,9 @@ import { TSignInEmailSchema, TSignUpSchema } from '@/components/forms/auth/_sche
 import { getVerifyEmailTokenDao, upsertVerifyEmailToken } from '@/dao/verify-email.dao';
 import { sendEmail } from '@/lib/resend';
 import { VerifyEmail } from '@/emails';
-import { compareStrings, hashString } from '@/utils';
+import { compareStrings, hashString } from '@/utils/crypting.util';
 import { createServiceLogger } from '@/lib/logger/logger';
+import { timeUTC } from '@/utils';
 
 const logger = createServiceLogger('auth-service');
 
@@ -235,7 +236,7 @@ export const verifyEmailTokenService = async (token: string) => {
 
   const userId = tokenExists.userId;
   logger.info({ userId }, 'Email verified successfully');
-  await updateUserByIdDao(userId, { userData: { emailVerified: new Date() } });
+  await updateUserByIdDao(userId, { userData: { emailVerified: timeUTC() } });
 
   return userId;
 };

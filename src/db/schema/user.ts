@@ -13,7 +13,7 @@ export const usersTable = pgTable(
   {
     id: uuid('id').primaryKey().defaultRandom(),
     email: varchar('email', { length: 256 }).unique(),
-    emailVerified: timestamp('email_verified', { mode: 'date' }),
+    emailVerified: timestamp('email_verified', { withTimezone: true, mode: 'date' }),
     companyId: uuid('company_id').references(() => companiesTable.id, {
       onDelete: 'set null',
     }),

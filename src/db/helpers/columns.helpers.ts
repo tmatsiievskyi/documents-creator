@@ -1,7 +1,12 @@
 import { timestamp } from 'drizzle-orm/pg-core';
 
+export const nowUTC = () => new Date(Date.now());
+
 export const timestamps = {
-  updated_at: timestamp(),
-  created_at: timestamp().defaultNow().notNull(),
-  deleted_at: timestamp(),
+  created_at: timestamp({ withTimezone: true, mode: 'date' }).defaultNow().notNull(),
+  updated_at: timestamp({ withTimezone: true, mode: 'date' })
+    .defaultNow()
+    .notNull()
+    .$onUpdate(() => nowUTC()),
+  deleted_at: timestamp({ withTimezone: true, mode: 'date' }),
 };
