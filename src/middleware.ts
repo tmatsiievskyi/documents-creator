@@ -4,15 +4,6 @@ import { cookieMiddleware, reqMiddleware } from './middlewares';
 function middleware(req: NextRequest, res: NextResponse) {
   const { pathname } = req.nextUrl;
 
-  // if (pathname.startsWith('/auth')) {
-  //   return cookieMiddleware(req);
-  // }
-
-  // const response = NextResponse.next();
-  // response.headers.set('x-pathname', pathname);
-
-  // return response;
-
   if (pathname.startsWith('/auth')) {
     return authRouteMiddleware(req);
   }
