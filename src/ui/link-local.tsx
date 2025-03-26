@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
-import Link, { LinkProps } from 'next/link';
+import { LinkProps } from 'next/link';
+import { Link } from '@/lib/i18n';
 
 export type TLinkProps = {
   children: ReactNode;
   className?: string;
   to?: string;
+  locale?: string;
 } & LinkProps;
 
 export const LinkLocal = ({ className, href, children, ...props }: TLinkProps) => {

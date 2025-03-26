@@ -10,6 +10,7 @@ RUN corepack enable pnpm && pnpm i
 COPY src ./src
 COPY public ./public
 COPY drizzle ./drizzle
+COPY localization ./localization
 COPY next.config.ts .
 COPY tsconfig.json .
 COPY tailwind.config.ts .

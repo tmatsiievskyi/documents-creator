@@ -10,6 +10,7 @@ services:
       - ../src:/app/src
       - ../public:/app/public
       - ../drizzle:/app/drizzle
+      - ../localization:/app/localization
     restart: always
     ports:
       - 3000:3000

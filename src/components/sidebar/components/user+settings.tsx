@@ -1,4 +1,4 @@
-import { signOutAction } from '@/app/(platform)/auth/sign-in/actions';
+import { signOutAction } from '@/app/[locale]/(platform)/auth/sign-in/actions';
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   createUserDao,
   deleteMagicLinkByToken,
@@ -12,17 +13,22 @@ import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/resend';
 import { createServiceLogger } from '@/lib/logger/logger';
 import { timeUTC } from '@/utils';
+import { getTranslations } from 'next-intl/server';
 
 const logger = createServiceLogger('magic-link-service');
 
 export const sendMagicLinkService = async (email: string) => {
   logger.debug({ email }, 'Attempting to send magic link email');
+  const t = await getTranslations('email.magic_link');
   const token = await upsertMagicLink(email);
+  const app_name = `${env.APP_NAME}`;
+
+  const emailTitle = t('preview', { app_name });
 
   try {
     await sendEmail(
       email,
-      `Your login email for ${env.APP_NAME}`,
+      emailTitle,
       <MagicLinkEmail
         link={`${env.HOST_NAME}/api/sign-in/magic?token=${token}`}
         expiryMinutes={+env.MAGIC_LINK_EXPIRES / 60 / 1000}
