@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { env } from '@/lib/env';
 import {
   Body,
@@ -14,20 +15,23 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components';
+import { getTranslations } from 'next-intl/server';
 
-export const MagicLinkEmail = ({
+export const MagicLinkEmail = async ({
   expiryMinutes,
   link,
 }: {
   expiryMinutes: number;
   link: string;
 }) => {
-  const previewText = `Your secure login link for ${env.APP_NAME}`;
+  const t = await getTranslations('email.magic_link');
+
+  const app_name = `${env.APP_NAME}`;
 
   return (
     <Html>
       <Head />
-      <Preview>{previewText}</Preview>
+      <Preview>{t('preview', { app_name })}</Preview>
       <Tailwind>
         <Body className="bg-gray-100 py-2 font-sans">
           <Container className="mx-auto my-4 max-w-md rounded-lg bg-white p-8 shadow-md">
@@ -42,11 +46,10 @@ export const MagicLinkEmail = ({
             </Section>
             <Section>
               <Heading className="mb-6 text-center text-2xl font-semibold text-gray-800">
-                Login to {env.APP_NAME}
+                {t('title', { app_name })}
               </Heading>
               <Text className="mb-6 text-center text-gray-600">
-                Click the button below to securely log in to your account. This link is valid for{' '}
-                {expiryMinutes} minutes and can only be used once.
+                {t('description', { expiry_minutes: expiryMinutes })}
               </Text>
             </Section>
 
@@ -55,14 +58,12 @@ export const MagicLinkEmail = ({
                 href={link}
                 className="rounded-md bg-[#447a9c] px-6 py-3 text-base font-medium text-white no-underline hover:bg-[#447a9c]/80"
               >
-                Login Securely
+                {t('button')}
               </Button>
             </Section>
 
             <Section className="my-[32px] text-center">
-              <Text className="mb-6 text-sm text-gray-500">
-                If the button doesn&apos;t work, copy and paste this link into your browser:
-              </Text>
+              <Text className="mb-6 text-sm text-gray-500">{t('help')}</Text>
 
               <Section className="mb-6 overflow-hidden rounded-md bg-gray-50 p-3">
                 <Link href={link} className="break-all text-xs text-blue-600">
@@ -73,16 +74,14 @@ export const MagicLinkEmail = ({
 
             <Hr className="my-6 border-gray-200" />
 
-            <Text className="text-center text-xs text-gray-400">
-              If you didn&apos;t request this login link, you can safely ignore this email.
-            </Text>
+            <Text className="text-center text-xs text-gray-400">{t('not_requested')}</Text>
 
             <Text className="mt-4 text-center text-xs text-gray-400">
-              For security, this link expires in {expiryMinutes} minutes.
+              {t('info', { expiry_minutes: expiryMinutes })}
             </Text>
 
             <Text className="mt-6 text-center text-xs text-gray-400">
-              &copy; {new Date().getFullYear()} {env.APP_NAME}. All rights reserved.
+              &copy; {t('date', { date: new Date().getFullYear(), app_name })}
             </Text>
           </Container>
         </Body>

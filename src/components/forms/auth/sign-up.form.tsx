@@ -3,16 +3,19 @@
 import { RHFInput } from '@/lib/rhf';
 import { signUpDefaultValues, signUpSchema, TSignUpSchema } from './_schemas';
 import { useForm } from 'react-hook-form';
-import Link from 'next/link';
+import { Link } from '@/lib/i18n';
+// import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/ui';
 import { useServerAction } from 'zsa-react';
-import { signUpAction } from '@/app/(platform)/auth/sign-up/actions';
+import { signUpAction } from '@/app/[locale]/(platform)/auth/sign-up/actions';
 import { toast } from 'sonner';
 import { LoadingButton } from '@/components/buttons';
 import { URL_SIGN_IN } from '@/shared/constants';
+import { useTranslations } from 'next-intl';
 
 export const SignUpForm = () => {
+  const t = useTranslations('sign_up_email_form');
   const form = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
     defaultValues: signUpDefaultValues,
@@ -35,30 +38,34 @@ export const SignUpForm = () => {
       <form className="auth-form" onSubmit={form.handleSubmit(onSubmit)}>
         <RHFInput<TSignUpSchema>
           name="fullName"
-          label="Full Name"
-          placeholder="Enter your Full Name"
+          label={t('input_fullname_label')}
+          placeholder={t('input_fullname_placeholder')}
         />
 
-        <RHFInput<TSignUpSchema> name="email" label="Email" placeholder="Enter your email" />
+        <RHFInput<TSignUpSchema>
+          name="email"
+          label={t('input_email_label')}
+          placeholder={t('input_email_placeholder')}
+        />
         <RHFInput<TSignUpSchema>
           name="password"
-          label="Password"
-          placeholder="Enter your password"
+          label={t('input_password_label')}
+          placeholder={t('input_password_placeholder')}
           type="password"
         />
         <RHFInput<TSignUpSchema>
           name="passwordConfirm"
-          label="Password Confirm"
-          placeholder="Repeat your password"
+          label={t('input_password_confirm_label')}
+          placeholder={t('input_password_confirm_placeholder')}
           type="password"
         />
         <LoadingButton type="submit" className="form-submit-button" isLooading={isPending}>
-          Sign Up
+          {t('button')}
         </LoadingButton>
         <div className=" body-2 flex-center">
-          <p className="text-muted-200">Already have an account?</p>{' '}
+          <p className="text-muted-200">{t('sign_up_question')}</p>{' '}
           <Link className="ml-2 text-primary" href={URL_SIGN_IN}>
-            Sign In
+            {t('link')}
           </Link>
         </div>
       </form>

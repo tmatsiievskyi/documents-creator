@@ -3,16 +3,19 @@
 import { RHFInput } from '@/lib/rhf';
 import { signInEmailDefaultValues, signInEmailSchema, TSignInEmailSchema } from './_schemas';
 import { useForm } from 'react-hook-form';
-import Link from 'next/link';
+import { Link } from '@/lib/i18n';
+// import Link from 'next/link';
 import { URL_SIGN_UP } from '@/shared/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/ui';
 import { useServerAction } from 'zsa-react';
-import { signInEmailAction } from '@/app/(platform)/auth/sign-in/email/actions';
+import { signInEmailAction } from '@/app/[locale]/(platform)/auth/sign-in/email/actions';
 import { toast } from 'sonner';
 import { LoadingButton } from '@/components/buttons';
+import { useTranslations } from 'next-intl';
 
 export const SignInEmailForm = () => {
+  const t = useTranslations('sign_in_email_form');
   const form = useForm<TSignInEmailSchema>({
     resolver: zodResolver(signInEmailSchema),
     defaultValues: signInEmailDefaultValues,
@@ -38,19 +41,23 @@ export const SignInEmailForm = () => {
   return (
     <Form {...form}>
       <form className="auth-form text-left" onSubmit={form.handleSubmit(onSubmit)}>
-        <RHFInput<TSignInEmailSchema> name="email" label="Email" placeholder="Enter your email" />
+        <RHFInput<TSignInEmailSchema>
+          name="email"
+          label={t('input_email_label')}
+          placeholder={t('input_email_placeholder')}
+        />
         <RHFInput<TSignInEmailSchema>
           name="password"
-          label="Password"
-          placeholder="Enter your password"
+          label={t('input_password_label')}
+          placeholder={t('input_password_placeholder')}
           inputClassName="shad-input"
           type="password"
         />
-        <LoadingButton isLooading={isPending}>Sign In</LoadingButton>
+        <LoadingButton isLooading={isPending}>{t('button')}</LoadingButton>
         <div className=" body-2 flex-center">
-          <p className="text-muted-200">{"Don't have an account?"}</p>{' '}
+          <p className="text-muted-200">{t('sign_up_question')}</p>
           <Link className="ml-2 text-primary" href={URL_SIGN_UP}>
-            Sign Up
+            {t('link')}
           </Link>
         </div>
       </form>
