@@ -9,18 +9,48 @@ body {
 @layer base {
   :root {
     --rootBG: 105 55% 96%;
-    --primary: 203 39% 44%;
-    --primary-frg: 0 0% 100%;
+    --brand: 203 39% 44%;
     --secondary: 182 43% 76%;
     --muted-100: 215 24.32% 70.98%;
     --muted-200: 220 8.94 46.08;
-    --dark: 215 50% 23%;
     --light-100: 220 30% 96.08%;
     --light-200: 214.29 36.84% 96.27%;
     --light-300: 215 24.32% 70.98%;
     --light-400: 213.33 20.93% 25.29%;
     --destructive: 355 78% 56%;
     --radius: 0.5rem;
+    --radius: 0.625rem;
+    --background: 1 0 0;
+    --foreground: 0.141 0.005 285.823;
+    --card: 1 0 0;
+    --card-foreground: 0.141 0.005 285.823;
+    --popover: 1 0 0;
+    --popover-foreground: 0.141 0.005 285.823;
+    --primary: 0.21 0.006 285.885;
+    --primary-foreground: 0.985 0 0;
+    --secondary: 0.967 0.001 286.375;
+    --secondary-foreground: 0.21 0.006 285.885;
+    --muted: 0.967 0.001 286.375;
+    --muted-foreground: 0.552 0.016 285.938;
+    --accent: 0.967 0.001 286.375;
+    --accent-foreground: 0.21 0.006 285.885;
+    --destructive: 0.577 0.245 27.325;
+    --border: 0.92 0.004 286.32;
+    --input: 0.92 0.004 286.32;
+    --ring: 0.705 0.015 286.067;
+    --chart-1: 0.646 0.222 41.116;
+    --chart-2: 0.6 0.118 184.704;
+    --chart-3: 0.398 0.07 227.392;
+    --chart-4: 0.828 0.189 84.429;
+    --chart-5: 0.769 0.188 70.08;
+    --sidebar: 0.985 0 0;
+    --sidebar-foreground: 0.141 0.005 285.823;
+    --sidebar-primary: 0.21 0.006 285.885;
+    --sidebar-primary-foreground: 0.985 0 0;
+    --sidebar-accent: 0.967 0.001 286.375;
+    --sidebar-accent-foreground: 0.21 0.006 285.885;
+    --sidebar-border: 0.92 0.004 286.32;
+    --sidebar-ring: 0.705 0.015 286.067;
   }
   body {
     @apply bg-white text-primary;
@@ -89,7 +119,7 @@ body {
     @apply text-[14px] leading-[20px] py-6 font-medium;
   }
   .primary-btn {
-    @apply bg-primary text-light-100 hover:bg-primary/90 transition-all rounded-full button;
+    @apply bg-brand hover:!bg-brand/90 text-light-100 transition-all rounded-xl button;
   }
   .form-submit-button {
     @apply primary-btn;

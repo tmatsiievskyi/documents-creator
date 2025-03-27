@@ -7,7 +7,7 @@ import { WithLngSelector } from '../lng-selector';
 
 export const Header = () => {
   return (
-    <header className="flex w-full items-center justify-between px-4 shadow">
+    <header className=" fixed top-0 z-20 flex w-full items-center justify-between bg-white/70 px-4  shadow backdrop-blur-md">
       <WithAppLogo logoColor="primary" customClassName="[&>svg]:size-14 [&>h3]:text-4xl" />
       <div className="flex">
         <WithLngSelector />
