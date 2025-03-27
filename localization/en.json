@@ -1,7 +1,15 @@
 {
   "marketing": {
-    "title": "The Document Editor for the Web",
-    "short-description": "Your documents write themselves (almost!): Leverage intelligent autocomplete for variables, saving you time and ensuring accuracy. Create reusable templates, combine and reuse items as elements, add to your documents physical signature and so more."
+    "title": "The <highlited>Document Editor</highlited> for the Web",
+    "short-description": "Your documents write themselves (almost!): Leverage intelligent autocomplete for variables, saving you time and ensuring accuracy. Create reusable templates, combine and reuse items as elements, add to your documents physical signature and so more.",
+    "info": {
+      "editor": {
+        "title": "Create Templates",
+        "description": "Transform your document creation process with our intelligent variable system. Simply click on any highlighted variable to customize your content in seconds. Reuse same temlates and just change variables to create new documents.",
+        "editor_message": "Click on variables to edit",
+        "editor_text": "Patient ((patient_name)). Given the patient's gender: ((gender)) and medical history, pay attention to ((health_risk_area)). Monitor the course of the illness, especially regarding ((specific_symptom_1)) and ((specific_symptom_2))."
+      }
+    }
   },
   "lng-selector": {
     "title": "Select Language",
