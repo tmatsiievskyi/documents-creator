@@ -35,9 +35,7 @@ export const RHFInput = <T extends Record<string, unknown>>({
       render={({ field, fieldState: { error } }) => (
         <div className="relative">
           <Input error={!!error} {...field} {...props} />
-          {error && (
-            <RHFErrorMessage className={errorMessageClassName}>{error.message}</RHFErrorMessage>
-          )}
+          {error && <RHFErrorMessage className={errorMessageClassName} message={error.message} />}
         </div>
       )}
     />

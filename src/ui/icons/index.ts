@@ -37,6 +37,14 @@ import {
   LogOut,
   LogIn,
   Globe,
+  UserRoundPen,
+  Building2,
+  User,
+  ImageIcon,
+  UploadIcon,
+  Squirrel,
+  X,
+  Trash2Icon,
 } from 'lucide-react';
 import { ExportPdf, GoogleIcon, FBIcon, AppLogoWhite } from './icons-componets';
 
@@ -85,4 +93,12 @@ export const icons = {
   LogOut,
   LogIn,
   Globe,
+  UserRoundPen,
+  Building2,
+  User,
+  ImageIcon,
+  UploadIcon,
+  Squirrel,
+  X,
+  Trash2Icon,
 };

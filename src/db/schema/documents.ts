@@ -57,17 +57,14 @@ export const documentsRelations = relations(documentsTable, ({ one }) => ({
   ownerUser: one(usersTable, {
     fields: [documentsTable.ownerUserId],
     references: [usersTable.id],
-    relationName: 'UserOwnedDocuments',
   }),
   ownerCompany: one(companiesTable, {
     fields: [documentsTable.ownerCompanyId],
     references: [companiesTable.id],
-    relationName: 'CompanyOwnedDocuments',
   }),
   author: one(usersTable, {
     fields: [documentsTable.authorId],
     references: [usersTable.id],
-    relationName: 'AuthoredUserDocuments',
   }),
 }));
 

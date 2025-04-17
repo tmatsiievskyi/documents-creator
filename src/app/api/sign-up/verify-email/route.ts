@@ -1,5 +1,6 @@
 import { createRequestLogger } from '@/lib/logger/logger';
-import { setSession, verifyEmailTokenService } from '@/services';
+import { setSession } from '@/lib/sessions';
+import { verifyEmailTokenService } from '@/services';
 import { URL_AFTER_LOGIN, URL_SIGN_UP } from '@/shared/constants';
 import { rateLimitByIp } from '@/utils/limiter.util';
 

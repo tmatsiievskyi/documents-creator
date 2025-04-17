@@ -2,7 +2,8 @@
 
 import { signInEmailSchema } from '@/components/forms/auth/_schemas';
 import { unathenticatedAction } from '@/lib/safe-action';
-import { setSession, signInUserWithEmailService } from '@/services';
+import { setSession } from '@/lib/sessions';
+import { signInUserWithEmailService } from '@/services';
 import { URL_AFTER_LOGIN } from '@/shared/constants';
 import { rateLimitByKey } from '@/utils/limiter.util';
 import { redirect } from 'next/navigation';

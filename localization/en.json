@@ -86,6 +86,142 @@
     "button": "Sign In",
     "divider_back": "Back to sign in page"
   },
+  "header": {
+    "sections": {
+      "your_profile": "Profile",
+      "company_info": "Company info",
+      "company_billings": "Company billings",
+      "company_members": "Company members",
+      "app_users": "Application users"
+    },
+    "avatar": {
+      "your_profile": "Profile",
+      "language": "Language",
+      "sign_out": "Sign out"
+    }
+  },
+  "settings_section": {
+    "company": {
+      "info": {
+        "card_title": "Company Information",
+        "card_description_editing": "Edit the company details below. Required fields are marked with an asterisk (*).",
+        "card_description_view": "View detailed information about this company."
+      }
+    }
+  },
+
+  "sidebar": {
+    "settings": {
+      "user": {
+        "title": "Settings",
+        "items": {
+          "profile": {
+            "title": "Profile"
+          }
+        }
+      },
+      "company": {
+        "title": "Company",
+        "items": {
+          "create_company": {
+            "title": "Create Company"
+          },
+          "company_info": {
+            "title": "Info"
+          },
+          "company_billings": {
+            "title": "Billings"
+          },
+          "company_members": {
+            "title": "Members"
+          },
+          "company_users": {
+            "title": "Users"
+          }
+        }
+      }
+    },
+    "dashboard": {}
+  },
+  "forms": {
+    "create_edit_view_company": {
+      "title": "Create Company",
+      "edit_title": "Edit your company",
+      "create_title": "Create your company",
+      "view_title": "View your company",
+      "edit_button": "Edit Company",
+      "edit_button_cancel": "Cancel",
+      "edit_button_save": "Save",
+
+      "description": "Fill out the information below to create a new company. You can navigate between tabs to complete different sections of the form.",
+      "description_info": "Information about your company. You can edit it by click on Edit Company. Required fields are marked with an asterisk (*).",
+      "tabs": {
+        "basic_info": "Basic info",
+        "contact_info": "Contact info",
+        "appearance_info": "Appearance"
+      },
+      "last_update": "Last update:",
+      "card_title": "Company Information",
+      "card_edit_description": "Enter the details of your company. Required fields are marked with an asterisk (*).",
+      "company_name": "Company name",
+      "info_company_address": "Company Address",
+      "info_company_address_description": "The physical location of your company.",
+
+      "company_status": "Company status",
+      "input_name_label": "Company Name *",
+      "input_name_placeholder": "Enter company name",
+      "input_description_label": "Description",
+      "input_description_placeholder": "A short description of your company, its mission, and what it does.",
+      "input_email_label": "Email Address *",
+      "input_email_placeholder": "A contact email for your company.",
+      "input_phone_label": "Phone Number *",
+      "input_phone_placeholder": "+38 (068) 123-45-67",
+      "input_website_label": "Website *",
+      "input_website_placeholder": "https://www.company.com",
+      "input_address_country_label": "Country",
+      "input_address_country_placeholder": "Ukraine",
+      "input_address_city_label": "City",
+      "input_address_city_placeholder": "Lviv",
+      "input_address_state_label": "State/Province",
+      "input_address_state_placeholder": "State or Province",
+      "input_address_street_label": "Street Address",
+      "input_address_street_placeholder": "123 Business Ave",
+      "input_address_postalCode_label": "Postal Code",
+      "input_address_postalCode_placeholder": "78000",
+
+      "button_next_contact": "Next: Contact Info",
+      "button_back_basic": "Back: Basic Info",
+      "button_next_appearance": "Next: Appearance",
+      "button_back_info": "Back: Contact Info",
+      "button_submit": "Create Company",
+
+      "created_success": "Company has been created"
+    }
+  },
+
+  "company": {
+    "status_active": "Active",
+    "status_pending": "Pending verification",
+    "status_inactive": "Inactive"
+  },
+
+  "404": {
+    "settings": {
+      "title": "Page not found",
+      "description": "Sorry, we couldn't find the page you're looking for. It might have been moved or deleted.",
+      "button_dashboard": "Return to Dashboard",
+      "button_profile": "Return to Profile"
+    }
+  },
+  "validation": {
+    "company_name_required": "Company name is required",
+    "company_name_too_long": "Company is too long",
+    "phone_required": "Phone is required",
+    "email_required": "Email is required",
+    "email_format": "Please enter a valid email",
+    "website_required": "Website is required"
+  },
+
   "email": {
     "magic_link": {
       "preview": "Your secure login link for {app_name}",

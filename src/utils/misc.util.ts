@@ -40,5 +40,9 @@ export const getShortcutDisplayValue = (
 export const componentEnv = (componentName?: string) => {
   const isClient = typeof window !== 'undefined';
 
-  console.log(isClient);
+  console.log(componentName, isClient);
+};
+
+export const errorHandler = (error: unknown) => {
+  return error instanceof Error ? error.message : String(error);
 };

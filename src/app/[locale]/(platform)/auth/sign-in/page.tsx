@@ -13,7 +13,7 @@ const SignIn = () => {
   return (
     <>
       <h2 className="form-title mb-6">{t('title')}</h2>
-      <p className="body-2 mb-4 text-gray-500">{t('description')}</p>
+      <p className="text-2 mb-4 text-gray-500">{t('description')}</p>
       <WithSocialAuth />
       <Divider text={t('divider_sign_in')} wrapperClassName="my-4" />
       <SignInMagicForm />

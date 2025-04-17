@@ -5,7 +5,6 @@ import { Divider } from '@/ui';
 import { Button } from '@/ui/button';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n';
-// import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

@@ -62,7 +62,7 @@ export const SignUpForm = () => {
         <LoadingButton type="submit" className="form-submit-button" isLooading={isPending}>
           {t('button')}
         </LoadingButton>
-        <div className=" body-2 flex-center">
+        <div className=" text-2 flex-center">
           <p className="text-muted-200">{t('sign_up_question')}</p>{' '}
           <Link className="ml-2 text-primary" href={URL_SIGN_IN}>
             {t('link')}

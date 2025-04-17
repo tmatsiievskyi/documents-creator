@@ -48,7 +48,7 @@ export function AutocompleteIllustration() {
             }}
           />
           <motion.div
-            className="bg-primary ml-1 h-5 w-0.5"
+            className="ml-1 h-5 w-0.5 bg-primary"
             animate={{ opacity: [1, 0, 1] }}
             transition={{
               duration: 1,
@@ -61,7 +61,7 @@ export function AutocompleteIllustration() {
 
       {/* Autocomplete popup */}
       <motion.div
-        className="bg-background absolute left-4 top-32 w-64 rounded-lg border p-2 shadow-lg"
+        className="absolute left-4 top-32 w-64 rounded-lg border bg-background p-2 shadow-lg"
         initial={{ opacity: 0, y: -10 }}
         animate={{
           opacity: [0, 1, 1, 0],
@@ -74,7 +74,7 @@ export function AutocompleteIllustration() {
           times: [0, 0.1, 0.9, 1],
         }}
       >
-        <div className="bg-muted text-primary flex items-center gap-2 rounded-md p-2 text-sm font-medium">
+        <div className="flex items-center gap-2 rounded-md bg-muted p-2 text-sm font-medium text-primary">
           <Command className="size-4" />
           <span>Suggested variable</span>
           <Sparkles className="ml-auto size-3" />
@@ -83,7 +83,7 @@ export function AutocompleteIllustration() {
         {[0, 1, 2].map(i => (
           <motion.div
             key={i}
-            className="hover:bg-muted mt-2 flex items-center gap-2 rounded-md p-2 text-sm"
+            className="mt-2 flex items-center gap-2 rounded-md p-2 text-sm hover:bg-muted"
             whileHover={{ backgroundColor: 'rgba(var(--muted), 0.5)' }}
           >
             <div className="size-3 rounded-full bg-slate-300 dark:bg-slate-600" />
@@ -100,7 +100,7 @@ export function AutocompleteIllustration() {
       ].map((highlight, i) => (
         <motion.div
           key={i}
-          className="bg-primary/20 absolute h-2 rounded"
+          className="absolute h-2 rounded bg-primary/20"
           style={{
             left: highlight.left,
             top: highlight.top,

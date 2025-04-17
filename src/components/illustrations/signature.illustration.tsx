@@ -40,7 +40,7 @@ export function SignatureIllustration() {
         }}
       >
         <motion.div
-          className="text-muted-foreground will-change-opacity absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm"
+          className="will-change-opacity absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm text-muted-foreground"
           animate={{ opacity: [0, 0.7, 0] }}
           transition={{
             duration: 3,
@@ -92,7 +92,7 @@ export function SignatureIllustration() {
         }}
       >
         <div className="relative">
-          <Pen className="text-primary size-6" />
+          <Pen className="size-6 text-primary" />
         </div>
       </motion.div>
 

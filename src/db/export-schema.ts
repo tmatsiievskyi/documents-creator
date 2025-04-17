@@ -6,3 +6,4 @@ export * from './schema/user';
 export * from './schema/profile';
 export * from './schema/session';
 export * from './schema/verify-email';
+export * from './schema/users-to-companies';

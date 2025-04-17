@@ -20,7 +20,6 @@ export const profilesRelations = relations(profilesTable, ({ one }) => ({
   user: one(usersTable, {
     fields: [profilesTable.userId],
     references: [usersTable.id],
-    relationName: 'UserProfile',
   }),
 }));
 
