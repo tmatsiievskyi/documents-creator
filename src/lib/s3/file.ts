@@ -12,7 +12,13 @@ const s3Client = new S3Client({
   },
 });
 
-export const uploadFileToBucket = async (file: File, filename: string) => {
+export type TServerFile = {
+  stream: () => ReadableStream;
+  type: string;
+  size: number;
+};
+
+export const uploadFileToBucket = async (file: TServerFile | File, filename: string) => {
   const Key = filename;
   const Bucket = env.CLOUDFLARE_BUCKET_NAME;
 

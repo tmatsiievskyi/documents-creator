@@ -1,3 +1,5 @@
+'use client';
+
 import { RHFUpload } from '@/lib/rhf';
 import { TUpdateCompanySchemaFE } from '@/lib/zod';
 import { MAX_UPLOAD_IMAGE_SIZE } from '@/shared/constants';

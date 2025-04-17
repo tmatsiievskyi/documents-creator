@@ -5,6 +5,12 @@ import { generateUUID } from '@/utils/crypting.util';
 
 const logger = createServiceLogger('company.service');
 
+type UploadableFile = {
+  stream: () => ReadableStream;
+  type: string;
+  size: number;
+};
+
 export const getCompanyImageURLService = (companyId: string, imageId: string) => {
   const bucketURL = getFilrUrlFromBucket({
     key: KEY_COMPANY_IMAGE(companyId, imageId),
@@ -12,7 +18,7 @@ export const getCompanyImageURLService = (companyId: string, imageId: string) =>
   return bucketURL;
 };
 
-export const uploadCompanyImageService = async (companyId: string, imageFile: File) => {
+export const uploadCompanyImageService = async (companyId: string, imageFile: UploadableFile) => {
   const imageId = await generateUUID();
   const key = KEY_COMPANY_IMAGE(companyId, imageId);
 

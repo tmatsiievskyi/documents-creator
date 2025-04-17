@@ -7,13 +7,13 @@ import {
 } from '@/dao/company.dao';
 import { TUser } from '@/db/export-schema';
 import { createServiceLogger } from '@/lib/logger/logger';
-import { uploadFileToBucket } from '@/lib/s3';
+import { TServerFile } from '@/lib/s3';
 import { NotFoundError, PublicError } from '@/shared/app-errors';
 import { generateUUID } from '@/utils/crypting.util';
 // import { getCompanyImageKey } from './file.service';
 import { TCreateCompanySchema, TUpdateCompanySchemaFE } from '@/lib/zod';
 import { TFullCompany } from '@/shared/types';
-import { KEY_COMPANY_IMAGE } from '@/shared/constants';
+// import { KEY_COMPANY_IMAGE } from '@/shared/constants';
 import { deleteCompanyImageService, uploadCompanyImageService } from './file.service';
 
 const logger = createServiceLogger('company.service');
@@ -27,7 +27,10 @@ export const createCompanyService = async (user: TUser, input: TCreateCompanySch
 
   if (companyImage) {
     const companyImageId = await generateUUID();
-    await uploadFileToBucket(companyImage, KEY_COMPANY_IMAGE(company.id, companyImageId));
+
+    const serverFile: TServerFile = companyImage as unknown as TServerFile;
+
+    await uploadCompanyImageService(company.id, serverFile);
     company = await updateCompanyDao(company.id, { companyImageId });
   }
 
@@ -54,13 +57,14 @@ export const updateCompanyService = async (
   const { companyImage, ...restData } = data;
   let imageData = {};
 
-  if (companyImage instanceof File) {
+  if (companyImage && typeof companyImage !== 'string') {
     if (company.companyImageId) {
       // delete existing company image
       await deleteCompanyImageService(companyId, company.companyImageId);
     }
 
-    const { imageId } = await uploadCompanyImageService(companyId, companyImage);
+    const serverFile: TServerFile = companyImage as unknown as TServerFile;
+    const { imageId } = await uploadCompanyImageService(companyId, serverFile);
     imageData = {
       companyImageId: imageId,
     };
