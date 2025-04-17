@@ -13,12 +13,12 @@ import { useServerAction } from 'zsa-react';
 import { createCompanyAction } from '@/app/[locale]/(platform)/settings/company/create/actions';
 import { toast } from 'sonner';
 
-import { AppearanceForm } from './components';
+// import { AppearanceForm } from './components';
 import { createCompanyDefaultValues, createCompanySchema, TCreateCompanySchema } from '@/lib/zod';
 
 export const CreateCompanyForm = () => {
   const [activeTab, setActiveTab] = useState('basic');
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  // const [previewImage, setPreviewImage] = useState<string | null>(null);
   const t = useTranslations('forms.create_edit_view_company');
   const form = useForm<TCreateCompanySchema>({
     resolver: zodResolver(createCompanySchema),
@@ -183,7 +183,7 @@ export const CreateCompanyForm = () => {
             </div>
           </TabsContent>
           <TabsContent value="appearance" className="mt-6">
-            <AppearanceForm previewImage={previewImage} setPreviewImage={setPreviewImage} />
+            {/* <AppearanceForm previewImage={previewImage} setPreviewImage={setPreviewImage} />  TODO: make it work with form and file type */}
             <div className="mt-4 flex justify-between">
               <Button type="button" variant="outline" onClick={goToPreviousTab}>
                 {t('button_back_info')}
