@@ -3,7 +3,7 @@ import { WithSidebar } from '@/components/sidebar';
 import { SidebarInset, SidebarProvider } from '@/ui/sidebar';
 import { ReactNode } from 'react';
 
-export const Layout = ({ children }: { children: ReactNode }) => {
+export default async function SettingsLayout({ children }: { children: ReactNode }) {
   return (
     <SidebarProvider>
       <WithSidebar location="settings" customClassName="[&>div]:border-r-0 h-full" />
@@ -13,6 +13,4 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       </SidebarInset>
     </SidebarProvider>
   );
-};
-
-export default Layout;
+}
