@@ -29,12 +29,16 @@ export const createCompanySchema = z.object({
   website: z.string().url('Please enter a valid URL').optional().nullable(),
   address: addressSchema,
   companyImage: z
-    .instanceof(File)
-    .refine(file => file.size < MAX_UPLOAD_IMAGE_SIZE, {
-      message: `Image must be less than ${MAX_UPLOAD_IMAGE_SIZE / 1024 / 1024}MB`,
-    })
-    .optional()
-    .nullable(),
+    .union([
+      typeof File !== 'undefined'
+        ? z.instanceof(File).refine(file => file.size < MAX_UPLOAD_IMAGE_SIZE, {
+            message: `Image must be less than ${MAX_UPLOAD_IMAGE_SIZE / 1024 / 1024}MB`,
+          })
+        : z.any(),
+      z.string().optional(),
+      z.null(),
+    ])
+    .optional(),
 }); // TODO: check
 
 export const updateCompanySchemaBE = createUpdateSchema(companiesTable);
@@ -46,9 +50,11 @@ export const updateCompanySchemaFE = createUpdateSchema(companiesTable, {
   address: addressSchema,
   companyImage: z
     .union([
-      z.instanceof(File).refine(file => file.size < MAX_UPLOAD_IMAGE_SIZE, {
-        message: `Image must be less than ${MAX_UPLOAD_IMAGE_SIZE / 1024 / 1024}MB`,
-      }),
+      typeof File !== 'undefined'
+        ? z.instanceof(File).refine(file => file.size < MAX_UPLOAD_IMAGE_SIZE, {
+            message: `Image must be less than ${MAX_UPLOAD_IMAGE_SIZE / 1024 / 1024}MB`,
+          })
+        : z.any(),
       z.string().optional(),
       z.null(),
     ])
