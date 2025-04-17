@@ -21,7 +21,6 @@ export const sessionsRelations = relations(sessionsTable, ({ one }) => ({
   user: one(usersTable, {
     fields: [sessionsTable.userId],
     references: [usersTable.id],
-    relationName: 'UserSession',
   }),
 }));
 

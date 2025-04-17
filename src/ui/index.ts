@@ -8,3 +8,5 @@ export * from './icons';
 export * from './form';
 export * from './input';
 export * from './divider';
+export * from './avatar';
+export * from './input-upload';

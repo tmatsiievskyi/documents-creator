@@ -6,6 +6,7 @@ export const env = createEnv({
     APP_NAME: z.string().min(1),
     NODE_ENV: z.string().optional(),
     HOST_NAME: z.string().min(1),
+
     // --- db
     POSTGRES_USER: z.string().min(1),
     POSTGRES_PASSWORD: z.string().min(1),
@@ -23,12 +24,18 @@ export const env = createEnv({
     EMAIL_SERVER_PORT: z.string().min(1),
     EMAIL_SERVER_USER: z.string().min(1),
     EMAIL_SERVER_PASSWORD: z.string().min(1),
+    // --- cloudflare
+    CLOUDFLARE_ACCOUNT_ID: z.string().min(1),
+    CLOUDFLARE_ACCESS_KEY_ID: z.string().min(1),
+    CLOUDFLARE_SECRET_ACCESS_KEY: z.string().min(1),
+    CLOUDFLARE_BUCKET_NAME: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_MAGIC_LINK_EXPIRES: z.string().min(1),
     NEXT_PUBLIC_VERIFY_EMAIL_TOKEN: z.string().min(1),
     NEXT_PUBLIC_NODE_ENV: z.string().min(1),
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
+    NEXT_PUBLIC_MAX_UPLOAD_IMAGE_SIZE_MB: z.string().min(1),
   },
   runtimeEnv: {
     // --- server
@@ -53,10 +60,17 @@ export const env = createEnv({
     EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT,
     EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER,
     EMAIL_SERVER_PASSWORD: process.env.EMAIL_SERVER_PASSWORD,
+
+    // --- cloudflare
+    CLOUDFLARE_ACCOUNT_ID: process.env.CLOUDFLARE_ACCOUNT_ID,
+    CLOUDFLARE_ACCESS_KEY_ID: process.env.CLOUDFLARE_ACCESS_KEY_ID,
+    CLOUDFLARE_SECRET_ACCESS_KEY: process.env.CLOUDFLARE_SECRET_ACCESS_KEY,
+    CLOUDFLARE_BUCKET_NAME: process.env.CLOUDFLARE_BUCKET_NAME,
     // --- client
     NEXT_PUBLIC_MAGIC_LINK_EXPIRES: process.env.NEXT_PUBLIC_MAGIC_LINK_EXPIRES,
     NEXT_PUBLIC_VERIFY_EMAIL_TOKEN: process.env.NEXT_PUBLIC_VERIFY_EMAIL_TOKEN,
     NEXT_PUBLIC_NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+    NEXT_PUBLIC_MAX_UPLOAD_IMAGE_SIZE_MB: process.env.NEXT_PUBLIC_MAX_UPLOAD_IMAGE_SIZE_MB,
   },
 });

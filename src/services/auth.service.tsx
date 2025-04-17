@@ -1,24 +1,6 @@
-import { TUser, TSession, TSessionInsert } from '@/db/export-schema';
-import {
-  APP_UI_NAME,
-  SESSION_AUTH_COOKIE_NAME,
-  SESSION_DURATION,
-  SESSION_RANDOM_LENGTH,
-  SESSION_REFRESH_INTERVAL,
-} from '@/shared/constants';
-import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
-import { sha256 } from '@oslojs/crypto/sha2';
-import {
-  createSessionDao,
-  createUserDao,
-  deleteSessionById,
-  deleteSessionByUserId,
-  getSessionWithUserById,
-  getUserByEmailDao,
-  updateSessionById,
-  updateUserByIdDao,
-} from '@/dao';
-import { cookies } from 'next/headers';
+// import 'server-only';
+import { APP_UI_NAME } from '@/shared/constants';
+import { createUserDao, deleteSessionByUserId, getUserByEmailDao, updateUserByIdDao } from '@/dao';
 import { env } from '@/lib/env';
 import { AuthError, LoginError, PublicError } from '@/shared/app-errors';
 import { TSignInEmailSchema, TSignUpSchema } from '@/components/forms/auth/_schemas';
@@ -28,80 +10,10 @@ import { VerifyEmail } from '@/emails';
 import { compareStrings, hashString } from '@/utils/crypting.util';
 import { createServiceLogger } from '@/lib/logger/logger';
 import { timeUTC } from '@/utils';
+import { cache } from 'react';
+import { getSessionToken, validateSessionToken } from '@/lib/sessions';
 
-const logger = createServiceLogger('auth-service');
-
-export const generateSessionToken = () => {
-  logger.debug('Generating new session token');
-
-  const bytes = new Uint8Array(SESSION_RANDOM_LENGTH);
-  crypto.getRandomValues(bytes);
-  const token = encodeBase32LowerCaseNoPadding(bytes);
-
-  return token;
-};
-
-export const getSessionToken = async () => {
-  logger.debug('Get session token');
-
-  const allCookies = await cookies();
-
-  const sessionCookie = allCookies.get(SESSION_AUTH_COOKIE_NAME)?.value;
-
-  return sessionCookie;
-};
-
-export const createSession = async (token: string, userId: string) => {
-  logger.debug({ userId }, 'Creating new session');
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-
-  const session: TSessionInsert = {
-    id: sessionId,
-    userId,
-    expiresAt: new Date(Date.now() + SESSION_DURATION),
-  };
-  await createSessionDao(session);
-  logger.info({ userId, expiresId: session.expiresAt }, 'Session created');
-
-  return session;
-};
-
-export const validateSessionToken = async (token: string) => {
-  logger.debug('Validating session token');
-  const sessionErrorResult = { session: null, user: null };
-  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
-
-  const sessionWithUser = await getSessionWithUserById(sessionId);
-
-  if (sessionWithUser.length < 1) {
-    logger.info('Session not found');
-    return sessionErrorResult;
-  }
-
-  const { session, user } = sessionWithUser[0];
-  logger.debug({ userId: user.id, sessionId: session.id }, 'Session found');
-
-  if (Date.now() >= session.expiresAt.getTime()) {
-    logger.info({ userId: user.id }, 'Session expired, deleting');
-    await deleteSessionById(session.id);
-    return sessionErrorResult;
-  }
-
-  if (Date.now() >= session.expiresAt.getTime() - SESSION_REFRESH_INTERVAL) {
-    logger.info({ userId: user.id }, 'Refreshing session expiry');
-    session.expiresAt = new Date(Date.now() + SESSION_DURATION);
-    await updateSessionById(session.id, { expiresAt: session.expiresAt });
-  }
-
-  logger.info({ userId: user.id, expiresId: session.expiresAt }, 'Session validated');
-
-  return { user, session };
-};
-
-export const deleteSession = async (sessionId: string) => {
-  logger.info('Deleting session');
-  await deleteSessionById(sessionId);
-};
+const logger = createServiceLogger('auth.service');
 
 export const deleteUserSession = async (userId: string) => {
   logger.info({ userId }, 'Deleting all sessions for user');
@@ -113,7 +25,7 @@ export const validateRequest = async () => {
   const sessionToken = await getSessionToken();
 
   if (!sessionToken) {
-    logger.info('Session token not found');
+    logger.warn('Session token not found');
     return { user: null, session: null };
   }
 
@@ -121,63 +33,34 @@ export const validateRequest = async () => {
   return validateSessionToken(sessionToken);
 };
 
-export const setSessionTokenCookie = async (token: string, expiresAt: Date) => {
-  const allCookies = await cookies();
-  allCookies.set(SESSION_AUTH_COOKIE_NAME, token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: env.NODE_ENV === 'production',
-    expires: expiresAt,
-    path: '/',
-  });
-};
-
-export const deleteSessionTokenCookie = async () => {
-  const allCookies = await cookies();
-  allCookies.set(SESSION_AUTH_COOKIE_NAME, '', {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 0,
-    path: '/',
-  });
-};
-
-export const setSession = async (userId: string) => {
-  logger.debug('Setting session');
-  const token = generateSessionToken();
-  const session = await createSession(token, userId);
-  await setSessionTokenCookie(token, session.expiresAt);
-  logger.info('Setting session successfully');
-};
-
-export const getCurrentUser = async () => {
+export const getCurrentUser = cache(async () => {
   logger.debug('Fetching current user from session');
-
   const { user } = await validateRequest();
 
   if (user) {
     logger.debug({ userId: user.id }, 'Current user found');
   } else {
-    logger.debug('No authenticated user found');
-  }
-
-  return user ?? undefined;
-};
-
-export const checkIfAuthenticated = async () => {
-  logger.debug('Checking authentication status');
-
-  const user = await getCurrentUser();
-  if (!user) {
-    logger.info('Authentication check failed - no user found');
-
+    logger.warn('No authenticated user found');
     throw new AuthError();
   }
 
-  logger.debug({ userId: user.id }, 'Authentication check passed');
   return user;
-};
+});
+
+// export const checkIfAuthenticated = async () => {
+//   logger.debug('Checking authentication status');
+
+//   const user = await getCurrentUser();
+//   if (!user) {
+//     logger.warn('Authentication check failed - no user found');
+//     return null;
+
+//     // throw new AuthError();
+//   }
+
+//   logger.debug({ userId: user.id }, 'Authentication check passed');
+//   return user;
+// };
 
 export const registerUserService = async (data: TSignUpSchema) => {
   logger.debug({ email: data.email }, 'Attempting to register new user');
@@ -271,7 +154,3 @@ export const signInUserWithEmailService = async (input: TSignInEmailSchema) => {
     id: user.id,
   };
 };
-
-export type TSessionValidateResult =
-  | { session: TSession; user: TUser }
-  | { session: null; user: null };

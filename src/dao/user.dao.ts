@@ -8,25 +8,41 @@ import {
   usersTable,
 } from '@/db/export-schema';
 import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
+import { TFullUser, TUserToCompanyWithRelated } from '@/shared/types';
 import { timeUTC } from '@/utils';
 import { eq } from 'drizzle-orm';
 
-type TGetUserOptions = {
+export type TGetUserOptions = {
   includeProfile?: boolean;
   includeAccount?: boolean;
+  includeOwnedCompanies?: boolean;
+  includeCompanyMemberships?: boolean;
 };
 
 const logger = createDaoLogger('user.dao');
 
-export const getUserByIdDao = async (userId: string, options: TGetUserOptions = {}) => {
+export const getUserByIdDao = async (
+  userId: string,
+  options: TGetUserOptions = {}
+): Promise<TFullUser | null> => {
   return await withPerfomanceLogger(
     async () => {
       logger.debug({ userId, options }, 'Getting user by id');
 
       try {
-        const { includeAccount = false, includeProfile = false } = options;
+        const {
+          includeAccount = false,
+          includeProfile = false,
+          includeOwnedCompanies = false,
+          includeCompanyMemberships = false,
+        } = options;
 
-        if (!includeAccount && !includeProfile) {
+        if (
+          !includeAccount &&
+          !includeProfile &&
+          !includeOwnedCompanies &&
+          !includeCompanyMemberships
+        ) {
           const user = await database.query.usersTable.findFirst({
             where: eq(usersTable.id, userId),
           });
@@ -41,17 +57,30 @@ export const getUserByIdDao = async (userId: string, options: TGetUserOptions = 
           return { ...user, userProfile: null, userAccounts: null };
         }
 
-        const user = await database.query.usersTable.findFirst({
+        const user = (await database.query.usersTable.findFirst({
           where: eq(usersTable.id, userId),
           with: {
             ...(includeProfile ? { userProfile: true } : {}),
             ...(includeAccount ? { userAccounts: true } : {}),
+            ...(includeOwnedCompanies ? { ownedCompanies: true } : {}),
+            ...(includeCompanyMemberships ? { member: { with: { company: true } } } : {}),
           },
-        });
+        })) as TFullUser & { member?: TUserToCompanyWithRelated };
 
         if (!user) {
           logger.info({ userId }, 'User by Id not found');
           return null;
+        }
+
+        let companyMemberships = null;
+        if (includeCompanyMemberships && user.member) {
+          companyMemberships = user.member.map(membership => ({
+            role: membership.role,
+            invitedAt: membership.invitedAt,
+            acceptedAt: membership.acceptedAt,
+            invitedBy: membership.invitedBy,
+            company: membership.company,
+          }));
         }
 
         logger.debug(
@@ -59,14 +88,19 @@ export const getUserByIdDao = async (userId: string, options: TGetUserOptions = 
             userId,
             hasProfile: !!user.userProfile,
             accountsCount: user.userAccounts?.length,
+            ownerCompaniesCount: user.ownedCompanies?.length,
+            companyMemberships: companyMemberships?.length,
           },
-          'Found user by ID with relations'
+          'Found user by Id with relations'
         );
 
         return {
           ...user,
           userProfile: user.userProfile || null,
           userAccounts: user.userAccounts || null,
+          ownedCompanies: user.ownedCompanies?.length ? user.ownedCompanies : null,
+          companyMemberships,
+          member: undefined,
         };
       } catch (error) {
         logger.error(
@@ -84,15 +118,28 @@ export const getUserByIdDao = async (userId: string, options: TGetUserOptions = 
   );
 };
 
-export const getUserByEmailDao = async (email: string, options: TGetUserOptions = {}) => {
+export const getUserByEmailDao = async (
+  email: string,
+  options: TGetUserOptions = {}
+): Promise<TFullUser | null> => {
   return await withPerfomanceLogger(
     async () => {
       logger.debug({ email, options }, 'Getting user by email');
 
       try {
-        const { includeAccount = false, includeProfile = false } = options;
+        const {
+          includeAccount = false,
+          includeProfile = false,
+          includeCompanyMemberships = false,
+          includeOwnedCompanies = false,
+        } = options;
 
-        if (!includeAccount && !includeProfile) {
+        if (
+          !includeAccount &&
+          !includeProfile &&
+          !includeCompanyMemberships &&
+          !includeOwnedCompanies
+        ) {
           const user = await database.query.usersTable.findFirst({
             where: eq(usersTable.email, email),
           });
@@ -107,24 +154,50 @@ export const getUserByEmailDao = async (email: string, options: TGetUserOptions 
           return { ...user, userProfile: null, userAccounts: null };
         }
 
-        const user = await database.query.usersTable.findFirst({
+        const user = (await database.query.usersTable.findFirst({
           where: eq(usersTable.email, email),
           with: {
             ...(includeAccount ? { userAccounts: true } : {}),
             ...(includeProfile ? { userProfile: true } : {}),
+            ...(includeOwnedCompanies ? { ownedCompanies: true } : {}),
+            ...(includeCompanyMemberships ? { member: { with: { company: true } } } : {}),
           },
-        });
+        })) as TFullUser & { member: TUserToCompanyWithRelated };
 
         if (!user) {
           logger.debug({ email }, 'User by email not found');
-
           return null;
         }
 
+        let companyMemberships = null;
+        if (includeCompanyMemberships && user.member) {
+          companyMemberships = user.member.map(membership => ({
+            role: membership.role,
+            invitedAt: membership.invitedAt,
+            acceptedAt: membership.acceptedAt,
+            inivitedBy: membership.invitedBy,
+            company: membership.company,
+          }));
+        }
+
+        logger.debug(
+          {
+            email,
+            hasProfile: !!user.userProfile,
+            accountsCount: user.userAccounts?.length,
+            ownerCompaniesCount: user.ownedCompanies?.length,
+            companyMembershipsCount: companyMemberships?.length,
+          },
+          'Found user by Email with relations'
+        );
+
         return {
           ...user,
-          userAccounts: user.userAccounts || null,
           userProfile: user.userProfile || null,
+          userAccounts: user.userAccounts || null,
+          ownedCompanies: user.ownedCompanies?.length ? user.ownedCompanies : null,
+          companyMemberships,
+          member: undefined,
         };
       } catch (error) {
         logger.error(

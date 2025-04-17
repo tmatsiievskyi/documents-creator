@@ -2,6 +2,7 @@ import { object, string, z } from 'zod';
 
 export const signInEmailSchema = object({
   email: string()
+    .email({ message: 'Please enter a valid email address' })
     .max(256, {
       message: 'Email can not be longer than 256 characters',
     })

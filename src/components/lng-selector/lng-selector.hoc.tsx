@@ -14,11 +14,26 @@ import { useTransition } from 'react';
 import { useParams } from 'next/navigation';
 
 export const WithLngSelector = () => {
-  const locale = useLocale();
-  const [isPending, startTransition] = useTransition();
-
   const t = useTranslations('lng-selector');
+
+  return (
+    <LngSelector>
+      <DropdownMenuContent className="mt-2">
+        <DropdownMenuLabel>{t('title')}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <LngOptions />
+      </DropdownMenuContent>
+    </LngSelector>
+  );
+};
+
+export const LngOptions = () => {
+  const t = useTranslations('lng-selector');
+  const [isPending, startTransition] = useTransition();
+  const locale = useLocale();
+
   const router = useRouter();
+
   const pathname = usePathname();
   const params = useParams();
 
@@ -32,16 +47,12 @@ export const WithLngSelector = () => {
   };
 
   return (
-    <LngSelector>
-      <DropdownMenuContent className="mt-2">
-        <DropdownMenuLabel>{t('title')}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {appLocales.map(locale => (
-          <DropdownMenuItem onClick={() => onSelectChange(locale)} key={locale}>
-            {t(locale)}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </LngSelector>
+    <>
+      {appLocales.map(locale => (
+        <DropdownMenuItem onClick={() => onSelectChange(locale)} key={locale}>
+          {t(locale)}
+        </DropdownMenuItem>
+      ))}
+    </>
   );
 };

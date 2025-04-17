@@ -15,7 +15,7 @@ import { createServiceLogger } from '@/lib/logger/logger';
 import { timeUTC } from '@/utils';
 import { getTranslations } from 'next-intl/server';
 
-const logger = createServiceLogger('magic-link-service');
+const logger = createServiceLogger('magic-link.service');
 
 export const sendMagicLinkService = async (email: string) => {
   logger.debug({ email }, 'Attempting to send magic link email');

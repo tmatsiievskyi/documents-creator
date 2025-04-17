@@ -33,10 +33,10 @@ export function TemplatesIllustration() {
             }}
           >
             <div className="p-3">
-              <div className="bg-foreground/10 mb-2 h-2 w-16 rounded-full"></div>
-              <div className="bg-foreground/10 mb-1.5 h-1.5 w-full rounded-full"></div>
-              <div className="bg-foreground/10 mb-1.5 h-1.5 w-3/4 rounded-full"></div>
-              <div className="bg-foreground/10 h-1.5 w-5/6 rounded-full"></div>
+              <div className="mb-2 h-2 w-16 rounded-full bg-foreground/10"></div>
+              <div className="mb-1.5 h-1.5 w-full rounded-full bg-foreground/10"></div>
+              <div className="mb-1.5 h-1.5 w-3/4 rounded-full bg-foreground/10"></div>
+              <div className="h-1.5 w-5/6 rounded-full bg-foreground/10"></div>
             </div>
           </motion.div>
         ))}
@@ -54,16 +54,16 @@ export function TemplatesIllustration() {
         }}
       >
         <div className="p-2">
-          <div className="bg-primary/20 mb-2 h-2 w-12 rounded-full"></div>
-          <div className="bg-foreground/10 mb-1 h-1 w-full rounded-full"></div>
-          <div className="bg-foreground/10 mb-1 h-1 w-3/4 rounded-full"></div>
-          <div className="bg-foreground/10 mb-1 h-1 w-5/6 rounded-full"></div>
-          <div className="bg-foreground/10 mb-1 h-1 w-2/3 rounded-full"></div>
-          <div className="bg-muted h-6 w-full rounded"></div>
+          <div className="mb-2 h-2 w-12 rounded-full bg-primary/20"></div>
+          <div className="mb-1 h-1 w-full rounded-full bg-foreground/10"></div>
+          <div className="mb-1 h-1 w-3/4 rounded-full bg-foreground/10"></div>
+          <div className="mb-1 h-1 w-5/6 rounded-full bg-foreground/10"></div>
+          <div className="mb-1 h-1 w-2/3 rounded-full bg-foreground/10"></div>
+          <div className="h-6 w-full rounded bg-muted"></div>
         </div>
 
         <motion.div
-          className="bg-primary absolute -right-2 -top-2 flex size-8 items-center justify-center rounded-full text-white shadow-md"
+          className="absolute -right-2 -top-2 flex size-8 items-center justify-center rounded-full bg-primary text-white shadow-md"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 1, type: 'spring' }}

@@ -1,5 +1,6 @@
 import { createRequestLogger } from '@/lib/logger/logger';
-import { setSession, signInWithMagicLinkService } from '@/services';
+import { setSession } from '@/lib/sessions';
+import { signInWithMagicLinkService } from '@/services';
 import { URL_AFTER_LOGIN, URL_MAGIC_ERROR, URL_SIGN_IN } from '@/shared/constants';
 import { rateLimitByIp } from '@/utils/limiter.util';
 

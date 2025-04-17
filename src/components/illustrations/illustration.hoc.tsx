@@ -33,7 +33,7 @@ export function WithAnimatedIllustration({
     <motion.div
       ref={ref}
       data-illustration="true"
-      className="bg-background group relative overflow-hidden rounded-xl border p-2 transition-all hover:shadow-lg"
+      className="group relative overflow-hidden rounded-xl border bg-background p-2 transition-all hover:shadow-lg"
       initial="hidden"
       animate={controls}
       variants={{
@@ -49,14 +49,14 @@ export function WithAnimatedIllustration({
         },
       }}
     >
-      <div className="from-muted/50 to-muted aspect-[4/3] w-full overflow-hidden rounded-lg bg-gradient-to-br">
+      <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-gradient-to-br from-muted/50 to-muted">
         <div className="size-full p-6 transition-transform duration-500 group-hover:scale-105">
           {children}
         </div>
       </div>
       <div className="p-6">
         <h3 className="text-xl font-medium">{title}</h3>
-        <p className="text-muted-foreground mt-2">{description}</p>
+        <p className="mt-2 text-muted-foreground">{description}</p>
       </div>
     </motion.div>
   );

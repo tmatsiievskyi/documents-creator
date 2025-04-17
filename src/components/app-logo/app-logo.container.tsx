@@ -9,7 +9,7 @@ export const AppLogo = ({ customClassName, logoColor = 'white' }: TAppLogoProps)
   return (
     <div
       className={cn(
-        'flex items-center justify-start py-1 pl-2 text-center md:w-full md:py-2 md:pl-0 [&>svg]:size-32',
+        'flex items-center justify-start text-center md:w-full  [&>svg]:size-32',
         customClassName
       )}
     >

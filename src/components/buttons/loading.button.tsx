@@ -9,7 +9,7 @@ export const LoadingButton = ({
   isLooading,
   type = 'submit',
   children,
-  className = 'form-submit-button',
+  className,
   ...props
 }: TProps) => {
   const LoaderIcon = icons['Loader2'];

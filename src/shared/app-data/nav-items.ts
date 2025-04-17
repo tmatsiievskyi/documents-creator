@@ -7,7 +7,7 @@ import {
 } from '../constants';
 import { TNavItem } from '../types';
 import { icons } from '@/ui/icons';
-
+// TODO: delete
 export const navLinks: TNavItem[] = [
   {
     name: 'Create Document',

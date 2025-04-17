@@ -84,7 +84,7 @@ export function EditorIllustration({ editorMessage, editorText, editorOptions }:
   }, []);
 
   return (
-    <div className="bg-background relative w-full max-w-md rounded-xl border p-4 shadow-xl">
+    <div className="relative w-full max-w-md rounded-xl border bg-background p-4 shadow-xl">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <FileText className="size-5" />
@@ -92,19 +92,19 @@ export function EditorIllustration({ editorMessage, editorText, editorOptions }:
         </div>
         <div className="flex items-center gap-2">
           <motion.div
-            className="bg-primary/10 text-primary flex size-6 items-center justify-center rounded-full"
+            className="flex size-6 items-center justify-center rounded-full bg-primary/10 text-primary"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           ></motion.div>
           <motion.div
-            className="bg-primary/10 text-primary flex size-6 items-center justify-center rounded-full"
+            className="flex size-6 items-center justify-center rounded-full bg-primary/10 text-primary"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           ></motion.div>
         </div>
       </div>
 
-      <div className="bg-muted/50 min-h-[200px] rounded-lg border p-4 font-mono text-sm">
+      <div className="min-h-[200px] rounded-lg border bg-muted/50 p-4 font-mono text-sm">
         <div className="relative">
           {getDisplayText()
             .split(/(\{\{.*?\}\})/)
@@ -140,18 +140,18 @@ export function EditorIllustration({ editorMessage, editorText, editorOptions }:
                     </PopoverTrigger>
                     <PopoverContent ref={popoverRef} className="w-48 p-1" align="start">
                       <div className="space-y-1">
-                        <div className="text-muted-foreground px-2 py-1.5 text-xs font-bold">
+                        <div className="px-2 py-1.5 text-xs font-bold text-muted-foreground">
                           {variableName}
                         </div>
                         {editorOptions[part]?.map((option, i) => (
                           <button
                             key={i}
-                            className="hover:bg-muted flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm"
+                            className="flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-muted"
                             onClick={() => handleSelectOption(part, option)}
                           >
                             {option}
                             {selectedValues[part] === option && (
-                              <Check className="text-primary size-4" />
+                              <Check className="size-4 text-primary" />
                             )}
                           </button>
                         ))}
@@ -165,7 +165,7 @@ export function EditorIllustration({ editorMessage, editorText, editorOptions }:
             })}
           {isTyping && (
             <motion.span
-              className="bg-primary inline-block h-4 w-0.5"
+              className="inline-block h-4 w-0.5 bg-primary"
               animate={{ opacity: [1, 0, 1] }}
               transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
             />
@@ -174,7 +174,7 @@ export function EditorIllustration({ editorMessage, editorText, editorOptions }:
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <div className="text-muted-foreground text-xs">{editorMessage}</div>
+        <div className="text-xs text-muted-foreground">{editorMessage}</div>
         {/* <motion.button
           className="bg-primary text-primary-foreground rounded-md px-3 py-1 text-xs font-medium"
           whileHover={{ scale: 1.05 }}

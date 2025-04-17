@@ -14,7 +14,7 @@ export default function Home() {
   const editorOptions = MARKETING_EDITOR_OPT[locale];
   return (
     <div className=" h-svh w-full">
-      <WithHeader />
+      <WithHeader insideApp={false} />
       <div className="container">
         <div className=" flex min-h-svh flex-col items-center justify-center px-12">
           <h1 className={`mb-12 text-center text-6xl font-extrabold  ${fonts.inter.className}`}>
@@ -32,7 +32,7 @@ export default function Home() {
               editorOptions={editorOptions}
             />
             <div className="ml-8 max-w-96">
-              <h4 className="h2 text-brand mb-2">{t('info.editor.title')}</h4>
+              <h4 className="h2 mb-2 text-brand">{t('info.editor.title')}</h4>
               <p className="text-2 ">{t('info.editor.description')}</p>
             </div>
           </div>

@@ -1,31 +1,137 @@
-import { WithNavLinks } from '../nav-links';
-import { UserPlusSettings } from './components';
+'use client';
+
+import * as React from 'react';
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarRail,
+} from '@/ui/sidebar';
 import { WithAppLogo } from '../app-logo';
+import { Link, usePathname } from '@/lib/i18n';
+import { useTranslations } from 'next-intl';
+import { TSidebarProps } from './sidebar.hoc';
+import { Button } from '@/ui/button';
+import { cn } from '@/lib/utils';
+import { icons } from '@/ui';
 
-export const Sidebar = () => {
+export type TSidebarItem = {
+  name: string;
+  type?: string;
+  shouldHaveCompany?: boolean;
+  items: {
+    name: string;
+    href: string | null;
+  }[];
+};
+
+type TProps = {
+  navData: TSidebarItem[];
+  customClassName?: string;
+  dynamicNavigationItems?: React.ReactElement | null;
+  avatar?: React.ReactElement | null;
+} & React.ComponentProps<typeof Sidebar> &
+  Pick<TSidebarProps, 'location'>;
+
+export function SidebarContainer({ ...props }: TProps) {
+  const {
+    navData,
+    location,
+
+    customClassName,
+    avatar,
+    dynamicNavigationItems,
+    ...restProps
+  } = props;
+
   return (
-    <aside className="flex w-full flex-col  justify-between bg-white md:w-auto md:min-w-[96px]">
-      <div className="flex w-full justify-between px-2 md:px-0">
-        <div className="flex max-w-[96px] flex-col items-center justify-center text-center md:w-full">
-          <WithAppLogo
-            logoColor="primary"
-            customClassName=" flex justify-center items-center md:flex-col [&>svg]:size-14 [&>h3]:text-xl md:[&>svg]:size-20 md:[&>svg]:mr-0 md:[&>h3]:text-5xl pl-0"
-          />
-        </div>
-        <div className="flex items-center justify-center text-center md:hidden">
-          <UserPlusSettings />
-        </div>
-      </div>
+    <Sidebar {...restProps} className={cn('', customClassName)}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <WithAppLogo
+              logoColor="primary"
+              customClassName="[&>svg]:size-14 [&>h3]:text-4xl py-0"
+            />
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarNavigationRender data={navData} location={location} />
+          {dynamicNavigationItems}
+        </SidebarGroup>
+      </SidebarContent>
+      {avatar && <SidebarFooter>{avatar}</SidebarFooter>}
+      <SidebarRail />
+    </Sidebar>
+  );
+}
 
-      <div className="w-full bg-primary/15">
-        <div className="mt-1 flex w-full justify-evenly overflow-x-scroll bg-white py-2 md:mt-0 md:flex-col md:py-0">
-          <WithNavLinks />
-        </div>
-      </div>
+export const SidebarNavigationRender = ({
+  data,
+  location,
+}: {
+  data: TSidebarItem[];
+  location: 'settings' | 'dashboard';
+}) => {
+  const pathname = usePathname();
 
-      <div className="hidden flex-col items-center justify-center py-2 text-center md:flex">
-        <UserPlusSettings />
-      </div>
-    </aside>
+  const t = useTranslations('sidebar');
+  const BuildingIcon = icons['Building2'];
+
+  return (
+    <SidebarMenu>
+      {data.map(itemParent => {
+        return (
+          <SidebarMenuItem key={itemParent.name}>
+            <SidebarMenuButton asChild className="hover:bg-sidebar">
+              <p className="text-3">{t(`${location}.${itemParent.name}.title`)}</p>
+            </SidebarMenuButton>
+            {itemParent.items?.length ? (
+              <SidebarMenuSub className=" pb-2">
+                {itemParent.items.map(item => {
+                  const isActive = typeof item.href === 'string' && pathname.includes(item.href);
+                  return (
+                    <SidebarMenuSubItem key={item.name}>
+                      <SidebarMenuSubButton asChild isActive={isActive}>
+                        {item.href && item.name === 'create_company' ? (
+                          <Button
+                            variant="default"
+                            className="mx-auto mb-1  !bg-primary !text-primary-foreground hover:!bg-primary/90"
+                          >
+                            <BuildingIcon className="size-4 !text-primary-foreground" />
+                            <Link href={item.href} className="w-full">
+                              {t(`${location}.${itemParent.name}.items.${item.name}.title`)}
+                            </Link>
+                          </Button>
+                        ) : item.href ? (
+                          <p>
+                            <Link href={item.href} className="w-full">
+                              {t(`${location}.${itemParent.name}.items.${item.name}.title`)}
+                            </Link>
+                          </p>
+                        ) : (
+                          <p>{t(`${location}.items.${item.name}.title`)}</p>
+                        )}
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  );
+                })}
+              </SidebarMenuSub>
+            ) : null}
+          </SidebarMenuItem>
+        );
+      })}
+    </SidebarMenu>
   );
 };
