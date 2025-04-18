@@ -1,39 +1,27 @@
-import { cn } from '@/lib/utils';
-import { icons, Tooltip, TooltipTrigger } from '@/ui';
+import { icons } from '@/ui';
+import { Button } from '@/ui/button';
 
 const socialItems = [
   {
     Icon: icons['GoogleIcon'],
     title: 'Sign In with Google',
-    wrapperClassName: '',
   },
   {
     Icon: icons['FBIcon'],
     title: 'Sign In with Facebook',
-    wrapperClassName: 'mt-4',
   },
 ];
 
 export const SocialAuth = () => {
   return (
     <>
-      <div className="flex-center mt-4 w-full cursor-pointer flex-col gap-x-4">
+      <div className=" mt-4 flex w-full cursor-pointer justify-center gap-x-4">
         {socialItems.map(item => {
-          const { Icon, title, wrapperClassName } = item;
+          const { Icon, title } = item;
           return (
-            <Tooltip key={item.title}>
-              <TooltipTrigger asChild>
-                <div
-                  className={cn(
-                    'shadow-deeper flex w-full items-center rounded-xl px-5 py-2 hover:shadow-inner',
-                    wrapperClassName
-                  )}
-                >
-                  <Icon customClassName="size-8 mr-4" />
-                  <span>{title}</span>
-                </div>
-              </TooltipTrigger>
-            </Tooltip>
+            <Button variant="outline" key={title} className="w-full max-w-[80px]">
+              <Icon customClassName="size-8" />
+            </Button>
           );
         })}
       </div>

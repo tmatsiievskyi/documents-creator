@@ -5,19 +5,23 @@ import { SignInMagicForm } from './sign-in_magic.form';
 import { URL_SIGN_IN_EMAIL } from '@/shared/constants';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/i18n';
-// import Link from 'next/link';
 
 const SignIn = () => {
   const EmailIcon = icons['Mail'];
   const t = useTranslations('sing-in_page');
   return (
     <>
-      <h2 className="form-title mb-6">{t('title')}</h2>
-      <p className="text-2 mb-4 text-gray-500">{t('description')}</p>
-      <WithSocialAuth />
-      <Divider text={t('divider_sign_in')} wrapperClassName="my-4" />
+      <h2 className="form-title mb-4">{t('title')}</h2>
+      <p className="text-2 mb-4 text-muted-foreground">{t('description')}</p>
       <SignInMagicForm />
-      <Divider text={t('divider_other_options')} wrapperClassName="my-4" />
+      <Divider text={t('divider_social')} wrapperClassName="my-4" textClassName="text-brand" />
+      <WithSocialAuth />
+      <Divider
+        text={t('divider_other_options')}
+        wrapperClassName="my-4"
+        textClassName="text-brand"
+      />
+
       <div>
         <Button variant="ghost">
           <EmailIcon />

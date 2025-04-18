@@ -21,6 +21,7 @@
     "description": "Sign in to your account using one of the options below.",
     "button": "Sign in with Email and Password",
     "divider_other_options": "Other options",
+    "divider_social": "Social Networks",
     "divider_sign_in": "Sign in with Email"
   },
   "sign-in_form": {
@@ -29,7 +30,8 @@
     "button": "Sign In"
   },
   "sign-in-email_page": {
-    "title": "Sign in with Email"
+    "title": "Sign in with Email",
+    "description": "Sign in to your account with Email and Password"
   },
   "sign_in_email_form": {
     "input_email_label": "Email",
@@ -59,7 +61,8 @@
     "divider_back": "Back to sign in page"
   },
   "sign_up_page": {
-    "title": "Sign Up"
+    "title": "Sign Up",
+    "description": "Create your account"
   },
   "sign_up_email_form": {
     "input_fullname_label": "Full Name",
@@ -82,7 +85,7 @@
   },
   "sign_up_verify_page_error": {
     "title": "Expired Token",
-    "description": "Sorry, this token was either expired or already used. Please try sign up in again",
+    "description": "Sorry, this token was either expired or already used. Please try sign up again",
     "button": "Sign In",
     "divider_back": "Back to sign in page"
   },
