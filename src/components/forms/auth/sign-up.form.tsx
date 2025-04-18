@@ -35,7 +35,7 @@ export const SignUpForm = () => {
 
   return (
     <Form {...form}>
-      <form className="auth-form" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="auth-form tex-left" onSubmit={form.handleSubmit(onSubmit)}>
         <RHFInput<TSignUpSchema>
           name="fullName"
           label={t('input_fullname_label')}
@@ -59,10 +59,10 @@ export const SignUpForm = () => {
           placeholder={t('input_password_confirm_placeholder')}
           type="password"
         />
-        <LoadingButton type="submit" className="form-submit-button" isLooading={isPending}>
+        <LoadingButton type="submit" isLooading={isPending}>
           {t('button')}
         </LoadingButton>
-        <div className=" text-2 flex-center">
+        <div className="text-2 flex-center">
           <p className="text-muted-200">{t('sign_up_question')}</p>{' '}
           <Link className="ml-2 text-primary" href={URL_SIGN_IN}>
             {t('link')}

@@ -15,11 +15,13 @@ export const Divider = ({
 }: TDividerProps) => {
   return (
     <div className={cn('my-2 flex w-full items-center', wrapperClassName)}>
-      <div className={cn('bg-muted-100 h-px grow', lineClassName)}></div>
-      <span className={cn('text-2 text-muted-200 px-2 font-medium mt-[-3px]', textClassName)}>
+      <div className={cn('bg-muted-100/30 h-px grow', lineClassName)}></div>
+      <span
+        className={cn('text-2 text-muted-foreground text-[14px] px-2 mt-[-3px]', textClassName)}
+      >
         {text}
       </span>
-      <div className={cn('bg-muted-100 h-px grow', lineClassName)}></div>
+      <div className={cn('bg-muted-100/30 h-px grow', lineClassName)}></div>
     </div>
   );
 };

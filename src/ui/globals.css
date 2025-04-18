@@ -130,7 +130,7 @@ body {
   }
 
   .auth-form {
-    @apply flex text-left max-h-[800px] w-full max-w-[580px] flex-col space-y-5 transition-all lg:space-y-6;
+    @apply flex text-left w-full max-w-[580px] flex-col space-y-2 transition-all lg:space-y-4;
   }
   /* ===== */
 
