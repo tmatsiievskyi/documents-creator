@@ -1,6 +1,7 @@
 import { createServiceLogger } from '@/lib/logger/logger';
 import { deleteFileFromBucket, getFilrUrlFromBucket, uploadFileToBucket } from '@/lib/s3';
 import { KEY_COMPANY_IMAGE } from '@/shared/constants';
+import { errorHandler } from '@/utils';
 import { generateUUID } from '@/utils/crypting.util';
 
 const logger = createServiceLogger('company.service');
@@ -34,7 +35,10 @@ export const deleteCompanyImageService = async (companyId: string, imageId: stri
 
     return true;
   } catch (error) {
-    logger.error({ error }, 'SERVICE. Failed to delete company image');
+    logger.error(
+      { error: errorHandler(error), stack: error instanceof Error ? error.stack : undefined },
+      'SERVICE. Failed to delete company image'
+    );
     return false;
   }
 };

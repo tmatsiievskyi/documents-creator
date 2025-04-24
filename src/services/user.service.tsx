@@ -1,5 +1,7 @@
 import { TSignUpSchema } from '@/components/forms/auth/_schemas';
 import {
+  createAccountByGoogleDao,
+  createProfileByUserId,
   createUserDao,
   getUserByEmailDao,
   getUserByIdDao,
@@ -14,6 +16,7 @@ import { sendEmail } from '@/lib/resend';
 import { APP_UI_NAME } from '@/shared/constants';
 import { timeUTC } from '@/utils';
 import { createServiceLogger } from '@/lib/logger/logger';
+import { TGoogleUser } from '@/shared/types';
 
 const logger = createServiceLogger('user.service');
 
@@ -64,4 +67,23 @@ export const getUserByIdService = async (userId: string, options: TGetUserOption
 
   logger.info({ userId, email: user.email }, 'Retrieved User');
   return user;
+};
+
+export const createUserByGoogle = async (googleUser: TGoogleUser) => {
+  let existingUser = await getUserByEmailDao(googleUser.email);
+
+  if (!existingUser) {
+    existingUser = await createUserDao({ userData: { email: googleUser.email } });
+  }
+
+  const [userProfile, userAccounts] = await Promise.all([
+    createProfileByUserId(existingUser.id, googleUser.picture, googleUser.name),
+    createAccountByGoogleDao(existingUser.id, googleUser.sub),
+  ]);
+
+  return {
+    user: existingUser,
+    userProfile,
+    userAccounts,
+  };
 };

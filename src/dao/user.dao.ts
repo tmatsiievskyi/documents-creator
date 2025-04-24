@@ -9,7 +9,7 @@ import {
 } from '@/db/export-schema';
 import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
 import { TFullUser, TUserToCompanyWithRelated } from '@/shared/types';
-import { timeUTC } from '@/utils';
+import { errorHandler, timeUTC } from '@/utils';
 import { eq } from 'drizzle-orm';
 
 export type TGetUserOptions = {
@@ -106,7 +106,9 @@ export const getUserByIdDao = async (
         logger.error(
           {
             userId,
-            error: error instanceof Error ? error.message : String(error),
+            error: errorHandler(error),
+            stack: error instanceof Error ? error.stack : undefined,
+            table: 'doc_users',
           },
           'Error getting user by ID'
         );
@@ -203,7 +205,9 @@ export const getUserByEmailDao = async (
         logger.error(
           {
             email,
-            error: error instanceof Error ? error.message : String(error),
+            error: errorHandler(error),
+            stack: error instanceof Error ? error.stack : undefined,
+            table: 'doc_users',
           },
           'Error getting user by Email'
         );
@@ -224,7 +228,7 @@ export const createUserDao = async ({
   userData: TUserInsert;
   accountData?: Omit<TAccountInsert, 'userId'>;
   profileData?: Omit<TProfileInsert, 'userId'>;
-}) => {
+}): Promise<TFullUser> => {
   return await withPerfomanceLogger(
     async () => {
       logger.debug({ email: userData.email }, 'Creating user');
@@ -249,7 +253,8 @@ export const createUserDao = async ({
               .insert(accountsTable)
               .values({ ...accountData, userId: user.id })
               .returning();
-            userAccounts = newAccount;
+            userAccounts = [];
+            userAccounts.push(newAccount);
             logger.info({ userId: user.id, accountId: newAccount.id }, 'Created a account');
           }
 
@@ -265,7 +270,9 @@ export const createUserDao = async ({
         logger.error(
           {
             email: userData.email,
-            error: error instanceof Error ? error.message : String(error),
+            error: errorHandler(error),
+            stack: error instanceof Error ? error.stack : undefined,
+            table: 'doc_users',
           },
           'Error creating user'
         );
@@ -291,7 +298,9 @@ export const setEmailVerified = async (userId: string) => {
     logger.error(
       {
         userId,
-        error: error instanceof Error ? error.message : String(error),
+        error: errorHandler(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        table: 'doc_users',
       },
       'Error setting email verified'
     );

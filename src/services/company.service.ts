@@ -10,10 +10,8 @@ import { createServiceLogger } from '@/lib/logger/logger';
 import { TServerFile } from '@/lib/s3';
 import { NotFoundError, PublicError } from '@/shared/app-errors';
 import { generateUUID } from '@/utils/crypting.util';
-// import { getCompanyImageKey } from './file.service';
 import { TCreateCompanySchema, TUpdateCompanySchemaFE } from '@/lib/zod';
 import { TFullCompany } from '@/shared/types';
-// import { KEY_COMPANY_IMAGE } from '@/shared/constants';
 import { deleteCompanyImageService, uploadCompanyImageService } from './file.service';
 
 const logger = createServiceLogger('company.service');

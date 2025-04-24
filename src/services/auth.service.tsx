@@ -1,5 +1,5 @@
 // import 'server-only';
-import { APP_UI_NAME } from '@/shared/constants';
+import { API_GOOGLE_CALLBACK, APP_UI_NAME } from '@/shared/constants';
 import { createUserDao, deleteSessionByUserId, getUserByEmailDao, updateUserByIdDao } from '@/dao';
 import { env } from '@/lib/env';
 import { AuthError, LoginError, PublicError } from '@/shared/app-errors';
@@ -9,9 +9,10 @@ import { sendEmail } from '@/lib/resend';
 import { VerifyEmail } from '@/emails';
 import { compareStrings, hashString } from '@/utils/crypting.util';
 import { createServiceLogger } from '@/lib/logger/logger';
-import { timeUTC } from '@/utils';
+import { errorHandler, timeUTC } from '@/utils';
 import { cache } from 'react';
 import { getSessionToken, validateSessionToken } from '@/lib/sessions';
+import { Google } from 'arctic';
 
 const logger = createServiceLogger('auth.service');
 
@@ -46,21 +47,6 @@ export const getCurrentUser = cache(async () => {
 
   return user;
 });
-
-// export const checkIfAuthenticated = async () => {
-//   logger.debug('Checking authentication status');
-
-//   const user = await getCurrentUser();
-//   if (!user) {
-//     logger.warn('Authentication check failed - no user found');
-//     return null;
-
-//     // throw new AuthError();
-//   }
-
-//   logger.debug({ userId: user.id }, 'Authentication check passed');
-//   return user;
-// };
 
 export const registerUserService = async (data: TSignUpSchema) => {
   logger.debug({ email: data.email }, 'Attempting to register new user');
@@ -101,7 +87,10 @@ export const registerUserService = async (data: TSignUpSchema) => {
     );
     logger.info({ email: data.email }, 'Sent verify email successfully');
   } catch (error) {
-    logger.error({ error }, 'Verify email was not send');
+    logger.error(
+      { error: errorHandler(error), stack: error instanceof Error ? error.stack : undefined },
+      'Verify email was not send'
+    );
     throw error;
   }
 
@@ -154,3 +143,9 @@ export const signInUserWithEmailService = async (input: TSignInEmailSchema) => {
     id: user.id,
   };
 };
+
+export const googleAuth = new Google(
+  env.GOOGLE_CLIENT_ID,
+  env.GOOGLE_CLIENT_SECRET,
+  API_GOOGLE_CALLBACK(env.HOST_NAME)
+);

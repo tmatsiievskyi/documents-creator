@@ -2,6 +2,7 @@ import { createRequestLogger } from '@/lib/logger/logger';
 import { setSession } from '@/lib/sessions';
 import { signInWithMagicLinkService } from '@/services';
 import { URL_AFTER_LOGIN, URL_MAGIC_ERROR, URL_SIGN_IN } from '@/shared/constants';
+import { errorHandler } from '@/utils';
 import { rateLimitByIp } from '@/utils/limiter.util';
 
 const logger = createRequestLogger();
@@ -43,7 +44,7 @@ export const GET = async (req: Request) => {
   } catch (error) {
     logger.error(
       {
-        error: error instanceof Error ? error.message : String(error),
+        error: errorHandler(error),
         stack: error instanceof Error ? error.stack : undefined,
       },
       'Magic link verification failed'

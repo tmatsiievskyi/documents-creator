@@ -29,6 +29,9 @@ export const env = createEnv({
     CLOUDFLARE_ACCESS_KEY_ID: z.string().min(1),
     CLOUDFLARE_SECRET_ACCESS_KEY: z.string().min(1),
     CLOUDFLARE_BUCKET_NAME: z.string().min(1),
+    // --- google
+    GOOGLE_CLIENT_ID: z.string().nonempty(),
+    GOOGLE_CLIENT_SECRET: z.string().nonempty(),
   },
   client: {
     NEXT_PUBLIC_MAGIC_LINK_EXPIRES: z.string().min(1),
@@ -66,6 +69,11 @@ export const env = createEnv({
     CLOUDFLARE_ACCESS_KEY_ID: process.env.CLOUDFLARE_ACCESS_KEY_ID,
     CLOUDFLARE_SECRET_ACCESS_KEY: process.env.CLOUDFLARE_SECRET_ACCESS_KEY,
     CLOUDFLARE_BUCKET_NAME: process.env.CLOUDFLARE_BUCKET_NAME,
+
+    // --- google
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+
     // --- client
     NEXT_PUBLIC_MAGIC_LINK_EXPIRES: process.env.NEXT_PUBLIC_MAGIC_LINK_EXPIRES,
     NEXT_PUBLIC_VERIFY_EMAIL_TOKEN: process.env.NEXT_PUBLIC_VERIFY_EMAIL_TOKEN,

@@ -165,7 +165,7 @@ export const getCompanyByIdDao = async (
           }));
         }
 
-        logger.debug({ companyId }, 'Found company by id');
+        logger.info({ companyId }, 'Found company by id');
         return {
           ...company,
           address: company.address as TCompanyAddress | null,
@@ -176,8 +176,8 @@ export const getCompanyByIdDao = async (
         logger.error({
           companyId,
           error: errorHandler(error),
+          stack: error instanceof Error ? error.stack : undefined,
           table: 'doc_companies',
-          operation: 'select',
         });
         return null;
       }
@@ -209,8 +209,8 @@ export const createCompanyDao = async (data: TCompaniesInsert) => {
       } catch (error) {
         logger.error({
           error: errorHandler(error),
+          stack: error instanceof Error ? error.stack : undefined,
           table: 'doc_companies',
-          operation: 'insert',
         });
         throw error;
       }
@@ -237,8 +237,8 @@ export const updateCompanyDao = async (companyId: string, data: Partial<TCompani
   } catch (error) {
     logger.error({
       error: errorHandler(error),
+      stack: error instanceof Error ? error.stack : undefined,
       table: 'doc_companies',
-      operation: 'update',
     });
     throw error;
   }
@@ -264,8 +264,8 @@ export const deleteCompanyDao = async (companyId: string) => {
   } catch (error) {
     logger.error({
       error: errorHandler(error),
+      stack: error instanceof Error ? error.stack : undefined,
       table: 'doc_companies',
-      operation: 'delete',
     });
     throw error;
   }
