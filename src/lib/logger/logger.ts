@@ -80,7 +80,7 @@ export const withPerfomanceLogger = async <T>(
 
 export const createRequestLogger = () => {
   const reqId = uuidv4();
-  return logger.child({ reqId });
+  return logger.child({ layer: 'api', reqId });
 };
 
 export const createServiceLogger = (serviceName: string) => {

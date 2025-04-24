@@ -12,7 +12,7 @@ import { PublicError } from '@/shared/app-errors';
 import { env } from '@/lib/env';
 import { sendEmail } from '@/lib/resend';
 import { createServiceLogger } from '@/lib/logger/logger';
-import { timeUTC } from '@/utils';
+import { errorHandler, timeUTC } from '@/utils';
 import { getTranslations } from 'next-intl/server';
 
 const logger = createServiceLogger('magic-link.service');
@@ -36,7 +36,10 @@ export const sendMagicLinkService = async (email: string) => {
     );
     logger.info({ email }, 'Sent magic-link email successfully');
   } catch (error) {
-    logger.error({ error }, 'Magic-link email was not send');
+    logger.error(
+      { error: errorHandler(error), stack: error instanceof Error ? error.stack : undefined },
+      'Magic-link email was not send'
+    );
     throw error;
   }
 };

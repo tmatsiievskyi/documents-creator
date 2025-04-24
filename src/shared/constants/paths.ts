@@ -8,8 +8,7 @@ export const API_SIGN_OUT = '/api/sign-out';
 export const URL_SIGN_IN_EMAIL = '/auth/sign-in/email';
 export const URL_SIGN_UP = '/auth/sign-up';
 export const URL_SIGN_UP_EMAIL = '/auth/sign-up/email';
-// ---###---
-
+export const API_GOOGLE_CALLBACK = (hostName: string) => `${hostName}/api/sign-in/google/callback`;
 // ---DASHBOARD---
 export const URL_DASHBOARD = '/dashboard';
 export const DASHBOARD_CREATE_DOCUMENT = `${URL_DASHBOARD}/create-document`;
