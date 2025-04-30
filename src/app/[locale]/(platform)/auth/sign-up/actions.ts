@@ -1,6 +1,6 @@
 'use server';
 
-import { signUpSchema } from '@/components/forms/auth/_schemas';
+import { signUpSchema } from '@/lib/zod';
 import { unathenticatedAction } from '@/lib/zsa/safe-action';
 import { registerUserService } from '@/services';
 import { URL_SIGN_UP_EMAIL } from '@/shared/constants';
