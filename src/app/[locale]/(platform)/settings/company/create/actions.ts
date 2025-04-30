@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from '@/lib/i18n';
-import { authenticatedAction } from '@/lib/safe-action';
+import { authenticatedAction } from '@/lib/zsa/safe-action';
 import { createCompanySchema } from '@/lib/zod';
 import { createCompanyService } from '@/services';
 import { URL_SETTING_COMPANY_INFO } from '@/shared/constants';

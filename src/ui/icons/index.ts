@@ -45,6 +45,8 @@ import {
   Squirrel,
   X,
   Trash2Icon,
+  UserPlus,
+  LoaderCircle,
 } from 'lucide-react';
 import { ExportPdf, GoogleIcon, FBIcon, AppLogoWhite } from './icons-componets';
 
@@ -101,4 +103,6 @@ export const icons = {
   Squirrel,
   X,
   Trash2Icon,
+  UserPlus,
+  LoaderCircle,
 };

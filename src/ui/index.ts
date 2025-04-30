@@ -10,3 +10,4 @@ export * from './input';
 export * from './divider';
 export * from './avatar';
 export * from './input-upload';
+export * from './table';

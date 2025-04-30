@@ -6,7 +6,7 @@ export const env = createEnv({
     APP_NAME: z.string().min(1),
     NODE_ENV: z.string().optional(),
     HOST_NAME: z.string().min(1),
-
+    DEFAULT_LOCALE: z.string().nonempty(),
     // --- db
     POSTGRES_USER: z.string().min(1),
     POSTGRES_PASSWORD: z.string().min(1),
@@ -39,12 +39,14 @@ export const env = createEnv({
     NEXT_PUBLIC_NODE_ENV: z.string().min(1),
     NEXT_PUBLIC_APP_NAME: z.string().min(1),
     NEXT_PUBLIC_MAX_UPLOAD_IMAGE_SIZE_MB: z.string().min(1),
+    NEXT_PUBLIC_DEFAULT_LOCALE: z.string().nonempty(),
   },
   runtimeEnv: {
     // --- server
     APP_NAME: process.env.APP_NAME,
     NODE_ENV: process.env.NODE_ENV,
     HOST_NAME: process.env.HOST_NAME,
+    DEFAULT_LOCALE: process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
 
     // --- db
     POSTGRES_USER: process.env.POSTGRES_USER,
@@ -80,5 +82,6 @@ export const env = createEnv({
     NEXT_PUBLIC_NODE_ENV: process.env.NEXT_PUBLIC_NODE_ENV,
     NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
     NEXT_PUBLIC_MAX_UPLOAD_IMAGE_SIZE_MB: process.env.NEXT_PUBLIC_MAX_UPLOAD_IMAGE_SIZE_MB,
+    NEXT_PUBLIC_DEFAULT_LOCALE: process.env.NEXT_PUBLIC_DEFAULT_LOCALE,
   },
 });

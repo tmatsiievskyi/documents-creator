@@ -11,7 +11,7 @@ type TPageProps = { params: Promise<{ companyId: string }> };
 
 const CompanyInfoPage = async ({ params }: TPageProps) => {
   return (
-    <div className="container  flex h-full max-w-4xl flex-col py-10">
+    <div className="container flex h-full max-w-4xl flex-col py-10">
       <Suspense fallback={<InfoFormFallback />}>
         <CompanyAction params={params} />
       </Suspense>
@@ -24,6 +24,7 @@ async function CompanyAction({ params }: TPageProps) {
   const t = await getTranslations('forms.create_edit_view_company');
   const { companyId } = await params;
   const [result] = await getCompanyInfoAction({ companyId });
+
   const { company, isOwnerOrAdmin } = result || {};
 
   if (!company) {

@@ -37,7 +37,7 @@ export const WithAvatar = ({ user }: { user: TFullUser }) => {
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
-          <AvatarComponent />
+          <AvatarComponent profile={user?.userProfile} />
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-medium">{user?.userProfile?.fullName}</span>
             <span className="truncate text-xs text-muted-foreground">{user.email}</span>

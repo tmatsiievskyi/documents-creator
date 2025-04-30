@@ -1,7 +1,7 @@
 'use server';
 
-import { authenticatedAction } from '@/lib/safe-action';
-import { selectCompanySchema, updateCompanySchemaFE } from '@/lib/zod';
+import { authenticatedAction } from '@/lib/zsa/safe-action';
+import { fullCompanySchema, updateCompanySchemaFE } from '@/lib/zod';
 import { getCompanyByIdService, isUserOwnerOrAdminService, updateCompanyService } from '@/services';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -15,7 +15,7 @@ export const getCompanyInfoAction = authenticatedAction
   )
   .output(
     z.object({
-      company: selectCompanySchema,
+      company: fullCompanySchema,
       isOwnerOrAdmin: z.boolean(),
     })
   )
@@ -40,7 +40,6 @@ export const updateCompanyInfoAction = authenticatedAction
       data: updateCompanySchemaFE,
     })
   )
-  // .output(updateCompanySchemaFE)
   .handler(async ({ input, ctx }) => {
     const { user } = ctx;
     const { companyId, data } = input;

@@ -25,12 +25,6 @@ export type TCompanyWithRelatedUsers = TCompanies & {
   usersToCompaniesTable?: TUserToCompanyWithRelated[];
 };
 
-export type TFullCompany = Omit<TCompanyWithRelatedUsers, 'usersToCompaniesTable'> & {
-  members?: Array<{ role: TCompanyUserRole; user?: TFullUser }> | null;
-
-  // usersToCompaniesTable?: TUserToCompanyWithRelated[];
-};
-
 export type TCompanyAddress = {
   street?: string | null;
   city?: string | null;

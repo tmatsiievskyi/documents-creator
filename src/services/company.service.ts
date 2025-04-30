@@ -10,8 +10,7 @@ import { createServiceLogger } from '@/lib/logger/logger';
 import { TServerFile } from '@/lib/s3';
 import { NotFoundError, PublicError } from '@/shared/app-errors';
 import { generateUUID } from '@/utils/crypting.util';
-import { TCreateCompanySchema, TUpdateCompanySchemaFE } from '@/lib/zod';
-import { TFullCompany } from '@/shared/types';
+import { TCreateCompanySchema, TFullCompanySchema, TUpdateCompanySchemaFE } from '@/lib/zod';
 import { deleteCompanyImageService, uploadCompanyImageService } from './file.service';
 
 const logger = createServiceLogger('company.service');
@@ -126,7 +125,7 @@ export const getCompanyByIdService = async (
   return company;
 };
 
-export const isUserOwnerOrAdminService = (userId: string, company: TFullCompany) => {
+export const isUserOwnerOrAdminService = (userId: string, company: TFullCompanySchema) => {
   logger.debug({ userId, companyId: company.id }, 'SERVICE. GET User role in company');
   if (company.ownerId === userId) return true;
 

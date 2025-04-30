@@ -6,8 +6,10 @@ import {
   TProfileInsert,
   TUserInsert,
   usersTable,
+  usersToCompaniesTable,
 } from '@/db/export-schema';
 import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
+import { TUserWithProfile } from '@/lib/zod/user-with-relations.schema';
 import { TFullUser, TUserToCompanyWithRelated } from '@/shared/types';
 import { errorHandler, timeUTC } from '@/utils';
 import { eq } from 'drizzle-orm';
@@ -218,6 +220,114 @@ export const getUserByEmailDao = async (
     logger,
     'doc_users-get-by-email'
   );
+};
+
+export const getUserByEmailPatternDao = async (
+  pattern: string,
+  options: TGetUserOptions & {
+    excludeCompanyId?: string;
+  } = {},
+  limit: number = 10
+): Promise<TUserWithProfile[]> => {
+  logger.debug({ pattern, options }, 'Getting users by email pattern');
+
+  try {
+    const { includeProfile = false, excludeCompanyId } = options;
+
+    // Search users exclude assigned to companyId
+    if (excludeCompanyId) {
+      const companyMembers = await database
+        .select({ userId: usersToCompaniesTable.userId })
+        .from(usersToCompaniesTable)
+        .where(eq(usersToCompaniesTable.companyId, excludeCompanyId));
+
+      const userIdsToExclude = companyMembers.map(member => member.userId);
+
+      // no users to exclude
+      if (userIdsToExclude.length === 0) {
+        const users = await database.query.usersTable.findMany({
+          where: (users, { ilike }) => ilike(users.email, `%${pattern}%`),
+          with: {
+            ...(includeProfile ? { userProfile: true } : {}),
+          },
+          limit,
+        });
+
+        logger.debug(
+          {
+            pattern,
+            count: users.length,
+          },
+          'Found users by email pattern without excluding'
+        );
+        return users.map(user => ({
+          ...user,
+          userProfile: user.userProfile || null,
+          userAccounts: null,
+        }));
+      }
+
+      // users with exclude
+      const users = await database.query.usersTable.findMany({
+        where: (users, { ilike, and, notInArray }) =>
+          and(ilike(users.email, `%${pattern}%`), notInArray(users.id, userIdsToExclude)),
+        with: {
+          ...(includeProfile ? { userProfile: true } : {}),
+        },
+        limit,
+      });
+
+      logger.debug(
+        {
+          pattern,
+          count: users.length,
+          excludedCount: userIdsToExclude.length,
+          excludeCompanyId,
+        },
+        'Found users by email pattern with excluding'
+      );
+
+      return users.map(user => ({
+        ...user,
+        userProfile: user.userProfile || null,
+        userAccounts: null,
+      }));
+    }
+
+    // Search users without exclude
+    const users = await database.query.usersTable.findMany({
+      where: (users, { ilike }) => ilike(users.email, `%${pattern}%`),
+      with: {
+        ...(includeProfile ? { userProfile: true } : {}),
+      },
+      limit,
+    });
+
+    logger.debug(
+      {
+        pattern,
+        count: users.length,
+      },
+      'Found users by email pattern'
+    );
+
+    return users.map(user => ({
+      ...user,
+      userProfile: user.userProfile || null,
+      userAccounts: null,
+    }));
+  } catch (error) {
+    logger.error(
+      {
+        pattern,
+        error: errorHandler(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        table: 'doc_users',
+      },
+      'Error getting users by email pattern'
+    );
+    throw error;
+  }
 };
 
 export const createUserDao = async ({

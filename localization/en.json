@@ -205,7 +205,33 @@
   "company": {
     "status_active": "Active",
     "status_pending": "Pending verification",
-    "status_inactive": "Inactive"
+    "status_inactive": "Inactive",
+    "members": {
+      "description": "Manage company users",
+      "table": {
+        "headers": {
+          "email": "Email",
+          "fullName": "Full Name",
+          "role": "Role",
+          "acceptedAt": "Joined at"
+        }
+      },
+      "invite_button": "Invite user",
+      "invite_modal": {
+        "title": "Invite User",
+        "description": "Send an invitation to join your company. The user will receive an email with instructions.",
+        "input": {
+          "placeholder": "Enter user email"
+        },
+        "not_found": "Users was not found"
+      },
+      "role": {
+        "admin": "Admin",
+        "editor": "Editor",
+        "manager": "Manager",
+        "viewer": "Viewer"
+      }
+    }
   },
 
   "404": {

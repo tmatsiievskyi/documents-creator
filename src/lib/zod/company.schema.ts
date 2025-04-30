@@ -2,6 +2,8 @@ import { MAX_UPLOAD_IMAGE_SIZE } from '@/shared/constants';
 import { z } from 'zod';
 import { createUpdateSchema, createSelectSchema } from 'drizzle-zod';
 import { companiesTable } from '@/db/export-schema';
+import { selectUserSchema } from './user.schema';
+import { userCompanyRole, userWithProfileSchema } from './user-with-relations.schema';
 
 const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
 type Literal = z.infer<typeof literalSchema>;
@@ -65,10 +67,26 @@ export const selectCompanySchema = createSelectSchema(companiesTable, {
   address: addressSchema,
 });
 
+export const fullCompanySchema = selectCompanySchema.extend({
+  owner: selectUserSchema.optional(),
+  members: z
+    .array(
+      z.object({
+        role: userCompanyRole,
+        user: userWithProfileSchema.nullable(),
+        acceptedAt: z.date().nullable(),
+      })
+    )
+    .optional()
+    .nullable(),
+});
+
 export type TCreateCompanySchema = z.infer<typeof createCompanySchema>;
 // export type TUpdateCompanySchema = z.infer<typeof updateCompanySchema>;
 export type TUpdateCompanySchemaFE = typeof updateCompanySchemaFE._type;
 export type TSelectCompanySchema = z.infer<typeof selectCompanySchema>;
+// export type TFullCompanySchema = typeof fullCompanySchema._type
+export type TFullCompanySchema = z.infer<typeof fullCompanySchema>;
 
 export const createCompanyDefaultValues: TCreateCompanySchema = {
   name: '',

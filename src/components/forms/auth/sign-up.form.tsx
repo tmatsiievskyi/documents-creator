@@ -1,10 +1,8 @@
 'use client';
 
 import { RHFInput } from '@/lib/rhf';
-import { signUpDefaultValues, signUpSchema, TSignUpSchema } from './_schemas';
 import { useForm } from 'react-hook-form';
 import { Link } from '@/lib/i18n';
-// import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/ui';
 import { useServerAction } from 'zsa-react';
@@ -13,6 +11,7 @@ import { toast } from 'sonner';
 import { LoadingButton } from '@/components/buttons';
 import { URL_SIGN_IN } from '@/shared/constants';
 import { useTranslations } from 'next-intl';
+import { signUpDefaultValues, signUpSchema, TSignUpSchema } from '@/lib/zod';
 
 export const SignUpForm = () => {
   const t = useTranslations('sign_up_email_form');

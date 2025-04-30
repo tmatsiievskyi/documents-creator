@@ -3,7 +3,6 @@ import { API_GOOGLE_CALLBACK, APP_UI_NAME } from '@/shared/constants';
 import { createUserDao, deleteSessionByUserId, getUserByEmailDao, updateUserByIdDao } from '@/dao';
 import { env } from '@/lib/env';
 import { AuthError, LoginError, PublicError } from '@/shared/app-errors';
-import { TSignInEmailSchema, TSignUpSchema } from '@/components/forms/auth/_schemas';
 import { getVerifyEmailTokenDao, upsertVerifyEmailToken } from '@/dao/verify-email.dao';
 import { sendEmail } from '@/lib/resend';
 import { VerifyEmail } from '@/emails';
@@ -13,6 +12,7 @@ import { errorHandler, timeUTC } from '@/utils';
 import { cache } from 'react';
 import { getSessionToken, validateSessionToken } from '@/lib/sessions';
 import { Google } from 'arctic';
+import { TSignInEmailSchema, TSignUpSchema } from '@/lib/zod';
 
 const logger = createServiceLogger('auth.service');
 

@@ -7,8 +7,6 @@ export const InfoFormFallback = () => {
       <div className="mb-6 flex items-center gap-2">
         <Skeleton className="size-10 " />
         <Skeleton className="h-[16px] w-[200px]" />
-        {/* <BuildingIcon className="size-10 text-primary" /> */}
-        {/* <h1 className="h1 ml-2">{company.name}</h1> */}
       </div>
 
       <Card>
