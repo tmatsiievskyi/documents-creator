@@ -1,10 +1,8 @@
 'use client';
 
 import { RHFInput } from '@/lib/rhf';
-import { signInEmailDefaultValues, signInEmailSchema, TSignInEmailSchema } from './_schemas';
 import { useForm } from 'react-hook-form';
 import { Link } from '@/lib/i18n';
-// import Link from 'next/link';
 import { URL_SIGN_UP } from '@/shared/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/ui';
@@ -13,6 +11,7 @@ import { signInEmailAction } from '@/app/[locale]/(platform)/auth/sign-in/email/
 import { toast } from 'sonner';
 import { LoadingButton } from '@/components/buttons';
 import { useTranslations } from 'next-intl';
+import { signInEmailDefaultValues, signInEmailSchema, TSignInEmailSchema } from '@/lib/zod';
 
 export const SignInEmailForm = () => {
   const t = useTranslations('sign_in_email_form');

@@ -2,7 +2,8 @@ import { database } from '@/db';
 import { companiesTable, TCompaniesInsert, usersTable } from '@/db/export-schema';
 import { usersToCompaniesTable } from '@/db/schema/users-to-companies';
 import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
-import { TCompanyAddress, TCompanyWithRelatedUsers, TFullCompany } from '@/shared/types';
+import { TFullCompanySchema } from '@/lib/zod';
+import { TCompanyAddress, TCompanyWithRelatedUsers } from '@/shared/types';
 import { errorHandler, timeUTC } from '@/utils';
 import { and, asc, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
 
@@ -93,7 +94,7 @@ export type TGetCompanyByIdOptions = {
 export const getCompanyByIdDao = async (
   companyId: string,
   options: TGetCompanyByIdOptions = {}
-): Promise<TFullCompany | null> => {
+): Promise<TFullCompanySchema | null> => {
   return await withPerfomanceLogger(
     async () => {
       const { inlcudeOwner = false, includeMembers = false } = options;
@@ -124,12 +125,7 @@ export const getCompanyByIdDao = async (
           with: {
             ...(inlcudeOwner
               ? {
-                  owner: {
-                    columns: {
-                      id: true,
-                      email: true,
-                    },
-                  },
+                  owner: {},
                 }
               : {}),
             ...(includeMembers
@@ -137,10 +133,6 @@ export const getCompanyByIdDao = async (
                   usersToCompaniesTable: {
                     with: {
                       member: {
-                        columns: {
-                          id: true,
-                          email: true,
-                        },
                         with: {
                           userProfile: true,
                         },
@@ -160,8 +152,9 @@ export const getCompanyByIdDao = async (
         let members = null;
         if (includeMembers && company.usersToCompaniesTable) {
           members = company.usersToCompaniesTable.map(membership => ({
-            user: membership.member,
+            user: membership.member || null,
             role: membership.role,
+            acceptedAt: membership.acceptedAt,
           }));
         }
 

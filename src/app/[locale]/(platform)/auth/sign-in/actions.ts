@@ -1,8 +1,8 @@
 'use server';
 
-import { signInMagicSchema } from '@/components/forms/auth/_schemas';
-import { unathenticatedAction } from '@/lib/safe-action';
+import { unathenticatedAction } from '@/lib/zsa/safe-action';
 import { deleteSession, deleteSessionTokenCookie } from '@/lib/sessions';
+import { signInMagicSchema } from '@/lib/zod';
 import { validateRequest } from '@/services';
 import { sendMagicLinkService } from '@/services/magic-link.service';
 import { URL_MAGIC_SIGN_IN, URL_SIGN_IN } from '@/shared/constants';

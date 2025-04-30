@@ -1,8 +1,8 @@
 'use server';
 
-import { signInEmailSchema } from '@/components/forms/auth/_schemas';
-import { unathenticatedAction } from '@/lib/safe-action';
+import { unathenticatedAction } from '@/lib/zsa/safe-action';
 import { setSession } from '@/lib/sessions';
+import { signInEmailSchema } from '@/lib/zod';
 import { signInUserWithEmailService } from '@/services';
 import { URL_AFTER_LOGIN } from '@/shared/constants';
 import { rateLimitByKey } from '@/utils/limiter.util';

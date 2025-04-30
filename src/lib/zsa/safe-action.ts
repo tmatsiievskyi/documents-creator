@@ -1,6 +1,6 @@
 import { rateLimitByKey } from '@/utils/limiter.util';
-import { AuthError, PublicError } from '../shared/app-errors';
-import { env } from './env';
+import { AuthError, PublicError } from '../../shared/app-errors';
+import { env } from '../env';
 import { createServerActionProcedure } from 'zsa';
 import { getCurrentUser } from '@/services';
 import { API_SIGN_OUT } from '@/shared/constants';

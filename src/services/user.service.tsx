@@ -1,4 +1,3 @@
-import { TSignUpSchema } from '@/components/forms/auth/_schemas';
 import {
   createAccountByGoogleDao,
   createProfileByUserId,
@@ -7,6 +6,7 @@ import {
   getUserByIdDao,
   TGetUserOptions,
   updateUserByIdDao,
+  getUserByEmailPatternDao,
 } from '@/dao';
 import { getVerifyEmailTokenDao, upsertVerifyEmailToken } from '@/dao/verify-email.dao';
 import { VerifyEmail } from '@/emails';
@@ -17,6 +17,8 @@ import { APP_UI_NAME } from '@/shared/constants';
 import { timeUTC } from '@/utils';
 import { createServiceLogger } from '@/lib/logger/logger';
 import { TGoogleUser } from '@/shared/types';
+import { TSignUpSchema } from '@/lib/zod';
+import { TUserWithProfile } from '@/lib/zod/user-with-relations.schema';
 
 const logger = createServiceLogger('user.service');
 
@@ -57,7 +59,7 @@ export const verifyEmailTokenService = async (token: string) => {
 };
 
 export const getUserByIdService = async (userId: string, options: TGetUserOptions) => {
-  logger.debug({ userId, options }, 'SERVICE. Get User by ID');
+  logger.debug({ userId, options }, 'Get User by ID');
   const user = await getUserByIdDao(userId, options);
 
   if (!user) {
@@ -67,6 +69,23 @@ export const getUserByIdService = async (userId: string, options: TGetUserOption
 
   logger.info({ userId, email: user.email }, 'Retrieved User');
   return user;
+};
+
+export const getUsersByEmailPatternService = async (
+  userId: string,
+  pattern: string,
+  options: TGetUserOptions & { excludeCompanyId?: string } = {}
+): Promise<TUserWithProfile[]> => {
+  logger.debug({ userId, pattern, options }, 'Getting users by email pattern ');
+
+  const users = await getUserByEmailPatternDao(pattern, options);
+
+  if (users.length === 0) {
+    logger.info({ userId, pattern }, 'Users by email with pattern was not found');
+  }
+
+  logger.info({ userId, pattern, options }, 'Received users by email pattern');
+  return users;
 };
 
 export const createUserByGoogle = async (googleUser: TGoogleUser) => {
@@ -87,3 +106,5 @@ export const createUserByGoogle = async (googleUser: TGoogleUser) => {
     userAccounts,
   };
 };
+
+export const getProfileImageUrl = () => {};

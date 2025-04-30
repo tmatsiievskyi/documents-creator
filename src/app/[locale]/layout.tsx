@@ -21,10 +21,6 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
 
-  // if (!hasLocale(localeRouting.locales, locale)) {
-  //   notFound();
-  // }
-
   return (
     <html lang={locale}>
       <body className={`${fonts.inter.className}  antialiased`}>

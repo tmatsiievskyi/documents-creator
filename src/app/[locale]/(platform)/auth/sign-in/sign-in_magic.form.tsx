@@ -1,11 +1,7 @@
 'use client';
 
 import { RHFInput } from '@/lib/rhf';
-import {
-  signInMagicDefaultValues,
-  signInMagicSchema,
-  TSignInMagicSchema,
-} from '../../../../../components/forms/auth/_schemas';
+
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/ui';
@@ -15,6 +11,7 @@ import { componentEnv } from '@/utils';
 import { toast } from 'sonner';
 import { LoadingButton } from '@/components/buttons';
 import { useTranslations } from 'next-intl';
+import { signInMagicDefaultValues, signInMagicSchema, TSignInMagicSchema } from '@/lib/zod';
 
 export const SignInMagicForm = () => {
   const t = useTranslations('sign-in_form');

@@ -1,3 +1,5 @@
+import { env } from '@/lib/env';
+
 // ---AUTH---
 export const URL_AFTER_LOGIN = '/dashboard';
 export const URL_MAGIC_SIGN_IN = '/auth/sign-in/magic';
@@ -40,4 +42,9 @@ export const KEY_COMPANY_IMAGE = (companyId: string, imageId: string) => {
 };
 export const URL_COMPANY_IMAGE = (companyId: string, companyImageId: string) => {
   return `/api/companies/${companyId}/images/${companyImageId}`;
+};
+
+// ---USER---
+export const API_USER_PROFILE_IMAGE = (userId: string, imageId: string) => {
+  return `${env.HOST_NAME}/api/users/${userId}/images/${imageId}`;
 };
