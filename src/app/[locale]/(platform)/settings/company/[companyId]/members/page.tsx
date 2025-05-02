@@ -15,7 +15,7 @@ const MembersPage = async ({ params }: TPageProps) => {
     <div className="container flex h-full max-w-4xl flex-col py-10">
       <div className="mb-6 flex items-center justify-between gap-2">
         <h1 className="h1 ml-2">{t('description')}</h1>
-        <InviteCompanyMemberButton excludeCompany={companyId} />
+        <InviteCompanyMemberButton companyId={companyId} excludeCompany={companyId} />
       </div>
       <div className="rounded-xl border bg-card shadow-sm">
         <Suspense fallback={<CompanyMembersTableFallback />}>

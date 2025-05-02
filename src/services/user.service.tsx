@@ -58,7 +58,7 @@ export const verifyEmailTokenService = async (token: string) => {
   return userId;
 };
 
-export const getUserByIdService = async (userId: string, options: TGetUserOptions) => {
+export const getUserByIdService = async (userId: string, options?: TGetUserOptions) => {
   logger.debug({ userId, options }, 'Get User by ID');
   const user = await getUserByIdDao(userId, options);
 
@@ -68,6 +68,19 @@ export const getUserByIdService = async (userId: string, options: TGetUserOption
   }
 
   logger.info({ userId, email: user.email }, 'Retrieved User');
+  return user;
+};
+
+export const getUserByEmailService = async (email: string, options?: TGetUserOptions) => {
+  logger.debug({ email, options }, 'Get User by Email');
+  const user = await getUserByEmailDao(email, options);
+
+  if (!user) {
+    logger.warn({ email }, `Uset with email: ${email} not found`);
+    throw new PublicError('User was not found');
+  }
+
+  logger.info({ userId: user.id, email: user.email }, 'Retrieved User');
   return user;
 };
 

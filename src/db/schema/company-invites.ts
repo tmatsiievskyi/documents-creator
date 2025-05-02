@@ -20,6 +20,7 @@ export const companyInvitesTable = pgTable('doc_company_invites', {
     .references(() => companiesTable.id, { onDelete: 'cascade' }),
   status: companyInvitesStatusEnum('status').notNull().default('PENDING'),
   token: text('token').notNull().unique(),
+  recepientEmail: text('recepient_email').notNull(),
   inviteExpiresAt: timestamp('invite_expires_at', { withTimezone: true, mode: 'date' }),
   ...timestamps,
 });
@@ -35,5 +36,5 @@ export const companyInvitesRelations = relations(companyInvitesTable, ({ one }) 
   }),
 }));
 
-export type TCompanyInvitesToJoin = typeof companyInvitesTable.$inferSelect;
-export type TCompanyInvitesToJoinInsert = typeof companyInvitesTable.$inferInsert;
+export type TCompanyInvites = typeof companyInvitesTable.$inferSelect;
+export type TCompanyInvitesInsert = typeof companyInvitesTable.$inferInsert;

@@ -50,6 +50,20 @@
       "when": 1743638695551,
       "tag": "0006_fancy_the_hunter",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1746056850099,
+      "tag": "0007_bored_whirlwind",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1746206146895,
+      "tag": "0008_fat_diamondback",
+      "breakpoints": true
     }
   ]
 }

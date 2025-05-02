@@ -223,7 +223,9 @@
         "input": {
           "placeholder": "Enter user email"
         },
-        "not_found": "Users was not found"
+        "not_found": "Users was not found",
+        "error_title": "Something went wrong",
+        "success_title": "User has been invited"
       },
       "role": {
         "admin": "Admin",
