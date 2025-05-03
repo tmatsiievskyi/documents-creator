@@ -251,7 +251,7 @@ export const deleteCompanyDao = async (companyId: string) => {
         .where(eq(companiesTable.id, companyId))
         .returning();
 
-      logger.info({ companyId }, 'DAO. Comapny deleted');
+      logger.info({ companyId }, 'Company deleted');
       return deletedCompany;
     });
   } catch (error) {

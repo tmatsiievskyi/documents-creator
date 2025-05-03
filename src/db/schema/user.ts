@@ -13,7 +13,7 @@ export const usersTable = pgTable(
   'doc_users',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    email: varchar('email', { length: 256 }).unique(),
+    email: varchar('email', { length: 256 }).unique().notNull(),
     emailVerified: timestamp('email_verified', { withTimezone: true, mode: 'date' }),
 
     ...timestamps,

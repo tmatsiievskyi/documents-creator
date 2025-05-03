@@ -1,0 +1,1 @@
+ALTER TABLE "doc_users" ALTER COLUMN "email" SET NOT NULL;

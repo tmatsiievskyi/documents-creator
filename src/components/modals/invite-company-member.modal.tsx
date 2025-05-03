@@ -15,9 +15,11 @@ import { useState } from 'react';
 import { InviteCompanyMemberForm } from '../forms/company';
 
 export const InviteCompanyMemberModal = ({
+  companyId,
   setIsOpen,
   excludeCompany,
 }: {
+  companyId: string;
   setIsOpen(val: boolean): void;
   excludeCompany?: string;
 }) => {
@@ -29,12 +31,22 @@ export const InviteCompanyMemberModal = ({
         <DialogTitle>{t('invite_modal.title')}</DialogTitle>
         <DialogDescription>{t('invite_modal.description')}</DialogDescription>
       </DialogHeader>
-      <InviteCompanyMemberForm setIsOpen={setIsOpen} excludeCompanyId={excludeCompany} />
+      <InviteCompanyMemberForm
+        companyId={companyId}
+        setIsOpen={setIsOpen}
+        excludeCompanyId={excludeCompany}
+      />
     </>
   );
 };
 
-export const InviteCompanyMemberButton = ({ excludeCompany }: { excludeCompany?: string }) => {
+export const InviteCompanyMemberButton = ({
+  companyId,
+  excludeCompany,
+}: {
+  companyId: string;
+  excludeCompany?: string;
+}) => {
   const t = useTranslations('company.members');
   const [isOpen, setIsOpen] = useState(false);
   const AddUserIcon = icons['UserPlus'];
@@ -47,7 +59,11 @@ export const InviteCompanyMemberButton = ({ excludeCompany }: { excludeCompany?:
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <InviteCompanyMemberModal setIsOpen={setIsOpen} excludeCompany={excludeCompany} />
+        <InviteCompanyMemberModal
+          companyId={companyId}
+          setIsOpen={setIsOpen}
+          excludeCompany={excludeCompany}
+        />
       </DialogContent>
     </Dialog>
   );
