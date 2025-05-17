@@ -1,9 +1,11 @@
-import { WithBoard } from '@/components/board';
+// import { WithBoard } from '@/components/board';
+import { WithEditor } from '@/components/editor';
 
 const Page = () => {
   return (
     <>
-      <WithBoard />
+      {/* <WithBoard /> */}
+      <WithEditor classNameEditorWrapper={`bg-white h-a4 w-a4`} />
     </>
   );
 };

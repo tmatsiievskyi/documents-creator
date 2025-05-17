@@ -31,6 +31,7 @@ export const WithSidebar = ({ location, customClassName, variant = 'inset' }: TS
 
         return acc;
       }, [] as Array<TSidebarItem>);
+
       return (
         <div className="flex flex-col">
           <SidebarContainer

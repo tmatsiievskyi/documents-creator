@@ -13,11 +13,11 @@ export const URL_SIGN_UP_EMAIL = '/auth/sign-up/email';
 export const API_GOOGLE_CALLBACK = (hostName: string) => `${hostName}/api/sign-in/google/callback`;
 // ---DASHBOARD---
 export const URL_DASHBOARD = '/dashboard';
-export const DASHBOARD_CREATE_DOCUMENT = `${URL_DASHBOARD}/create-document`;
-export const DASHBOARD_DOCUMENTS = `${URL_DASHBOARD}/documents`;
-export const DASHBOARD_TEMPLATES = `${URL_DASHBOARD}/templates`;
-export const DASHBOARD_ELEMENTS = `${URL_DASHBOARD}/elements`;
-export const DASHBOARD_VARIABLES = `${URL_DASHBOARD}/variables`;
+export const URL_CREATE_DOCUMENT = `${URL_DASHBOARD}/create-document`;
+export const URL_DASHBOARD_DOCUMENTS = `${URL_DASHBOARD}/documents`;
+export const URL_DASHBOARD_TEMPLATES = `${URL_DASHBOARD}/templates`;
+export const URL_DASHBOARD_FEATURES = `${URL_DASHBOARD}/features`;
+export const URL_DASHBOARD_VARIABLES = `${URL_DASHBOARD}/variables`;
 
 // ---MISC---
 export const INSIDE_APP_ROUTES = ['dashboard', 'settings', 'companies', 'account'];

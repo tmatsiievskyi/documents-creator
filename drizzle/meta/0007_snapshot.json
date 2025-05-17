@@ -95,12 +95,8 @@
           "name": "doc_accounts_user_id_doc_users_id_fk",
           "tableFrom": "doc_accounts",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -110,16 +106,12 @@
         "doc_accounts_facebook_id_unique": {
           "name": "doc_accounts_facebook_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "facebook_id"
-          ]
+          "columns": ["facebook_id"]
         },
         "doc_accounts_google_id_unique": {
           "name": "doc_accounts_google_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "google_id"
-          ]
+          "columns": ["google_id"]
         }
       },
       "policies": {},
@@ -242,12 +234,8 @@
           "name": "doc_companies_owner_id_doc_users_id_fk",
           "tableFrom": "doc_companies",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -257,9 +245,7 @@
         "doc_companies_name_unique": {
           "name": "doc_companies_name_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "name"
-          ]
+          "columns": ["name"]
         }
       },
       "policies": {},
@@ -342,12 +328,8 @@
           "name": "doc_company_invites_user_id_doc_users_id_fk",
           "tableFrom": "doc_company_invites",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -355,12 +337,8 @@
           "name": "doc_company_invites_company_id_doc_companies_id_fk",
           "tableFrom": "doc_company_invites",
           "tableTo": "doc_companies",
-          "columnsFrom": [
-            "company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["company_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -370,9 +348,7 @@
         "doc_company_invites_token_unique": {
           "name": "doc_company_invites_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -543,12 +519,8 @@
           "name": "doc_documents_owner_company_id_doc_companies_id_fk",
           "tableFrom": "doc_documents",
           "tableTo": "doc_companies",
-          "columnsFrom": [
-            "owner_company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_company_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -556,12 +528,8 @@
           "name": "doc_documents_owner_user_id_doc_users_id_fk",
           "tableFrom": "doc_documents",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "owner_user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_user_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -569,12 +537,8 @@
           "name": "doc_documents_author_id_doc_users_id_fk",
           "tableFrom": "doc_documents",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -643,16 +607,12 @@
         "doc_magic_links_email_unique": {
           "name": "doc_magic_links_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         },
         "doc_magic_links_token_unique": {
           "name": "doc_magic_links_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -781,12 +741,8 @@
           "name": "doc_notifications_user_user_id_doc_users_id_fk",
           "tableFrom": "doc_notifications_user",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -859,12 +815,8 @@
           "name": "doc_profiles_user_id_doc_users_id_fk",
           "tableFrom": "doc_profiles",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -874,9 +826,7 @@
         "doc_profiles_user_id_unique": {
           "name": "doc_profiles_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id"
-          ]
+          "columns": ["user_id"]
         }
       },
       "policies": {},
@@ -932,12 +882,8 @@
           "name": "doc_sessions_user_id_doc_users_id_fk",
           "tableFrom": "doc_sessions",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -947,9 +893,7 @@
         "doc_sessions_user_id_unique": {
           "name": "doc_sessions_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id"
-          ]
+          "columns": ["user_id"]
         }
       },
       "policies": {},
@@ -1023,9 +967,7 @@
         "doc_users_email_unique": {
           "name": "doc_users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -1101,12 +1043,8 @@
           "name": "doc_users_to_companies_user_id_doc_users_id_fk",
           "tableFrom": "doc_users_to_companies",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1114,12 +1052,8 @@
           "name": "doc_users_to_companies_company_id_doc_companies_id_fk",
           "tableFrom": "doc_users_to_companies",
           "tableTo": "doc_companies",
-          "columnsFrom": [
-            "company_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["company_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1127,12 +1061,8 @@
           "name": "doc_users_to_companies_invited_by_doc_users_id_fk",
           "tableFrom": "doc_users_to_companies",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "invited_by"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["invited_by"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1140,10 +1070,7 @@
       "compositePrimaryKeys": {
         "doc_users_to_companies_user_id_company_id_pk": {
           "name": "doc_users_to_companies_user_id_company_id_pk",
-          "columns": [
-            "user_id",
-            "company_id"
-          ]
+          "columns": ["user_id", "company_id"]
         }
       },
       "uniqueConstraints": {},
@@ -1207,12 +1134,8 @@
           "name": "doc_verify_email_user_id_doc_users_id_fk",
           "tableFrom": "doc_verify_email",
           "tableTo": "doc_users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1222,9 +1145,7 @@
         "doc_verify_email_token_unique": {
           "name": "doc_verify_email_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -1236,56 +1157,32 @@
     "public.type": {
       "name": "type",
       "schema": "public",
-      "values": [
-        "email",
-        "google",
-        "facebook"
-      ]
+      "values": ["email", "google", "facebook"]
     },
     "public.status": {
       "name": "status",
       "schema": "public",
-      "values": [
-        "ACTIVE",
-        "INACTIVE",
-        "PENDING_VERIFICATION"
-      ]
+      "values": ["ACTIVE", "INACTIVE", "PENDING_VERIFICATION"]
     },
     "public.company_request_join_status": {
       "name": "company_request_join_status",
       "schema": "public",
-      "values": [
-        "ACCEPTED",
-        "PENDING",
-        "REJECTED"
-      ]
+      "values": ["ACCEPTED", "PENDING", "REJECTED"]
     },
     "public.document_owner_type": {
       "name": "document_owner_type",
       "schema": "public",
-      "values": [
-        "USER",
-        "COMPANY"
-      ]
+      "values": ["USER", "COMPANY"]
     },
     "public.document_status": {
       "name": "document_status",
       "schema": "public",
-      "values": [
-        "DRAFT",
-        "PUBLISHED",
-        "ARCHIVED",
-        "TRASH"
-      ]
+      "values": ["DRAFT", "PUBLISHED", "ARCHIVED", "TRASH"]
     },
     "public.document_visibility": {
       "name": "document_visibility",
       "schema": "public",
-      "values": [
-        "PRIVATE",
-        "TEAM",
-        "GROUP"
-      ]
+      "values": ["PRIVATE", "TEAM", "GROUP"]
     },
     "public.user_notification_type": {
       "name": "user_notification_type",
@@ -1302,12 +1199,7 @@
     "public.company_role": {
       "name": "company_role",
       "schema": "public",
-      "values": [
-        "ADMIN",
-        "MANAGER",
-        "EDITOR",
-        "VIEWER"
-      ]
+      "values": ["ADMIN", "MANAGER", "EDITOR", "VIEWER"]
     }
   },
   "schemas": {},
