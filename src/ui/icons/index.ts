@@ -47,6 +47,10 @@ import {
   Trash2Icon,
   UserPlus,
   LoaderCircle,
+  SquareDashedKanban,
+  NotebookPen,
+  FunctionSquare,
+  LayoutDashboard,
 } from 'lucide-react';
 import { ExportPdf, GoogleIcon, FBIcon, AppLogoWhite } from './icons-componets';
 
@@ -105,4 +109,8 @@ export const icons = {
   Trash2Icon,
   UserPlus,
   LoaderCircle,
+  SquareDashedKanban,
+  NotebookPen,
+  FunctionSquare,
+  LayoutDashboard,
 };

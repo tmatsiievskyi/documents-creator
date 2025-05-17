@@ -55,13 +55,13 @@ export const AppEditor = memo(
       <div className="mt-1 flex size-full flex-col md:mt-0">
         <div className="shrink-0 overflow-scroll">
           {!hideTopToolbar && (
-            <div className="relative z-10 mb-1 min-h-[48px] shrink-0 bg-white p-2 md:mb-2">
+            <div className="relative z-10 !mb-0 min-h-[48px] shrink-0 border-b bg-white p-2 md:mb-2">
               <EditorToolbar editor={editor} disabled={toolbarTopDisabled} toolbarType="ui" />
             </div>
           )}
         </div>
         <div className="flex h-[calc(100%-80px)] grow flex-row-reverse">
-          <div className="ml-1 min-w-[48px] overflow-scroll bg-white p-2 md:ml-2">
+          <div className="ml-1 min-w-[48px] overflow-scroll border-l p-2 md:ml-2">
             <EditorToolbar
               editor={editor}
               disabled={toolbarSideDisabled}
@@ -70,7 +70,7 @@ export const AppEditor = memo(
               sectionClassName="flex flex-col"
             />
           </div>
-          <div className="relative w-full overflow-scroll bg-white p-2 pl-8">
+          <div className="relative w-full overflow-scroll  p-2 pl-8">
             <div className="min-h-full min-w-fit">
               <div
                 style={{

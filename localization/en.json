@@ -11,6 +11,16 @@
       }
     }
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Welcome to the dashboard",
+    "sections": {
+      "recent_documents": "Recent Documents",
+      "recent_templates": "Recent Templates",
+      "recent_variables": "Recent Variables",
+      "activity_feed": "Activity Feed"
+    }
+  },
   "lng-selector": {
     "title": "Select Language",
     "en": "English",

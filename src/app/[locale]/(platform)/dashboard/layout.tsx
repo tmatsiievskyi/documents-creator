@@ -1,20 +1,45 @@
-import { WithHeader } from '@/components/header';
-import { WithSidebar } from '@/components/sidebar';
-import { SidebarProvider } from '@/ui/sidebar';
 import { ReactNode } from 'react';
+import { notFound } from 'next/navigation';
+import { getCompanyByIdService } from '@/services/company.service';
+// import { getUserAction } from '@/lib/zsa/actions/user.action';
+import { WithHeader } from '@/components/header';
+import { SidebarInset, SidebarProvider } from '@/ui/sidebar';
+import { WithSidebarDashboard } from '@/components/sidebar/sidebar-dashboard.hoc';
 
-const Layout = ({ children }: { children: ReactNode }) => {
-  return (
-    <SidebarProvider>
-      <main className=" flex h-svh w-full flex-col bg-muted p-1 md:p-3">
-        <WithHeader customClassName="relative mb-2 rounded-2xl bg-background" insideApp={true} />
-        <section className="flex h-full flex-col overflow-hidden  rounded-2xl shadow md:flex-row">
-          <WithSidebar location="dashboard" />
-          <div className="flex grow flex-col overflow-hidden md:ml-2">{children}</div>
-        </section>
-      </main>
-    </SidebarProvider>
-  );
+type TDashboardLayoutProps = {
+  children: ReactNode;
+  params: {
+    companyId?: string;
+  };
 };
 
-export default Layout;
+export default async function DashboardLayout({ children, params }: TDashboardLayoutProps) {
+  // const [user] = await getUserAction();
+
+  // if (!user) {
+  //   notFound();
+  // }
+
+  // If companyId is provided, verify company exists
+  if (params.companyId) {
+    const company = await getCompanyByIdService(params.companyId, {
+      includeMembers: true,
+    });
+
+    if (!company) {
+      notFound();
+    }
+  }
+
+  return (
+    <SidebarProvider>
+      <WithSidebarDashboard />
+      <SidebarInset className=" bg-sidebar p-1 md:p-[12px]">
+        <div className="h-full rounded-xl bg-background shadow">
+          <WithHeader insideApp={true} customClassName="" />
+          {children}
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
