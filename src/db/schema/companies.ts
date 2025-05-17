@@ -39,5 +39,5 @@ export const companiesRelations = relations(companiesTable, ({ many, one }) => (
   ownedDocuments: many(documentsTable),
 }));
 
-export type TCompanies = typeof companiesTable.$inferSelect;
-export type TCompaniesInsert = typeof companiesTable.$inferInsert;
+export type TCompany = typeof companiesTable.$inferSelect;
+export type TCompanyInsert = typeof companiesTable.$inferInsert;

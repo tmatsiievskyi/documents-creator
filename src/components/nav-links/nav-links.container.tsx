@@ -1,15 +1,10 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { navLinks } from '@/shared/app-data';
-import { LinkLocal, Tooltip, TooltipContent, TooltipTrigger } from '@/ui';
-import { usePathname } from 'next/navigation';
-
 export const NavLinks = () => {
-  const pathname = usePathname();
+  // const pathname = usePathname();
   return (
     <>
-      {navLinks.map((link, index) => {
+      {/* {navLinks.map((link, index) => {
         const LinkIcon = link.icon;
         return (
           <Tooltip key={link.name}>
@@ -52,7 +47,7 @@ export const NavLinks = () => {
             </TooltipContent>
           </Tooltip>
         );
-      })}
+      })} */}
     </>
   );
 };

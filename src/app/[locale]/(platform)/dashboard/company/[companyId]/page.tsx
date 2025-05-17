@@ -3,15 +3,12 @@ import { getCompanyByIdService } from '@/services/company.service';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
 
-type TPageProps = {
-  params: {
-    companyId: string;
-  };
-};
+type TPageProps = Promise<{ companyId: string }>;
 
-export default async function CompanyDashboardPage({ params }: TPageProps) {
+export default async function CompanyDashboardPage({ params }: { params: TPageProps }) {
   const t = await getTranslations('dashboard');
-  const company = await getCompanyByIdService(params.companyId, {
+  const { companyId } = await params;
+  const company = await getCompanyByIdService(companyId, {
     includeMembers: true,
   });
 

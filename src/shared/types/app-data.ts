@@ -1,7 +1,7 @@
-import { TAccount, TCompanies, TProfile, TUser, TUsersToCompanies } from '@/db/export-schema';
+import { TAccount, TCompany, TProfile, TUser, TUsersToCompanies } from '@/db/export-schema';
 
 export type TUserToCompanyWithRelated = TUsersToCompanies & {
-  company?: TCompanies;
+  company?: TCompany;
   member?: TFullUser;
 };
 
@@ -9,18 +9,18 @@ export type TCompanyUserRole = TUsersToCompanies['role'];
 export type TFullUser = TUser & {
   userProfile: TProfile | null;
   userAccounts: TAccount[] | null;
-  ownedCompanies?: TCompanies[] | null;
+  ownedCompanies?: TCompany[] | null;
   member?: TUserToCompanyWithRelated[];
   companyMemberships?: Array<{
     role: TCompanyUserRole;
     invitedAt?: Date | null;
     acceptedAt?: Date | null;
     invitedBy?: string | null;
-    company?: TCompanies;
+    company?: TCompany;
   }> | null;
 };
 
-export type TCompanyWithRelatedUsers = TCompanies & {
+export type TCompanyWithRelatedUsers = TCompany & {
   address: TCompanyAddress | null;
   usersToCompaniesTable?: TUserToCompanyWithRelated[];
 };

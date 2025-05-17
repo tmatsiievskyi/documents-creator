@@ -1,9 +1,13 @@
 import { database } from '@/db';
-import { companiesTable, TCompaniesInsert, usersTable } from '@/db/export-schema';
+import { companiesTable, TCompanyInsert, usersTable } from '@/db/export-schema';
 import { usersToCompaniesTable } from '@/db/schema/users-to-companies';
 import { createDaoLogger, withPerfomanceLogger } from '@/lib/logger/logger';
 import { TFullCompanySchema } from '@/lib/zod';
-import { TCompanyAddress, TCompanyWithRelatedUsers } from '@/shared/types';
+import {
+  TCompanyAddress,
+  TCompanyWithRelatedUsers,
+  TUserToCompanyWithRelated,
+} from '@/shared/types';
 import { errorHandler, timeUTC } from '@/utils';
 import { and, asc, desc, eq, ilike, inArray, or, sql } from 'drizzle-orm';
 
@@ -151,7 +155,8 @@ export const getCompanyByIdDao = async (
 
         let members = null;
         if (includeMembers && company.usersToCompaniesTable) {
-          members = company.usersToCompaniesTable.map(membership => ({
+          members = company.usersToCompaniesTable.map((membership: TUserToCompanyWithRelated) => ({
+            // TODO: check this type
             user: membership.member || null,
             role: membership.role,
             acceptedAt: membership.acceptedAt,
@@ -180,7 +185,7 @@ export const getCompanyByIdDao = async (
   );
 };
 
-export const createCompanyDao = async (data: TCompaniesInsert) => {
+export const createCompanyDao = async (data: TCompanyInsert) => {
   return await withPerfomanceLogger(
     async () => {
       logger.debug({ companyName: data.name, ownerId: data.ownerId }, 'Creating company');
@@ -213,7 +218,7 @@ export const createCompanyDao = async (data: TCompaniesInsert) => {
   );
 };
 
-export const updateCompanyDao = async (companyId: string, data: Partial<TCompaniesInsert>) => {
+export const updateCompanyDao = async (companyId: string, data: Partial<TCompanyInsert>) => {
   try {
     logger.debug({ companyId }, 'Updating company');
     // eslint-disable-next-line no-unused-vars

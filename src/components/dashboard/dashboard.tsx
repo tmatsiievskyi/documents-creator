@@ -1,5 +1,5 @@
 import { TCompany, TUser } from '@/db/export-schema';
-import { DashboardHeader } from './dashboard-header';
+// import { DashboardHeader } from './dashboard-header';
 import { DashboardContent } from './dashboard-content';
 
 type TDashboardProps = {
@@ -12,10 +12,10 @@ export const Dashboard = ({ user, company }: TDashboardProps) => {
 
   return (
     <div className="flex flex-col gap-6">
-      <DashboardHeader
+      {/* <DashboardHeader
         title={isCompanyContext ? company.name : 'Personal Dashboard'}
         context={isCompanyContext ? 'company' : 'personal'}
-      />
+      /> */}
       <DashboardContent
         user={user}
         company={company}

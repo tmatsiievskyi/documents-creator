@@ -9,3 +9,4 @@ export * from './schema/verify-email';
 export * from './schema/users-to-companies';
 export * from './schema/company-invites';
 export * from './schema/notifications-user';
+export * from './schema/companies';

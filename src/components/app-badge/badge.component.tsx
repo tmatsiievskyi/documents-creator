@@ -1,10 +1,10 @@
 'use client';
 
-import { TCompanies, TUsersToCompanies } from '@/db/export-schema';
+import { TCompany, TUsersToCompanies } from '@/db/export-schema';
 import { Badge } from '@/ui/badge';
 import { useTranslations } from 'next-intl';
 
-export const CompanyStatusBadge = ({ status }: Pick<TCompanies, 'status'>) => {
+export const CompanyStatusBadge = ({ status }: Pick<TCompany, 'status'>) => {
   const t = useTranslations('company');
 
   switch (status) {

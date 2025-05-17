@@ -8,9 +8,9 @@ import { WithSidebarDashboard } from '@/components/sidebar/sidebar-dashboard.hoc
 
 type TDashboardLayoutProps = {
   children: ReactNode;
-  params: {
+  params: Promise<{
     companyId?: string;
-  };
+  }>;
 };
 
 export default async function DashboardLayout({ children, params }: TDashboardLayoutProps) {
@@ -19,10 +19,10 @@ export default async function DashboardLayout({ children, params }: TDashboardLa
   // if (!user) {
   //   notFound();
   // }
-
+  const { companyId } = await params;
   // If companyId is provided, verify company exists
-  if (params.companyId) {
-    const company = await getCompanyByIdService(params.companyId, {
+  if (companyId) {
+    const company = await getCompanyByIdService(companyId, {
       includeMembers: true,
     });
 
@@ -35,7 +35,7 @@ export default async function DashboardLayout({ children, params }: TDashboardLa
     <SidebarProvider>
       <WithSidebarDashboard />
       <SidebarInset className=" bg-sidebar p-1 md:p-[12px]">
-        <div className="h-full rounded-xl bg-background shadow">
+        <div className="bg-background h-full rounded-xl shadow">
           <WithHeader insideApp={true} customClassName="" />
           {children}
         </div>
