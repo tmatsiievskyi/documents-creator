@@ -1,7 +1,7 @@
 'use client';
 
 import { TEditorProps } from './editor.hoc';
-import { useEditor, EditorContent, Editor } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import { EditorExtension } from './extensions';
 import { LocalEditorProps } from './utils';
 import { cn } from '@/lib/utils';
@@ -22,6 +22,7 @@ export const AppEditor = memo(
     const { paddingLeft, paddingTop, paddingRight, paddingBottom } = useAppEditorState();
 
     const editorOptions = useMemo(() => {
+      console.log('options');
       return {
         extensions: EditorExtension({
           initialPaddings: { paddingLeft, paddingTop, paddingRight, paddingBottom },
@@ -29,11 +30,11 @@ export const AppEditor = memo(
         editorProps: LocalEditorProps,
         content: '',
         immediatelyRender: false,
-        onUpdate: ({ editor }: { editor: Editor }) => {
-          const json = editor.getJSON();
-          console.log(json);
-          // const _html = editor.getHTML();
-        },
+        // onUpdate: ({ editor }: { editor: Editor }) => {
+        //   // const json = editor.getJSON();
+        //   // console.log(json);
+        //   // const _html = editor.getHTML();
+        // },
       };
     }, [paddingLeft, paddingTop, paddingRight, paddingBottom]);
     const editor = useEditor(editorOptions);
@@ -52,16 +53,16 @@ export const AppEditor = memo(
     if (!editor) return null;
 
     return (
-      <div className="mt-1 flex size-full flex-col md:mt-0">
+      <div className="flex h-[calc(100%-50px)] flex-col overflow-hidden">
         <div className="shrink-0 overflow-scroll">
           {!hideTopToolbar && (
-            <div className="relative z-10 !mb-0 min-h-[48px] shrink-0 border-b bg-white p-2 md:mb-2">
+            <div className="relative z-10 !mb-0 shrink-0 border-b bg-white px-2 py-1 md:mb-2">
               <EditorToolbar editor={editor} disabled={toolbarTopDisabled} toolbarType="ui" />
             </div>
           )}
         </div>
-        <div className="flex h-[calc(100%-80px)] grow flex-row-reverse">
-          <div className="ml-1 min-w-[48px] overflow-scroll border-l p-2 md:ml-2">
+        <div className="flex grow flex-row-reverse overflow-hidden">
+          <div className="ml-1 min-w-[48px] overflow-scroll border-l px-2 md:ml-2">
             <EditorToolbar
               editor={editor}
               disabled={toolbarSideDisabled}
@@ -70,67 +71,65 @@ export const AppEditor = memo(
               sectionClassName="flex flex-col"
             />
           </div>
-          <div className="relative w-full overflow-scroll  p-2 pl-8">
-            <div className="min-h-full min-w-fit">
+          <div className="no-scrollbar relative w-full overflow-y-scroll py-4">
+            <div
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: 'top left',
+                width: `${editorSize.width}px`,
+                minHeight: `${editorSize.height}px`,
+              }}
+              className="mx-auto "
+            >
               <div
-                style={{
-                  transform: `scale(${zoom})`,
-                  transformOrigin: 'top left',
-                  width: `${editorSize.width}px`,
-                  minHeight: `${editorSize.height}px`,
-                }}
-                className="mx-auto"
+                ref={editorWrapperRef}
+                className={cn('shadow-md border relative mt-8  ml-8 ', classNameEditorWrapper)}
               >
-                <div
-                  ref={editorWrapperRef}
-                  className={cn('shadow-md border relative mt-6 ', classNameEditorWrapper)}
-                >
-                  {/* x-ruler */}
-                  <div className="absolute left-0 top-[-5px] mx-auto mb-[3px] h-6 w-a4 -translate-y-full">
-                    <WithRuler
-                      cursors={[
-                        {
-                          cursorType: 'cursorXLeft',
-                          coordinates: { x: 0, y: 0 },
-                          spaces: rulerSpaces,
-                        },
-                        {
-                          cursorType: 'cursorXRight',
-                          coordinates: { x: editorSize.width, y: 0 },
-                          spaces: rulerSpaces,
-                        },
-                      ]}
-                      spaces={rulerSpaces}
-                      size={editorSize.width}
-                      orientation="landscape"
-                      wrapperClassName="w-full h-full relative"
-                      wrapperRulerClassName="absolute bottom-0 left-0"
-                    />
-                  </div>
-                  {/* y-ruler */}
-                  <div className="absolute left-[-5px] top-0 h-full w-6 -translate-x-full">
-                    <WithRuler
-                      cursors={[
-                        {
-                          cursorType: 'cursorYTop',
-                          coordinates: { x: 0, y: 0 },
-                          spaces: rulerSpaces,
-                        },
-                        {
-                          cursorType: 'cursorYBottom',
-                          coordinates: { x: 0, y: editorSize.height },
-                          spaces: rulerSpaces,
-                        },
-                      ]}
-                      orientation="portrait"
-                      spaces={rulerSpaces}
-                      size={editorSize.height}
-                      wrapperClassName="w-full h-full relative"
-                    />
-                  </div>
-
-                  <EditorContent editor={editor} />
+                {/* x-ruler */}
+                <div className="w-a4 absolute left-0 top-[-5px] mx-auto mb-[3px] h-6 -translate-y-full">
+                  <WithRuler
+                    cursors={[
+                      {
+                        cursorType: 'cursorXLeft',
+                        coordinates: { x: 0, y: 0 },
+                        spaces: rulerSpaces,
+                      },
+                      {
+                        cursorType: 'cursorXRight',
+                        coordinates: { x: editorSize.width, y: 0 },
+                        spaces: rulerSpaces,
+                      },
+                    ]}
+                    spaces={rulerSpaces}
+                    size={editorSize.width}
+                    orientation="landscape"
+                    wrapperClassName="w-full h-full relative"
+                    wrapperRulerClassName="absolute bottom-0 left-0"
+                  />
                 </div>
+                {/* y-ruler */}
+                {/* <div className="absolute left-[-5px] top-0 h-full w-6 -translate-x-full">
+                  <WithRuler
+                    cursors={[
+                      {
+                        cursorType: 'cursorYTop',
+                        coordinates: { x: 0, y: 0 },
+                        spaces: rulerSpaces,
+                      },
+                      {
+                        cursorType: 'cursorYBottom',
+                        coordinates: { x: 0, y: editorSize.height },
+                        spaces: rulerSpaces,
+                      },
+                    ]}
+                    orientation="portrait"
+                    spaces={rulerSpaces}
+                    size={editorSize.height}
+                    wrapperClassName="w-full h-full relative"
+                  />
+                </div> */}
+
+                <EditorContent editor={editor} />
               </div>
             </div>
           </div>

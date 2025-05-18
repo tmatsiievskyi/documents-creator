@@ -19,7 +19,7 @@ import { FullScreenExtension } from './fullScreen.extension';
 import { PaddingsWrapperExtension, TWrapperPaddingsOptions } from './paddings-wrapper.extension';
 
 export const EditorExtension = (props: Partial<TWrapperPaddingsOptions>) => [
-  StarterKit.configure({}),
+  StarterKit.configure({ bold: false, italic: false, strike: false, history: false }),
   BaseKitExtension.configure({}),
   BoldExtension,
   ItalicExtension,

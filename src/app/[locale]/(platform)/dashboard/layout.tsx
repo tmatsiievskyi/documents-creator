@@ -32,10 +32,10 @@ export default async function DashboardLayout({ children, params }: TDashboardLa
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="h-svh overflow-hidden">
       <WithSidebarDashboard />
-      <SidebarInset className=" bg-sidebar p-1 md:p-[12px]">
-        <div className="bg-background h-full rounded-xl shadow">
+      <SidebarInset className=" bg-sidebar h-full overflow-hidden p-1 md:p-[12px]">
+        <div className="bg-background h-full overflow-hidden rounded-xl shadow">
           <WithHeader insideApp={true} customClassName="" />
           {children}
         </div>

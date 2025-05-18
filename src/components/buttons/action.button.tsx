@@ -61,7 +61,7 @@ const ActionButton = forwardRef<HTMLButtonElement, Partial<TButtonProps>>((props
       </TooltipTrigger>
       {tooltip && (
         <TooltipContent {...tooltipOptions} side={tooltipSide}>
-          <div className="flex max-w-20 flex-col items-center justify-center px-1 text-center">
+          <div className="text-primary-foreground bg-brand flex max-w-20 flex-col items-center justify-center px-1">
             <span>{tooltip}</span>
             {!!shortcutKeys?.length && (
               <span>

@@ -13,8 +13,8 @@ export const ExportPdfExtension = Extension.create({
           component: ActionButton,
           componentProps: {
             action: () => editor.commands.toggleUnderline(),
-            isActive: () => editor.isActive('underline'),
-            disabled: !editor.can().toggleUnderline(),
+            // isActive: () => editor.isActive('underline'),
+            // disabled: !editor.can().toggleUnderline(),
             icon: 'ExportPdf',
             tooltip: 'Underline',
           },

@@ -53,8 +53,6 @@ const generateToolbarItems = (editor: TProps['editor'], toolbarType: 'ui' | 'man
   return items;
 };
 
-// TODO: keep focus after button click
-
 export const EditorToolbar = ({
   editor,
   disabled,
@@ -63,17 +61,26 @@ export const EditorToolbar = ({
   sectionClassName,
   itemWrapperClassName,
 }: TProps) => {
+  const editorState = editor.state;
+
   const generatedToolbarItems = useMemo(
     () => generateToolbarItems(editor, toolbarType),
     [editor, toolbarType]
   );
   const buttonStyle = useMemo(
     () => ({
-      manage: 'my-1 [&_svg]:size-5',
-      ui: 'mx-0 [&_svg]:size-5',
+      manage: 'my-1 p-0 [&_svg]:size-[20px] [&_svg]:stroke-[1px]',
+      ui: 'mx-0  p-0 [&_svg]:size-[20px] [&_svg]:stroke-[1px]',
     }),
     []
   );
+
+  const handleButtonClick = (action: (() => void) | undefined) => {
+    if (action) {
+      action();
+      editor.commands.focus();
+    }
+  };
 
   const domSections = useMemo(
     () =>
@@ -84,12 +91,14 @@ export const EditorToolbar = ({
               if (Array.isArray(buttonComp)) {
                 return buttonComp.map((buttonFromArr, i) => {
                   const ButtonComp = buttonFromArr.component;
+                  const originalAction = buttonFromArr.componentProps.action;
                   return (
                     <ButtonComp
                       key={
                         (buttonFromArr.component?.displayName || buttonFromArr.component?.name) + i
                       }
                       {...buttonFromArr.componentProps}
+                      action={() => handleButtonClick(originalAction)}
                       disabled={disabled || buttonFromArr.componentProps?.disabled}
                       className={cn(buttonStyle[toolbarType])}
                       tooltipSide={toolbarType === 'ui' ? 'bottom' : 'left'}
@@ -98,10 +107,12 @@ export const EditorToolbar = ({
                 });
               } else {
                 const ButtonComp = buttonComp.component;
+                const originalAction = buttonComp.componentProps.action;
                 return (
                   <ButtonComp
                     key={(buttonComp.component?.displayName || buttonComp.component?.name) + key}
                     {...buttonComp.componentProps}
+                    action={() => handleButtonClick(originalAction)}
                     disabled={disabled || buttonComp.componentProps?.disabled}
                     className={cn(buttonStyle[toolbarType])}
                     tooltipSide={toolbarType === 'ui' ? 'bottom' : 'left'}
@@ -117,7 +128,6 @@ export const EditorToolbar = ({
                     'min-w-5 h-px bg-gray-200': toolbarType === 'manage',
                     'min-h-5 w-px mx-1  bg-gray-200 ': toolbarType === 'ui',
                   },
-
                   itemWrapperClassName
                 )}
               ></div>
@@ -132,6 +142,7 @@ export const EditorToolbar = ({
       sectionClassName,
       buttonStyle,
       toolbarType,
+      editorState,
     ]
   );
 

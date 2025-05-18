@@ -6,3 +6,7 @@
 
 1. User notification
 2. Functionality to change company
+
+### fixes
+
+change pdf icon

@@ -13,8 +13,8 @@ export const ExportEmailExtension = Extension.create({
           component: ActionButton,
           componentProps: {
             action: () => editor.commands.toggleUnderline(),
-            isActive: () => editor.isActive('underline'),
-            disabled: !editor.can().toggleUnderline(),
+            // isActive: () => editor.isActive('underline'),
+            // disabled: !editor.can().toggleUnderline(),
             icon: 'Mail',
             tooltip: 'Send Email',
           },

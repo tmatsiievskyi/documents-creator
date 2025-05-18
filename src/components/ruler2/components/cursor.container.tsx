@@ -30,7 +30,7 @@ export const Cursor = ({ x, y, cursorType }: TProps) => {
     : ({ bottom: y, left: x, zIndex: 2 } as CSSProperties);
   const cursorPosition = cursorY
     ? 'rotate-0 translate-y-[50%] translate-x-[-30%]'
-    : 'rotate-90 translate-y-[20%]';
+    : 'rotate-90 translate-y-[10%] translate-x-[-50%]';
   const paddingLineStyle = cursorY
     ? 'h-[1px] w-[1000px]  bg-red-200 left-[5px] translate-y-[50%]'
     : 'w-[1px]  bg-red-200 h-[1000px] translate-y-[100%]';

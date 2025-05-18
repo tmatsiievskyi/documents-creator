@@ -47,7 +47,7 @@ export const FontSizeSelector = ({ items, disabled, tooltip, defaultFontSize }: 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <ActionButton tooltip={tooltip} disabled={disabled} customClass="mx-1 my-0">
-            <span className="min-w-[36px] rounded-md  border px-1 py-2 text-center text-base leading-[16px]">
+            <span className="min-w-[36px] rounded-md  border p-1 text-center text-base">
               {selectedFontSize.title}
             </span>
           </ActionButton>

@@ -84,7 +84,7 @@ export default {
         inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.1)',
       },
       width: {
-        a4: '794px',
+        a4: '796px',
       },
       height: {
         a4: '1116.2px',
